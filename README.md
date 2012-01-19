@@ -24,4 +24,4 @@ Run a sample snippet
 Snapshot
 ---------
 
-![snapshot](https://github.com/ashbb/brown_shoes/raw/master/snapshots/sample1.png)
+![snapshot](https://github.com/ashbb/purple_shoes/raw/master/snapshots/sample1.png)
