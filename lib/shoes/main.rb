@@ -13,6 +13,8 @@ class Shoes
     shell.setLayout RowLayout.new
     icon = Image.new display, File.join(DIR, '../static/purple_shoes-icon.png')
     shell.setImage icon
+    color = display.getSystemColor SWT::COLOR_WHITE
+    shell.setBackground color
     
     app = App.new shell
     app.instance_eval &blk
