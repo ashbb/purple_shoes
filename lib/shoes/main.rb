@@ -1,29 +1,32 @@
 class Shoes
-  include_swt
+  include Swt
   
   def self.app args={}, &blk
     args[:width] ||= 600
     args[:height] ||= 500
     args[:title] ||= 'purple shoes'
 
-    display = Display.new
-    shell = Shell.new display
+    @display ||= Swt::Display.new
+    shell = Swt::Shell.new @display
     shell.setSize args[:width], args[:height]
     shell.setText args[:title]
-    shell.setLayout RowLayout.new
-    icon = Image.new display, File.join(DIR, '../static/purple_shoes-icon.png')
+    icon = Swt::Image.new @display, File.join(DIR, '../static/purple_shoes-icon.png')
     shell.setImage icon
-    color = display.getSystemColor SWT::COLOR_WHITE
+    color = @display.getSystemColor Swt::SWT::COLOR_WHITE
     shell.setBackground color
     
     app = App.new shell
+    @main_app ||= app
     app.instance_eval &blk
     
     shell.open
   
-    while !shell.isDisposed do
-      display.sleep unless display.readAndDispatch
+    if @main_app == app
+      while !shell.isDisposed do
+        @display.sleep unless @display.readAndDispatch
+      end
+      @display.dispose
     end
-    display.dispose
+    app
   end
 end

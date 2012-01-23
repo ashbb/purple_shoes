@@ -11,6 +11,13 @@ module Shoes
   DIR = Pathname.new(__FILE__).realpath.dirname.to_s
 end
 
+module Swt
+  include_package 'org.eclipse.swt'
+  include_package 'org.eclipse.swt.layout'
+  include_package 'org.eclipse.swt.widgets'
+  include_package 'org.eclipse.swt.graphics'
+end
+
 class Object
   remove_const :Shoes
 end
