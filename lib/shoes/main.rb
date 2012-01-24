@@ -20,6 +20,14 @@ class Shoes
     app.instance_eval &blk
     
     shell.open
+
+    cl = Swt::ControlListener.new
+    class << cl; self end.
+    instance_eval do
+      define_method(:controlResized){Shoes.call_back_procs app}
+      define_method(:controlMoved){}
+    end
+    shell.addControlListener cl
   
     if @main_app == app
       while !shell.isDisposed do

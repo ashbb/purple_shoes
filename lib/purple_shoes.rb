@@ -16,6 +16,7 @@ module Swt
   include_package 'org.eclipse.swt.layout'
   include_package 'org.eclipse.swt.widgets'
   include_package 'org.eclipse.swt.graphics'
+  include_package 'org.eclipse.swt.events'
 end
 
 class Object
@@ -23,5 +24,6 @@ class Object
 end
 
 require_relative 'shoes/ruby'
+require_relative 'shoes/helper_methods'
 require_relative 'shoes/main'
 require_relative 'shoes/app'
