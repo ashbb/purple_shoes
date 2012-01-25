@@ -20,5 +20,12 @@ class Shoes
         yield
       end if block_given?
     end
+
+    def animate n=10, &blk
+      n, i = 1000 / n, 0
+      Anim.new(n, &blk).tap do |a|
+        Shoes.display.timerExec n, a
+      end
+    end
   end
 end

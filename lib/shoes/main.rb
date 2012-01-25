@@ -1,6 +1,10 @@
 class Shoes
   include Swt
   
+  def self.display
+    @display
+  end
+
   def self.app args={}, &blk
     args[:width] ||= 600
     args[:height] ||= 500
