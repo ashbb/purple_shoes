@@ -7,7 +7,7 @@ class Shoes
     def run
       if continue? 
         @blk[@i = pause? ? @i : @i+1]
-        @shell.redraw
+        @shell.redraw unless @shell.isDisposed
         Shoes.display.timerExec @n, self
       end
     end
