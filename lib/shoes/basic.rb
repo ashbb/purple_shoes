@@ -16,7 +16,13 @@ class Shoes
         attr_accessor *args.keys
       end
 
-      (@width, @height = @real.getSize.x, @real.getSize.y) if @real
+      if @real
+        if @real.is_a? Swt::Image
+          @width, @height = @real.getImageData.width, @real.getImageData.height
+        else
+          @width, @height = @real.getSize.x, @real.getSize.y
+        end
+      end
 
       set_margin
       @width += (@margin_left + @margin_right)
@@ -31,13 +37,13 @@ class Shoes
 
     def move x, y
       @app.cslot.contents -= [self]
-      @real.setLocation x, y
+      @real.setLocation(x, y) unless @real.is_a? Swt::Image
       move3 x, y
       self
     end
 
     def move2 x, y
-      @real.setLocation x, y
+      @real.setLocation(x, y) unless @real.is_a? Swt::Image
       move3 x, y
     end
 
@@ -57,6 +63,7 @@ class Shoes
     end
   end
 
+  class Image < Basic; end
   class Native < Basic; end
   class Button < Native; end
 end

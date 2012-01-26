@@ -33,6 +33,24 @@ class Shoes
       label.pack
     end
     
+    def image name, args={}
+      args = basic_attributes args
+      args[:full_width] = args[:full_height] = 0
+      img = Swt::Image.new Shoes.display, name
+      args[:real], args[:app] = img, self
+      Image.new(args).tap do |s|
+        pl = Swt::PaintListener.new
+        class << pl; self end.
+        instance_eval do
+          define_method :paintControl do |e|
+            gc = e.gc
+            gc.drawImage img, s.left, s.top
+          end
+        end
+        @shell.addPaintListener pl
+      end
+    end
+
     def button name, args={}
       args = basic_attributes args
       b = Swt::Button.new @shell, Swt::SWT::NULL
@@ -53,7 +71,7 @@ class Shoes
     
     def animate n=10, &blk
       n, i = 1000 / n, 0
-      Anim.new(n, &blk).tap do |a|
+      Anim.new(@shell, n, &blk).tap do |a|
         Shoes.display.timerExec n, a
       end
     end

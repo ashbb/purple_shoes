@@ -19,9 +19,9 @@ Run a sample snippet
 - cd c:\tmp
 - git clone git://github.com/ashbb/purple_shoes.git
 - cd purple_shoes\samples
-- jruby --1.9 sample1.rb
+- jruby --1.9 sample2.rb
 
 Snapshot
 ---------
 
-![snapshot](https://github.com/ashbb/purple_shoes/raw/master/snapshots/sample1.png)
+![snapshot](https://github.com/ashbb/purple_shoes/raw/master/snapshots/sample2.png)
