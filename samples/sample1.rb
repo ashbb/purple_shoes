@@ -7,7 +7,9 @@ Shoes.app width: 300, height: 300 do
   a = nil
   button('pause'){a.pause}
   button('stop'){a.stop}
-  img = image File.join(DIR, '../static/purple_shoes-icon.png')
+  img = image File.join(DIR, '../static/purple_shoes-icon.png') do
+    alert "You're soooo quick!"
+  end
 
   x, y = 150, 150
   size = [128, 128]

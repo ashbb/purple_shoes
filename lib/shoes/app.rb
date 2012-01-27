@@ -38,6 +38,7 @@ class Shoes
       args[:full_width] = args[:full_height] = 0
       img = Swt::Image.new Shoes.display, name
       args[:real], args[:app] = img, self
+      
       Image.new(args).tap do |s|
         pl = Swt::PaintListener.new
         class << pl; self end.
@@ -48,6 +49,17 @@ class Shoes
           end
         end
         @shell.addPaintListener pl
+        
+        if block_given?
+          ln = Swt::Listener.new
+          class << ln; self end.
+          instance_eval do
+            define_method :handleEvent do |e|
+              yield s if s.left <= e.x and e.x <= s.left + s.width and s.top <= e.y and e.y <= s.top + s.height
+            end
+          end
+          @shell.addListener Swt::SWT::MouseDown, ln
+        end
       end
     end
 
