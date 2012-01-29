@@ -10,7 +10,6 @@ class Shoes
         attr_accessor *(args.keys - [:width, :height, :title])
       end
       init_app_vars
-      @shell = args[:shell]
       @top_slot, @cslot = nil, self
     end
     
@@ -26,12 +25,46 @@ class Shoes
       Flow.new slot_attributes(args), &blk
     end
     
-    def para str, args={}
-      label = Swt::Label.new @shell, Swt::SWT::LEFT
-      label.setText str
-      label.setLocation args[:left], args[:top]
-      label.pack
+    def textblock klass, font_size, *msg
+      args = msg.last.class == Hash ? msg.pop : {}
+      args = basic_attributes args
+      args[:markup] = msg.map(&:to_s).join
+      args[:size] ||= font_size
+      args[:font] ||= (@font_family or 'sans')
+      line_height =  args[:size] * 2
+
+      if args[:create_real]
+        tl = Swt::TextLayout.new Shoes.display
+        tl.setText args[:markup]
+        font = Swt::Font.new Shoes.display, args[:font], args[:size], Swt::SWT::NORMAL
+        black = Shoes.display.getSystemColor Swt::SWT::COLOR_BLACK
+        style = Swt::TextStyle.new font, black, nil
+        tl.setStyle style, 0, args[:markup].length
+        pl = Swt::PaintListener.new
+        class << pl; self end.
+        instance_eval do
+          define_method :paintControl do |e|
+            tl.setWidth args[:width]
+            tl.draw e.gc, args[:left], args[:top]
+	    args[:height] = line_height * tl.getLineCount
+          end
+        end
+        @shell.addPaintListener pl
+        args[:real] = tl
+      else
+        args[:real] = false
+      end
+      args[:app] = self
+      klass.new args
     end
+
+    def banner *msg; textblock Banner, 48, *msg; end
+    def title *msg; textblock Title, 34, *msg; end
+    def subtitle *msg; textblock Subtitle, 26, *msg; end
+    def tagline *msg; textblock Tagline, 18, *msg; end
+    def caption *msg; textblock Caption, 14, *msg; end
+    def para *msg; textblock Para, 12, *msg; end
+    def inscription *msg; textblock Para, 10, *msg; end
     
     def image name, args={}
       args = basic_attributes args
