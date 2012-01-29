@@ -21,6 +21,17 @@ Run a sample snippet
 - cd purple_shoes\samples
 - jruby --1.9 sample2.rb
 
+
+Note to OSX Users
+-----------------
+
+You'll need to pass an extra argument to JRuby's JVM for SWT to work on OSX.  Your command line should look like this:
+
+```
+jruby -J-XstartOnFirstThread --1.9 sample2.rb
+```
+
+
 Snapshot
 ---------
 
