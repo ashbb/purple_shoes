@@ -19,7 +19,7 @@ class Shoes
       if @real
         if @real.is_a? Swt::Image
           @width, @height = @real.getImageData.width, @real.getImageData.height
-	elsif @real.is_a? Swt::TextLayout
+        elsif @real.is_a? Swt::TextLayout
           # do nothing
         else
           @width, @height = @real.getSize.x, @real.getSize.y

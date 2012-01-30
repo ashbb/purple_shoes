@@ -31,14 +31,16 @@ class Shoes
       args[:markup] = msg.map(&:to_s).join
       args[:size] ||= font_size
       args[:font] ||= (@font_family or 'sans')
+      args[:stroke] ||= black
       line_height =  args[:size] * 2
 
       if args[:create_real]
         tl = Swt::TextLayout.new Shoes.display
         tl.setText args[:markup]
         font = Swt::Font.new Shoes.display, args[:font], args[:size], Swt::SWT::NORMAL
-        black = Shoes.display.getSystemColor Swt::SWT::COLOR_BLACK
-        style = Swt::TextStyle.new font, black, nil
+        fgc = Swt::Color.new Shoes.display, *args[:stroke]
+        bgc = args[:fill] ? Swt::Color.new(Shoes.display, *args[:fill]) : nil
+        style = Swt::TextStyle.new font, fgc, bgc
         tl.setStyle style, 0, args[:markup].length
         pl = Swt::PaintListener.new
         class << pl; self end.
@@ -46,7 +48,7 @@ class Shoes
           define_method :paintControl do |e|
             tl.setWidth args[:width]
             tl.draw e.gc, args[:left], args[:top]
-	    args[:height] = line_height * tl.getLineCount
+	          args[:height] = line_height * tl.getLineCount
           end
         end
         @shell.addPaintListener pl

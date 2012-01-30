@@ -6,7 +6,7 @@ class Shoes
       args[:font] ||= @args[:font]
       args[:align] ||= @args[:align]
 
-      (@real.setText '';  @app.shell.redraw) if @real
+      (@real.setText '';  @app.shell.isDisposed ? exit : @app.shell.redraw) if @real
       
       @width = (@left + parent.width <= @app.width) ? parent.width : @app.width - @left
       @width = initials[:width] unless initials[:width].zero?
