@@ -13,6 +13,13 @@ Install JRuby and SWT for Windows
 - cd c:\jruby
 - C:\jruby>jruby --1.9 c:\jruby\bin\gem install swt
 
+Install JRuby and SWT for OS X
+------------------------------
+
+- install [rvm](http://beginrescueend.com/)
+- rvm install jruby
+- gem install swt
+
 Run a sample snippet
 --------------------
 
