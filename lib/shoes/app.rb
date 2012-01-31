@@ -122,5 +122,62 @@ class Shoes
         Shoes.display.timerExec n, a
       end
     end
+    
+    def oval *attrs
+      args = attrs.last.class == Hash ? attrs.pop : {}
+      case attrs.length
+        when 0, 1
+        when 2; args[:left], args[:top] = attrs
+        when 3; args[:left], args[:top], args[:radius] = attrs
+        else args[:left], args[:top], args[:width], args[:height] = attrs
+      end
+      args = basic_attributes args
+      args[:width].zero? ? (args[:width] = args[:radius] * 2) : (args[:radius] = args[:width]/2.0)
+      args[:height] = args[:width] if args[:height].zero?
+      args[:strokewidth] = ( args[:strokewidth] or strokewidth or 1 )
+      args[:nocontrol] = args[:noorder] = true
+
+      pat1 = (args[:stroke] or stroke)
+      pat2 = (args[:fill] or fill)
+      args[:real], args[:app] = :shape, self
+      Oval.new(args).tap do |s|
+        pl = Swt::PaintListener.new
+        class << pl; self end.
+        instance_eval do
+          define_method :paintControl do |e|
+            gc = e.gc
+            gc.setAntialias Swt::SWT::ON
+            sw = s.strokewidth
+            if pat1
+              gc.setForeground Swt::Color.new(Shoes.display, *pat1[0,3])
+              gc.setAlpha(pat1[3] ? pat1[3]*255 : 255)
+              sw.times{|i| gc.drawOval s.left+i, s.top+i, s.width-i*2-1, s.height-i*2-1}
+            end
+            if pat2
+              gc.setBackground Swt::Color.new(Shoes.display, *pat2[0,3])
+              gc.setAlpha(pat2[3] ? pat2[3]*255 : 255)
+              gc.fillOval s.left+sw, s.top+sw, s.width-sw*2, s.height-sw*2
+            end
+          end
+        end
+        @shell.addPaintListener pl
+      end
+    end
+
+    def rgb r, g, b, l=1.0
+      (r <= 1 and g <= 1 and b <= 1) ? [r*255, g*255, b*255, l] : [r, g, b, l]
+    end
+  
+    %w[fill stroke strokewidth].each do |name|
+      eval "def #{name} #{name}=nil; #{name} ? @#{name}=#{name} : @#{name} end"
+    end
+
+    def nostroke
+      strokewidth 0
+    end
+    
+    def nofill
+      @fill = false
+    end
   end
 end

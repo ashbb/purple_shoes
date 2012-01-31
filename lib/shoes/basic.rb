@@ -19,7 +19,7 @@ class Shoes
       if @real
         if @real.is_a? Swt::Image
           @width, @height = @real.getImageData.width, @real.getImageData.height
-        elsif @real.is_a? Swt::TextLayout
+	      elsif @real.is_a? Swt::TextLayout or @real == :shape
           # do nothing
         else
           @width, @height = @real.getSize.x, @real.getSize.y
@@ -39,13 +39,13 @@ class Shoes
 
     def move x, y
       @app.cslot.contents -= [self]
-      @real.setLocation(x, y) unless @real.is_a? Swt::Image or @real.is_a? Swt::TextLayout
+      @real.setLocation(x, y) unless @real.is_a? Swt::Image or @real.is_a? Swt::TextLayout or @real == :shape
       move3 x, y
       self
     end
 
     def move2 x, y
-      @real.setLocation(x, y) unless @real.is_a? Swt::Image or @real.is_a? Swt::TextLayout
+      @real.setLocation(x, y) unless @real.is_a? Swt::Image or @real.is_a? Swt::TextLayout or @real == :shape
       move3 x, y
     end
 
@@ -66,9 +66,9 @@ class Shoes
   end
 
   class Image < Basic; end
-  class Native < Basic; end
-  class Button < Native; end
-
+  class ShapeBase < Basic; end
+  class Oval < ShapeBase; end
+  
   class TextBlock < Basic
     def text= s
       style markup: s
@@ -89,4 +89,7 @@ class Shoes
   class Caption < TextBlock; end
   class Para < TextBlock; end
   class Inscription < TextBlock; end
+  
+  class Native < Basic; end
+  class Button < Native; end
 end
