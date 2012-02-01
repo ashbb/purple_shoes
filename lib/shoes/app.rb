@@ -75,7 +75,7 @@ class Shoes
     def para *msg; textblock Para, 12, *msg; end
     def inscription *msg; textblock Para, 10, *msg; end
     
-    def image name, args={}
+    def image name, args={}, &blk
       args = basic_attributes args
       args[:full_width] = args[:full_height] = 0
       img = Swt::Image.new Shoes.display, name
@@ -91,17 +91,7 @@ class Shoes
           end
         end
         @shell.addPaintListener pl
-        
-        if block_given?
-          ln = Swt::Listener.new
-          class << ln; self end.
-          instance_eval do
-            define_method :handleEvent do |e|
-              yield s if s.left <= e.x and e.x <= s.left + s.width and s.top <= e.y and e.y <= s.top + s.height
-            end
-          end
-          @shell.addListener Swt::SWT::MouseDown, ln
-        end
+        clickable s, &blk
       end
     end
 
@@ -130,7 +120,7 @@ class Shoes
       end
     end
     
-    def oval *attrs
+    def oval *attrs, &blk
       args = attrs.last.class == Hash ? attrs.pop : {}
       case attrs.length
         when 0, 1
@@ -168,10 +158,11 @@ class Shoes
           end
         end
         @shell.addPaintListener pl
+        clickable s, &blk
       end
     end
 
-    def rect *attrs
+    def rect *attrs, &blk
       args = attrs.last.class == Hash ? attrs.pop : {}
       case attrs.length
         when 0, 1
@@ -209,6 +200,7 @@ class Shoes
           end
         end
         @shell.addPaintListener pl
+        clickable s, &blk
       end
     end
 

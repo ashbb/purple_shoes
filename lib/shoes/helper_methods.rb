@@ -41,6 +41,19 @@ class Shoes
         end
       end
     end
+
+    def clickable s, &blk
+      if blk
+        ln = Swt::Listener.new
+        class << ln; self end.
+        instance_eval do
+          define_method :handleEvent do |e|
+            blk[s] if s.left <= e.x and e.x <= s.left + s.width and s.top <= e.y and e.y <= s.top + s.height
+          end
+        end
+        @shell.addListener Swt::SWT::MouseDown, ln
+      end
+    end
   end
   
   def self.contents_alignment slot
