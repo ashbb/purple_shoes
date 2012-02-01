@@ -14,7 +14,7 @@ class Shoes
 
     @display ||= Swt::Display.new
     shell = Swt::Shell.new @display
-    shell.setSize args[:width] + 8, args[:height] + 34
+    shell.setSize args[:width] + 8, args[:height] + 38
     shell.setText args[:title]
     icon = Swt::Image.new @display, File.join(DIR, '../static/purple_shoes-icon.png')
     shell.setImage icon
@@ -28,7 +28,7 @@ class Shoes
     
     class << app; self end.class_eval do
       define_method(:width){shell.getSize.x - 8}
-      define_method(:height){shell.getSize.y - 34}
+      define_method(:height){shell.getSize.y - 38}
     end
     
     app.instance_eval &blk
@@ -43,6 +43,21 @@ class Shoes
       define_method(:controlMoved){}
     end
     shell.addControlListener cl
+    
+    mml = Swt::MouseMoveListener.new
+    class << mml; self end.
+    instance_eval do
+      define_method(:mouseMove){|e| app.mouse_pos = [e.x, e.y]}
+    end
+    shell.addMouseMoveListener mml
+    
+    ml = Swt::MouseListener.new
+    class << ml; self end.
+    instance_eval do
+      define_method(:mouseDown){|e| app.mouse_button = e.button; app.mouse_pos = [e.x, e.y]}
+      define_method(:mouseUp){|e| app.mouse_button = 0; app.mouse_pos = [e.x, e.y]}
+    end
+    shell.addMouseListener ml
   
     if @main_app == app
       while !shell.isDisposed do

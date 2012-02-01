@@ -16,6 +16,7 @@ class Shoes
   module Mod2
     def init_app_vars
       @contents, @order = [], []
+      @mouse_button, @mouse_pos = 0, [0, 0]
       @fill, @stroke = black, black
     end
   end
@@ -41,7 +42,7 @@ class Shoes
         end
       end
     end
-
+    
     def clickable s, &blk
       if blk
         ln = Swt::Listener.new

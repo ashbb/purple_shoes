@@ -14,6 +14,7 @@ class Shoes
     end
     
     attr_accessor :cslot, :top_slot, :contents, :order
+    attr_writer :mouse_button, :mouse_pos
     
     def stack args={}, &blk
       args[:app] = self
@@ -33,7 +34,7 @@ class Shoes
       args[:font] ||= (@font_family or 'sans')
       args[:stroke] ||= black
       line_height =  args[:size] * 2
-
+      
       if !(args[:left].zero? and args[:top].zero?) and (args[:width].zero? or args[:height].zero?)
         args[:nocontrol], args[:width], args[:height] = true, self.width, self.height
         layout_control = false
@@ -118,6 +119,10 @@ class Shoes
       Anim.new(@shell, n, &blk).tap do |a|
         Shoes.display.timerExec n, a
       end
+    end
+    
+    def mouse
+      [@mouse_button, @mouse_pos[0], @mouse_pos[1]]
     end
     
     def oval *attrs, &blk
@@ -218,6 +223,10 @@ class Shoes
     
     def nofill
       @fill = false
+    end
+    
+    def flush
+      Shoes.call_back_procs self
     end
   end
 end

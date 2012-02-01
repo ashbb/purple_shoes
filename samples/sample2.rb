@@ -1,6 +1,6 @@
 require '../lib/purple_shoes'
 
-Shoes.app title: 'Purple Shoes New Logo Icon!', width: 350, height: 420 do
+Shoes.app title: 'Purple Shoes New Logo Icon!', width: 310, height: 420 do
   stack do
     path = File.join(DIR, '../static/purple_shoes-icon.png')
     image path
@@ -8,9 +8,9 @@ Shoes.app title: 'Purple Shoes New Logo Icon!', width: 350, height: 420 do
       image path
       image path
     end
-    flow do
+    stack do
       image path
-      para "\n"*5, 'Powered by JRuby and SWT!', width: 200
+      para ' ' * 20, 'Powered by JRuby and SWT!'
     end
   end
 end
