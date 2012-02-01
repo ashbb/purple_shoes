@@ -70,6 +70,9 @@ class Shoes
   class Oval < ShapeBase; end
   
   class TextBlock < Basic
+    def text
+      @args[:markup]
+    end
     def text= s
       style markup: s
     end
