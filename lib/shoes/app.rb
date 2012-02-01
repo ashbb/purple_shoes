@@ -34,7 +34,14 @@ class Shoes
       args[:stroke] ||= black
       line_height =  args[:size] * 2
 
-      if args[:create_real]
+      if !(args[:left].zero? and args[:top].zero?) and (args[:width].zero? or args[:height].zero?)
+        args[:nocontrol], args[:width], args[:height] = true, self.width, self.height
+        layout_control = false
+      else
+        layout_control = true
+      end
+
+      if args[:create_real] or !layout_control
         tl = Swt::TextLayout.new Shoes.display
         tl.setText args[:markup]
         font = Swt::Font.new Shoes.display, args[:font], args[:size], Swt::SWT::NORMAL
