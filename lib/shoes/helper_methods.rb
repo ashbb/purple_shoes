@@ -16,6 +16,7 @@ class Shoes
   module Mod2
     def init_app_vars
       @contents, @order = [], []
+      @fill, @stroke = black, black
     end
   end
   
