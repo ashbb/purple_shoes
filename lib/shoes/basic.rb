@@ -67,6 +67,7 @@ class Shoes
 
   class Image < Basic; end
   class ShapeBase < Basic; end
+  class Rect < ShapeBase; end
   class Oval < ShapeBase; end
   
   class TextBlock < Basic
