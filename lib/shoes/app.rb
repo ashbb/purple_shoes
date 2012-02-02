@@ -30,6 +30,10 @@ class Shoes
       args = msg.last.class == Hash ? msg.pop : {}
       args = basic_attributes args
       args[:markup] = msg.map(&:to_s).join
+
+      styles = get_styles msg
+      args[:styles] = styles unless styles.empty?
+
       args[:size] ||= font_size
       args[:font] ||= (@font_family or 'sans')
       args[:stroke] ||= black
@@ -45,11 +49,9 @@ class Shoes
       if args[:create_real] or !layout_control
         tl = Swt::TextLayout.new Shoes.display
         tl.setText args[:markup]
-        font = Swt::Font.new Shoes.display, args[:font], args[:size], Swt::SWT::NORMAL
-        fgc = Swt::Color.new Shoes.display, *args[:stroke]
-        bgc = args[:fill] ? Swt::Color.new(Shoes.display, *args[:fill]) : nil
-        style = Swt::TextStyle.new font, fgc, bgc
-        tl.setStyle style, 0, args[:markup].length
+        
+        set_styles tl, args
+
         pl = Swt::PaintListener.new
         class << pl; self end.
         instance_eval do

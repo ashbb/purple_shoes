@@ -55,6 +55,67 @@ class Shoes
         @shell.addListener Swt::SWT::MouseDown, ln
       end
     end
+
+    def get_styles msg, styles=[], spoint=0
+      msg.each do |e|
+        if e.is_a? Text
+          epoint = spoint + e.to_s.length - 1
+          styles << [e.style, spoint..epoint, e.color]
+          get_styles e.str, styles, spoint
+	      end
+        spoint += e.to_s.length
+      end
+      styles
+    end
+    
+    def set_styles tl, args
+      font = Swt::Font.new Shoes.display, args[:font], args[:size], Swt::SWT::NORMAL
+      fgc = Swt::Color.new Shoes.display, *args[:stroke]
+      bgc = args[:fill] ? Swt::Color.new(Shoes.display, *args[:fill]) : nil
+      style = Swt::TextStyle.new font, fgc, bgc
+      tl.setStyle style, 0, args[:markup].length - 1
+      
+      args[:styles].each do |s|
+        font, ft, fg, bg, cmds, small = args[:font], Swt::SWT::NORMAL, fgc, bgc, [], 1
+        nested_styles(args[:styles], s).each do |e|
+          case e[0]
+          when :strong
+            ft = ft | Swt::SWT::BOLD
+          when :em
+            ft = ft | Swt::SWT::ITALIC 
+          when :fg
+            fg = Swt::Color.new Shoes.display, *e[2][0,3]
+          when :bg
+            bg = Swt::Color.new Shoes.display, *e[2][0,3]
+          when :ins
+            cmds << "underline = true"
+          when :del
+            cmds << "strikeout = true"
+          when :sub
+            small *= 0.8
+            cmds << "rise = -5"
+          when :sup
+            small *= 0.8
+            cmds << "rise = 5"
+          when :code
+            font = "Lucida Console"
+          else
+          end
+        end
+        ft = Swt::Font.new Shoes.display, font, args[:size]*small, ft
+        style = Swt::TextStyle.new ft, fg, bg
+        cmds.each do |cmd|
+          eval "style.#{cmd}"
+        end
+        tl.setStyle style, s[1].first, s[1].last
+      end if args[:styles]
+    end
+    
+    def nested_styles styles, s
+      styles.map do |e|
+        (e[1].first <= s[1].first and s[1].last <= e[1].last) ? e : nil
+      end - [nil]
+    end
   end
   
   def self.contents_alignment slot
