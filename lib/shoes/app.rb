@@ -116,6 +116,31 @@ class Shoes
       end
     end
     
+    def edit_text attrs
+      klass, w, h, style, blk, attrs = attrs
+      args = attrs.last.class == Hash ? attrs.pop : {}
+      txt = attrs.first unless attrs.empty?
+      args = basic_attributes args
+      args[:width] = w if args[:width].zero?
+      args[:height] = h if args[:height].zero?
+      
+      el = Swt::Text.new @shell, Swt::SWT::BORDER | style
+      el.setText txt || args[:text].to_s
+      el.setSize args[:width], args[:height]
+      args[:real], args[:app] = el, self
+      klass.new(args).tap do |s|
+        el.addModifyListener{blk[s]} if blk
+      end      
+    end
+    
+    def edit_line *attrs, &blk
+      edit_text [EditLine, 200, 28, Swt::SWT::SINGLE, blk, attrs]
+    end
+    
+    def edit_box *attrs, &blk
+      edit_text [EditBox, 200, 108, Swt::SWT::MULTI | Swt::SWT::WRAP, blk, attrs]
+    end
+    
     def animate n=10, &blk
       n, i = 1000 / n, 0
       Anim.new(@shell, n, &blk).tap do |a|
