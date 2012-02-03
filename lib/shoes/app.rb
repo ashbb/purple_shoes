@@ -141,6 +141,23 @@ class Shoes
       edit_text [EditBox, 200, 108, Swt::SWT::MULTI | Swt::SWT::WRAP, blk, attrs]
     end
     
+    def list_box args={}
+      args = basic_attributes args
+      args[:width] = 200 if args[:width].zero?
+      args[:height] = 28 if args[:height].zero?
+      args[:items] ||= []
+      cb = Swt::Combo.new @shell, Swt::SWT::DROP_DOWN
+      cb.setSize args[:width], args[:height]
+      cb.setItems args[:items].map(&:to_s)
+      cb.setText args[:choose].to_s
+      args[:real], args[:app] = cb, self
+      ListBox.new(args).tap do |s|
+        cb.addSelectionListener do
+          yield s
+        end if block_given?
+      end
+    end
+    
     def animate n=10, &blk
       n, i = 1000 / n, 0
       Anim.new(@shell, n, &blk).tap do |a|

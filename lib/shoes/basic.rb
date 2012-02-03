@@ -116,4 +116,5 @@ class Shoes
   class Button < Native; end
   class EditLine < Native; end
   class EditBox < Native; end
+  class ListBox < Native; end
 end
