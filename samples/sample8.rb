@@ -1,10 +1,9 @@
 require '../lib/purple_shoes'
 
 Shoes.app do
-  flow width: 0.3 do
-    title 'hello ', stroke: green, fill: yellow
-  end
-  flow width: 0.7 do
-    tagline 'hello ' * 30
+  10.times do |i|
+    button "hello#{i}"
+    image File.join(DIR, '../static/purple_shoes-icon.png')
+    edit_line
   end
 end
