@@ -35,6 +35,7 @@ class Shoes
     
     call_back_procs app
     shell.open
+    app.flush
 
     cl = Swt::ControlListener.new
     class << cl; self end.

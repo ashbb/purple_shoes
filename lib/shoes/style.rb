@@ -6,11 +6,16 @@ class Shoes
       args[:font] ||= @args[:font]
       args[:align] ||= @args[:align]
 
-      (@real.setText '';  @app.shell.isDisposed ? exit : @app.shell.redraw) if @real
-      
       @width = (@left + parent.width <= @app.width) ? parent.width : @app.width - @left
       @width = initials[:width] unless initials[:width].zero?
-      @height = 20 if @height.zero?
+
+      if @real
+        @real.setWidth @width
+        @height = @real.getBounds(0, args[:markup].length - 1).height
+        @real.setText ''
+        @app.shell.isDisposed ? exit : @app.shell.redraw
+      end
+
       m = self.class.to_s.downcase[7..-1]
       args = [args[:markup], @args.merge({left: @left, top: @top, width: @width, height: @height, 
         create_real: true, nocontrol: true, size: args[:size], font: args[:font], align: args[:align]})]

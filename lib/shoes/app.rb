@@ -58,7 +58,6 @@ class Shoes
           define_method :paintControl do |e|
             tl.setWidth args[:width]
             tl.draw e.gc, args[:left], args[:top]
-	          args[:height] = line_height * tl.getLineCount
           end
         end
         @shell.addPaintListener pl
