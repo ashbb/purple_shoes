@@ -268,6 +268,32 @@ class Shoes
       @fill = false
     end
     
+    def background pat, args={}
+      args[:pattern] = pat
+      args = basic_attributes args
+      args[:curve] ||= 0
+      args[:real] = args[:create_real] ? :pattern : false
+      args[:app] = self
+      Background.new(args).tap do |s|
+        unless s.real
+          pat = s.pattern
+          pl = Swt::PaintListener.new
+          class << pl; self end.
+          instance_eval do
+            define_method :paintControl do |e|
+              gc = e.gc
+              gc.setAntialias Swt::SWT::ON
+              gc.setBackground Swt::Color.new(Shoes.display, *pat[0,3])
+              gc.setAlpha(pat[3] ? pat[3]*255 : 255)
+              gc.fillRoundRectangle s.left, s.top, s.width, s.height, s.curve*2, s.curve*2
+	      s.width = s.height = 0
+            end
+          end
+          @shell.addPaintListener pl
+        end
+      end
+    end
+
     def flush
       Shoes.call_back_procs self
     end

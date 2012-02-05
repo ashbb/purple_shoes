@@ -19,7 +19,7 @@ class Shoes
       if @real
         if @real.is_a? Swt::Image
           @width, @height = @real.getImageData.width, @real.getImageData.height
-	      elsif @real.is_a? Swt::TextLayout or @real == :shape
+        elsif @real.is_a? Swt::TextLayout or @real == :shape or @real == :pattern
           # do nothing
         else
           @width, @height = @real.getSize.x, @real.getSize.y
@@ -64,6 +64,23 @@ class Shoes
   end
 
   class Image < Basic; end
+
+  class Pattern < Basic
+    def move2 x, y
+      @left, @top, @width, @height = parent.left, parent.top, parent.width, parent.height
+      @width = @args[:width] unless @args[:width].zero?
+      @height = @args[:height] unless @args[:height].zero?
+      unless @real
+        m = self.class.to_s.downcase[7..-1]
+        args = eval "{#{@args.keys.map{|k| "#{k}: @#{k}"}.join(', ')}}"
+        args = [@pattern, args.merge({create_real: true, nocontrol: true})]
+        pt = @app.send(m, *args)
+        @real = pt.real
+      end
+    end
+  end
+  class Background < Pattern; end
+
   class ShapeBase < Basic; end
   class Rect < ShapeBase; end
   class Oval < ShapeBase; end
