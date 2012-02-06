@@ -288,6 +288,7 @@ class Shoes
           end
           @shell.addPaintListener pl
         end
+        oval 0, 0, 0 # A monkey patch for sample 10. I don't know why this line is necessary... xx-P
       end
     end
 
