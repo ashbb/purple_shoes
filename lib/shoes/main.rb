@@ -48,7 +48,10 @@ class Shoes
     mml = Swt::MouseMoveListener.new
     class << mml; self end.
     instance_eval do
-      define_method(:mouseMove){|e| app.mouse_pos = [e.x, e.y]}
+      define_method :mouseMove do |e|
+        app.mouse_pos = [e.x, e.y]
+        Shoes.mouse_motion_control app
+      end
     end
     shell.addMouseMoveListener mml
     

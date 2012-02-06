@@ -13,8 +13,8 @@ class Shoes
       @top_slot, @cslot = nil, self
     end
     
-    attr_accessor :cslot, :top_slot, :contents, :order
-    attr_writer :mouse_button, :mouse_pos
+    attr_accessor :cslot, :top_slot, :contents, :mmcs, :order, :mouse_pos
+    attr_writer :mouse_button
     
     def stack args={}, &blk
       args[:app] = self
@@ -160,6 +160,10 @@ class Shoes
       Anim.new(@shell, n, &blk).tap do |a|
         Shoes.display.timerExec n, a
       end
+    end
+
+    def motion &blk
+      @mmcs << blk
     end
     
     def mouse

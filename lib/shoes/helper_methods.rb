@@ -15,7 +15,7 @@ class Shoes
   
   module Mod2
     def init_app_vars
-      @contents, @order = [], []
+      @contents, @mmcs, @order = [], [], []
       @mouse_button, @mouse_pos = 0, [0, 0]
       @fill, @stroke = black, black
     end
@@ -154,6 +154,13 @@ class Shoes
       ele.initials.each do |k, v|
         ele.send "#{k}=", v
       end
+    end
+  end
+
+  def self.mouse_motion_control app
+    app.mmcs.each do |blk|
+      blk[*app.mouse_pos]
+      app.shell.redraw unless app.shell.isDisposed
     end
   end
 end
