@@ -66,6 +66,10 @@ class Shoes
   class Image < Basic; end
 
   class Pattern < Basic
+    def positioning x, y, max
+      self.width = self.height = 0
+      super
+    end
     def move2 x, y
       @left, @top, @width, @height = parent.left, parent.top, parent.width, parent.height
       @width = @args[:width] unless @args[:width].zero?
