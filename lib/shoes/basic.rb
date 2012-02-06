@@ -19,7 +19,7 @@ class Shoes
       if @real
         if @real.is_a? Swt::Image
           @width, @height = @real.getImageData.width, @real.getImageData.height
-        elsif @real.is_a? Swt::TextLayout or @real == :shape or @real == :pattern
+        elsif @real.is_a? Symbol
           # do nothing
         else
           @width, @height = @real.getSize.x, @real.getSize.y
@@ -97,13 +97,8 @@ class Shoes
       super
     end
     def move x, y
-      move3 x, y
       self.text = @args[:markup]
       super
-    end
-    def move2 x, y
-      super
-      self.text = @args[:markup]
     end
   end
   class Banner < TextBlock; end

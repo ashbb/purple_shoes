@@ -37,36 +37,34 @@ class Shoes
       args[:size] ||= font_size
       args[:font] ||= (@font_family or 'sans')
       args[:stroke] ||= black
-      line_height =  args[:size] * 2
       
-      if !(args[:left].zero? and args[:top].zero?) and (args[:width].zero? or args[:height].zero?)
-        args[:nocontrol], args[:width], args[:height] = true, self.width, self.height
+      unless args[:left].zero? and args[:top].zero?
+        args[:nocontrol], args[:width] = true, width
         layout_control = false
       else
         layout_control = true
       end
 
-      if args[:create_real] or !layout_control
-        tl = Swt::TextLayout.new Shoes.display
-        tl.setText args[:markup]
-        
-        set_styles tl, args
-
-        pl = Swt::PaintListener.new
-        class << pl; self end.
-        instance_eval do
-          define_method :paintControl do |e|
-            tl.setWidth args[:width]
-            tl.draw e.gc, args[:left], args[:top]
-          end
-        end
-        @shell.addPaintListener pl
-        args[:real] = tl
-      else
-        args[:real] = false
-      end
+      args[:real] = (args[:create_real] or !layout_control) ? :textblock : false
       args[:app] = self
-      klass.new args
+      
+      klass.new(args).tap do |s|
+        unless s.real and layout_control
+          tl = Swt::TextLayout.new Shoes.display
+          s.real = tl
+          pl = Swt::PaintListener.new
+          class << pl; self end.
+          instance_eval do
+            define_method :paintControl do |e|
+              tl.setText s.markup
+              s.app.set_styles tl, args
+              tl.setWidth s.width if s.width > 0
+              tl.draw e.gc, s.left, s.top
+            end
+          end
+          @shell.addPaintListener pl
+        end
+      end
     end
 
     def banner *msg; textblock Banner, 48, *msg; end
@@ -286,7 +284,7 @@ class Shoes
               gc.setBackground Swt::Color.new(Shoes.display, *pat[0,3])
               gc.setAlpha(pat[3] ? pat[3]*255 : 255)
               gc.fillRoundRectangle s.left, s.top, s.width, s.height, s.curve*2, s.curve*2
-	      s.width = s.height = 0
+              s.width = s.height = 0
             end
           end
           @shell.addPaintListener pl
