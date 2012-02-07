@@ -184,8 +184,8 @@ class Shoes
       args[:strokewidth] = ( args[:strokewidth] or strokewidth or 1 )
       args[:nocontrol] = args[:noorder] = true
 
-      pat1 = (args[:stroke] or stroke)
-      pat2 = (args[:fill] or fill)
+      args[:stroke] ||= stroke
+      args[:fill] ||= fill
       args[:real], args[:app] = :shape, self
       Oval.new(args).tap do |s|
         pl = Swt::PaintListener.new
@@ -194,7 +194,7 @@ class Shoes
           define_method :paintControl do |e|
             gc = e.gc
             gc.setAntialias Swt::SWT::ON
-            sw = s.strokewidth
+            sw, pat1, pat2 = s.strokewidth, s.stroke, s.fill
             if pat1
               gc.setForeground Swt::Color.new(Shoes.display, *pat1[0,3])
               gc.setAlpha(pat1[3] ? pat1[3]*255 : 255)
@@ -226,8 +226,8 @@ class Shoes
       args[:nocontrol] = args[:noorder] = true
       args = basic_attributes args
 
-      pat1 = (args[:stroke] or stroke)
-      pat2 = (args[:fill] or fill)
+      args[:stroke] ||= stroke
+      args[:fill] ||= fill
       args[:real], args[:app] = :shape, self
       Rect.new(args).tap do |s|
         pl = Swt::PaintListener.new
@@ -236,7 +236,7 @@ class Shoes
           define_method :paintControl do |e|
             gc = e.gc
             gc.setAntialias Swt::SWT::ON
-            sw = s.strokewidth
+            sw, pat1, pat2 = s.strokewidth, s.stroke, s.fill
             if pat1
               gc.setForeground Swt::Color.new(Shoes.display, *pat1[0,3])
               gc.setAlpha(pat1[3] ? pat1[3]*255 : 255)
