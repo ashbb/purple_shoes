@@ -10,6 +10,14 @@ class Shoes
       @margin_bottom ||= margin_bottom
     end
 
+    def click &blk
+      @app.clickable self, :click, &blk
+    end
+    
+    def release &blk
+      @app.clickable self, :release, &blk
+    end
+
     attr_reader :margin_left, :margin_top, :margin_right, :margin_bottom
   end
   
@@ -43,7 +51,7 @@ class Shoes
       end
     end
     
-    def clickable s, &blk
+    def clickable s, flag = :click, &blk
       if blk
         ln = Swt::Listener.new
         class << ln; self end.
@@ -52,7 +60,8 @@ class Shoes
             blk[s] if s.left <= e.x and e.x <= s.left + s.width and s.top <= e.y and e.y <= s.top + s.height
           end
         end
-        @shell.addListener Swt::SWT::MouseDown, ln
+        @shell.addListener Swt::SWT::MouseDown, ln if flag == :click
+        @shell.addListener Swt::SWT::MouseUp, ln if flag == :release
       end
     end
 
@@ -62,7 +71,7 @@ class Shoes
           epoint = spoint + e.to_s.length - 1
           styles << [e.style, spoint..epoint, e.color]
           get_styles e.str, styles, spoint
-	      end
+        end
         spoint += e.to_s.length
       end
       styles
@@ -158,9 +167,7 @@ class Shoes
   end
 
   def self.mouse_motion_control app
-    app.mmcs.each do |blk|
-      blk[*app.mouse_pos]
-      app.shell.redraw unless app.shell.isDisposed
-    end
+    app.mmcs.each{|blk| blk[*app.mouse_pos]}
+    app.shell.redraw unless app.shell.isDisposed or app.mmcs.empty?
   end
 end
