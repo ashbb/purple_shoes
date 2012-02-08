@@ -53,6 +53,7 @@ class Shoes
           tl = Swt::TextLayout.new Shoes.display
           s.real = tl
           pl = Swt::PaintListener.new
+          s.pl = pl
           class << pl; self end.
           instance_eval do
             define_method :paintControl do |e|
@@ -83,6 +84,7 @@ class Shoes
       
       Image.new(args).tap do |s|
         pl = Swt::PaintListener.new
+        s.pl = pl
         class << pl; self end.
         instance_eval do
           define_method :paintControl do |e|
@@ -189,6 +191,7 @@ class Shoes
       args[:real], args[:app] = :shape, self
       Oval.new(args).tap do |s|
         pl = Swt::PaintListener.new
+        s.pl = pl
         class << pl; self end.
         instance_eval do
           define_method :paintControl do |e|
@@ -231,6 +234,7 @@ class Shoes
       args[:real], args[:app] = :shape, self
       Rect.new(args).tap do |s|
         pl = Swt::PaintListener.new
+        s.pl = pl
         class << pl; self end.
         instance_eval do
           define_method :paintControl do |e|
@@ -280,6 +284,7 @@ class Shoes
         unless s.real
           pat = s.pattern
           pl = Swt::PaintListener.new
+          s.pl = pl
           class << pl; self end.
           instance_eval do
             define_method :paintControl do |e|
@@ -298,6 +303,7 @@ class Shoes
 
     def flush
       Shoes.call_back_procs self
+      @shell.redraw unless @shell.isDisposed
     end
   end
 end

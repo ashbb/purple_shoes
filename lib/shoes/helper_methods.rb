@@ -54,6 +54,7 @@ class Shoes
     def clickable s, flag = :click, &blk
       if blk
         ln = Swt::Listener.new
+        s.ln = ln
         class << ln; self end.
         instance_eval do
           define_method :handleEvent do |e|

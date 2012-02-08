@@ -35,7 +35,7 @@ class Shoes
     end
 
     attr_reader :args, :initials
-    attr_accessor :parent
+    attr_accessor :parent, :pl, :ln
 
     def move x, y
       @app.cslot.contents -= [self]
@@ -64,6 +64,13 @@ class Shoes
         max = self
       end
       max
+    end
+
+    def clear
+      @app.shell.removePaintListener pl if pl
+      @app.shell.removeListener Swt::SWT::MouseDown, ln if ln
+      @app.shell.removeListener Swt::SWT::MouseUp, ln if ln
+      @parent.contents -= [self]
     end
   end
 
@@ -131,6 +138,10 @@ class Shoes
     def move2 x, y
       @real.setLocation x, y
       super
+    end
+    def clear
+      @real.dispose
+      @parent.contents -= [self]
     end
   end
   class Button < Native; end
