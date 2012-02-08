@@ -155,9 +155,9 @@ class Shoes
       end
     end
     
-    def animate n=10, &blk
+    def animate n=10, repaint=true, &blk
       n, i = 1000 / n, 0
-      Anim.new(@shell, n, &blk).tap do |a|
+      Anim.new(@shell, n, repaint, &blk).tap do |a|
         Shoes.display.timerExec n, a
       end
     end

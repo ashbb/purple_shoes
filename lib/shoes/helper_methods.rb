@@ -168,6 +168,5 @@ class Shoes
 
   def self.mouse_motion_control app
     app.mmcs.each{|blk| blk[*app.mouse_pos]}
-    app.shell.redraw unless app.shell.isDisposed or app.mmcs.empty?
   end
 end

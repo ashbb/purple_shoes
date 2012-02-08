@@ -48,6 +48,10 @@ class Shoes
     end
 
     def move3 x, y
+      unless @app.shell.isDisposed
+        @app.shell.redraw @left, @top, @width, @height, false
+        @app.shell.redraw x, y, @width, @height, false
+      end
       @left, @top = x, y
     end
 

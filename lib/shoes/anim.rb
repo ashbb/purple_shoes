@@ -1,13 +1,13 @@
 class Shoes
   class Anim
-    def initialize shell, n=100, &blk
-      @shell, @n, @i, @blk = shell, n, 0, blk
+    def initialize shell, n=100, repaint=true, &blk
+      @shell, @n, @repaint, @i, @blk = shell, n, repaint, 0, blk
     end
     
     def run
       if continue? 
         @blk[@i = pause? ? @i : @i+1]
-        @shell.redraw unless @shell.isDisposed
+        @shell.redraw if !@shell.isDisposed and @repaint
         Shoes.display.timerExec @n, self
       end
     end
