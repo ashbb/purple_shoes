@@ -26,6 +26,10 @@ class Shoes
       Flow.new slot_attributes(args), &blk
     end
     
+    def clear &blk
+      @top_slot.clear &blk
+    end
+    
     def textblock klass, font_size, *msg
       args = msg.last.class == Hash ? msg.pop : {}
       args = basic_attributes args

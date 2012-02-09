@@ -63,6 +63,20 @@ class Shoes
       #contents.each &:fix_size
       return max, flag
     end
+    
+    def clear &blk
+      @contents.each &:clear
+      @contents.clear
+      if blk
+        args = {}
+        initials.keys.each{|k| args[k] = instance_variable_get "@#{k}"}
+        args[:nocontrol] = true
+        tmp = self.is_a?(Stack) ? Stack.new(@app.slot_attributes(args), &blk) : Flow.new(@app.slot_attributes(args), &blk)
+        self.contents = tmp.contents
+        contents.each{|e| e.parent = self if e.is_a? Basic}
+      end
+      @app.flush
+    end
   end
 
   class Stack < Slot; end
