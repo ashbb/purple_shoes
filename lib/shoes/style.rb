@@ -18,6 +18,7 @@ class Shoes
 
       @width = (@left + parent.width <= @app.width) ? parent.width : @app.width - @left
       @width = initials[:width] unless initials[:width].zero?
+      @width = 1 unless @width > 0
 
       if @real
         @real.setWidth @width
