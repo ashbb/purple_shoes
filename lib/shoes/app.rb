@@ -168,6 +168,15 @@ class Shoes
       end
     end
 
+    def every n=1, &blk
+      animate 1.0/n, &blk
+    end
+
+    def timer n=1, &blk
+      n *= 1000
+      Timer.new(self, n, &blk).tap{|t| Shoes.display.timerExec n, t}
+    end
+
     def motion &blk
       @mmcs << blk
     end

@@ -28,4 +28,15 @@ class Shoes
       @pause
     end
   end
+
+  class Timer
+    def initialize app, n=1000, &blk
+      @app, @n, @blk = app, n, blk
+    end
+
+    def run
+      @blk.call
+      @app.flush
+    end
+  end
 end
