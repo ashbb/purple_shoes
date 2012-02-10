@@ -19,9 +19,7 @@ class Shoes
 
     def visit url
       if url =~ /^(http|https):\/\//
-        Thread.new do
-          p 'Now findig a solution...'
-        end
+        system "start #{url}"
       else
         $urls.each{|k, v| clear{init_app_vars; @location = url; v.call self, $1} if k =~ url}
       end
