@@ -1,4 +1,5 @@
 class Shoes
+  $urls = {}
   include Swt
   
   def self.display
@@ -31,7 +32,7 @@ class Shoes
       define_method(:height){shell.getSize.y - 38}
     end
     
-    app.instance_eval &blk
+    blk ? app.instance_eval(&blk) : app.instance_eval{$urls[/^#{'/'}$/].call app}
     
     call_back_procs app
     shell.open

@@ -24,6 +24,7 @@ class Shoes
   module Mod2
     def init_app_vars
       @contents, @mmcs, @order = [], [], []
+      @location = '/'
       @mouse_button, @mouse_pos = 0, [0, 0]
       @fill, @stroke = black, black
     end

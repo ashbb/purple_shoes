@@ -15,6 +15,17 @@ class Shoes
     
     attr_accessor :cslot, :top_slot, :contents, :mmcs, :order, :mouse_pos
     attr_writer :mouse_button
+    attr_reader :location
+
+    def visit url
+      if url =~ /^(http|https):\/\//
+        Thread.new do
+          p 'Now findig a solution...'
+        end
+      else
+        $urls.each{|k, v| clear{init_app_vars; @location = url; v.call self, $1} if k =~ url}
+      end
+    end
     
     def stack args={}, &blk
       args[:app] = self
