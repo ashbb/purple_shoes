@@ -12,6 +12,10 @@ class Shoes
         Text.new m, str, color
       end
     end
+
+    def link *str, &blk
+      Link.new :link, str, &blk
+    end
   end
 
   class Text
@@ -20,5 +24,19 @@ class Shoes
       @to_s = str.map(&:to_s).join
     end
     attr_reader :to_s, :style, :str, :color
+  end
+
+  class Link < Text
+    def initialize m, str, color=nil, &blk
+      @blk = blk
+      super m, str, color
+    end
+    attr_reader :blk
+    attr_accessor :ln, :lh, :sx, :sy, :ex, :ey, :pl, :pt, :pw, :ph, :clickabled, :parent
+
+    def clear
+      @parent.app.shell.removeListener Swt::SWT::MouseDown, @ln
+      @parent.links.delete self
+    end
   end
 end

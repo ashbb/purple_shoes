@@ -71,7 +71,7 @@ class Shoes
           instance_eval do
             define_method :paintControl do |e|
               tl.setText s.markup
-              s.app.set_styles tl, args
+              s.app.set_styles s, args
               tl.setWidth s.width if s.width > 0
               tl.draw e.gc, s.left, s.top
             end

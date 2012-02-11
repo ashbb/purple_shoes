@@ -59,7 +59,12 @@ class Shoes
         class << ln; self end.
         instance_eval do
           define_method :handleEvent do |e|
-            blk[s] if s.left <= e.x and e.x <= s.left + s.width and s.top <= e.y and e.y <= s.top + s.height
+	    if s.is_a? Link
+              mouse_x, mouse_y = e.x, e.y
+              blk[s] if ((s.pl..(s.pl+s.pw)).include?(mouse_x) and (s.sy..s.ey).include?(mouse_y) and !((s.pl..s.sx).include?(mouse_x) and (s.sy..(s.sy+s.lh)).include?(mouse_y)) and !((s.ex..(s.pl+s.pw)).include?(mouse_x) and ((s.ey-s.lh)..s.ey).include?(mouse_y)))
+            else
+              blk[s] if s.left <= e.x and e.x <= s.left + s.width and s.top <= e.y and e.y <= s.top + s.height
+            end
           end
         end
         @shell.addListener Swt::SWT::MouseDown, ln if flag == :click
@@ -71,7 +76,7 @@ class Shoes
       msg.each do |e|
         if e.is_a? Text
           epoint = spoint + e.to_s.length - 1
-          styles << [e.style, spoint..epoint, e.color]
+          styles << [e, spoint..epoint]
           get_styles e.str, styles, spoint
         end
         spoint += e.to_s.length
@@ -79,25 +84,26 @@ class Shoes
       styles
     end
     
-    def set_styles tl, args
+    def set_styles s, args
+      tl = s.real
       font = Swt::Font.new Shoes.display, args[:font], args[:size], Swt::SWT::NORMAL
       fgc = Swt::Color.new Shoes.display, *args[:stroke]
       bgc = args[:fill] ? Swt::Color.new(Shoes.display, *args[:fill]) : nil
       style = Swt::TextStyle.new font, fgc, bgc
       tl.setStyle style, 0, args[:markup].length - 1
       
-      args[:styles].each do |s|
+      args[:styles].each do |st|
         font, ft, fg, bg, cmds, small = args[:font], Swt::SWT::NORMAL, fgc, bgc, [], 1
-        nested_styles(args[:styles], s).each do |e|
-          case e[0]
+        nested_styles(args[:styles], st).each do |e|
+          case e[0].style
           when :strong
             ft = ft | Swt::SWT::BOLD
           when :em
             ft = ft | Swt::SWT::ITALIC 
           when :fg
-            fg = Swt::Color.new Shoes.display, *e[2][0,3]
+            fg = Swt::Color.new Shoes.display, *e[0].color[0,3]
           when :bg
-            bg = Swt::Color.new Shoes.display, *e[2][0,3]
+            bg = Swt::Color.new Shoes.display, *e[0].color[0,3]
           when :ins
             cmds << "underline = true"
           when :del
@@ -110,6 +116,21 @@ class Shoes
             cmds << "rise = 5"
           when :code
             font = "Lucida Console"
+          when :link
+            cmds << "underline = true"
+            fg = Swt::Color.new Shoes.display, *blue
+            spos = tl.getLocation e[1].first, false
+            epos = tl.getLocation e[1].last, true
+            e[0].lh = tl.getLineBounds(0).height
+            e[0].sx, e[0].sy = s.left + spos.x, s.top + spos.y
+            e[0].ex, e[0].ey = s.left + epos.x, s.top + epos.y + e[0].lh
+            e[0].pl, e[0].pt, e[0].pw, e[0].ph = s.left, s.top, s.width, s.height
+            s.links << e[0]
+            unless e[0].clickabled
+              e[0].parent = s
+              clickable e[0], &e[0].blk
+              e[0].clickabled = true
+            end
           else
           end
         end
@@ -118,13 +139,13 @@ class Shoes
         cmds.each do |cmd|
           eval "style.#{cmd}"
         end
-        tl.setStyle style, s[1].first, s[1].last
+        tl.setStyle style, st[1].first, st[1].last
       end if args[:styles]
     end
     
-    def nested_styles styles, s
+    def nested_styles styles, st
       styles.map do |e|
-        (e[1].first <= s[1].first and s[1].last <= e[1].last) ? e : nil
+        (e[1].first <= st[1].first and st[1].last <= e[1].last) ? e : nil
       end - [nil]
     end
   end

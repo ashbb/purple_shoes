@@ -101,6 +101,11 @@ class Shoes
   class Oval < ShapeBase; end
   
   class TextBlock < Basic
+    def initialize args
+      @links = []
+      super
+    end
+    attr_reader :links
     def text
       @args[:markup]
     end
@@ -113,6 +118,11 @@ class Shoes
     end
     def move x, y
       self.text = @args[:markup]
+      super
+    end
+    def clear
+      @links.each &:clear
+      @links.clear
       super
     end
   end

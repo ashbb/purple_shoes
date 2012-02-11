@@ -1,9 +1,7 @@
 Purple Shoes
 ==========
 
-This is a trial repository for porting Green Shoes with JRuby and SWT. 
-
-**NOTE: Just for my personal learning repository.**
+Porting [Green Shoes](https://github.com/ashbb/green_shoes) with **JRuby** and **SWT**. 
 
 Install JRuby and SWT for Windows
 ----------------------------------

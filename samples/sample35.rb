@@ -15,18 +15,19 @@ class PhotoFrame < Shoes
     background tomato
     image File.join(DIR, '../samples/loogink.png'), margin: [70, 10, 0, 0]
     para fg(strong('She is Loogink.'), white),
-      '->', margin: 10
-    button('Cy', margin: [10, 20, 0, 0]){visit '/cy'}
+      '->', link(strong('Cy')){visit '/cy'},
+      margin: 10
     p location
   end
 
   def cy
     background paleturquoise
     image File.join(DIR, '../samples/cy.png'), margin: [70, 10, 0, 0]
-    para fg(strong('He is Cy.'), gray), '  ->', margin: 10
-    button('loogink', margin: [10, 20, 0, 0]){visit '/loogink'}
+    para fg(strong('He is Cy.'), gray), '  ->', 
+      link(strong('loogink')){visit '/loogink'},
+      margin: 10
     p location
   end
 end
 
-Shoes.app width: 210, height: 150, title: 'Photo Frame'
+Shoes.app width: 200, height: 120, title: 'Photo Frame'
