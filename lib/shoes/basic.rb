@@ -48,9 +48,9 @@ class Shoes
     end
 
     def move3 x, y
-      unless @app.shell.isDisposed
-        @app.shell.redraw @left, @top, @width, @height, false
-        @app.shell.redraw x, y, @width, @height, false
+      unless @app.cs.isDisposed
+        @app.cs.redraw @left, @top, @width, @height, false
+        @app.cs.redraw x, y, @width, @height, false
       end
       @left, @top = x, y
     end
@@ -67,9 +67,9 @@ class Shoes
     end
 
     def clear
-      @app.shell.removePaintListener pl if pl
-      @app.shell.removeListener Swt::SWT::MouseDown, ln if ln
-      @app.shell.removeListener Swt::SWT::MouseUp, ln if ln
+      @app.cs.removePaintListener pl if pl
+      @app.cs.removeListener Swt::SWT::MouseDown, ln if ln
+      @app.cs.removeListener Swt::SWT::MouseUp, ln if ln
       @parent.contents -= [self]
     end
   end

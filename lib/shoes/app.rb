@@ -76,7 +76,7 @@ class Shoes
               tl.draw e.gc, s.left, s.top
             end
           end
-          @shell.addPaintListener pl
+          @cs.addPaintListener pl
         end
       end
     end
@@ -105,14 +105,14 @@ class Shoes
             gc.drawImage img, s.left, s.top
           end
         end
-        @shell.addPaintListener pl
+        @cs.addPaintListener pl
         clickable s, &blk
       end
     end
 
     def button name, args={}
       args = basic_attributes args
-      b = Swt::Button.new @shell, Swt::SWT::NULL
+      b = Swt::Button.new @cs, Swt::SWT::NULL
       b.setText name
       b.setLocation args[:left], args[:top]
       if args[:width] > 0 and args[:height] > 0
@@ -136,7 +136,7 @@ class Shoes
       args[:width] = w if args[:width].zero?
       args[:height] = h if args[:height].zero?
       
-      el = Swt::Text.new @shell, Swt::SWT::BORDER | style
+      el = Swt::Text.new @cs, Swt::SWT::BORDER | style
       el.setText txt || args[:text].to_s
       el.setSize args[:width], args[:height]
       args[:real], args[:app] = el, self
@@ -158,7 +158,7 @@ class Shoes
       args[:width] = 200 if args[:width].zero?
       args[:height] = 28 if args[:height].zero?
       args[:items] ||= []
-      cb = Swt::Combo.new @shell, Swt::SWT::DROP_DOWN
+      cb = Swt::Combo.new @cs, Swt::SWT::DROP_DOWN
       cb.setSize args[:width], args[:height]
       cb.setItems args[:items].map(&:to_s)
       cb.setText args[:choose].to_s
@@ -172,7 +172,7 @@ class Shoes
     
     def animate n=10, repaint=true, &blk
       n, i = 1000 / n, 0
-      Anim.new(@shell, n, repaint, &blk).tap do |a|
+      Anim.new(@cs, n, repaint, &blk).tap do |a|
         Shoes.display.timerExec n, a
       end
     end
@@ -232,7 +232,7 @@ class Shoes
             end
           end
         end
-        @shell.addPaintListener pl
+        @cs.addPaintListener pl
         clickable s, &blk
       end
     end
@@ -275,7 +275,7 @@ class Shoes
             end
           end
         end
-        @shell.addPaintListener pl
+        @cs.addPaintListener pl
         clickable s, &blk
       end
     end
@@ -317,7 +317,7 @@ class Shoes
               gc.fillRoundRectangle s.left, s.top, s.width, s.height, s.curve*2, s.curve*2
             end
           end
-          @shell.addPaintListener pl
+          @cs.addPaintListener pl
         end
         oval 0, 0, 0 # A monkey patch for sample 10. I don't know why this line is necessary... xx-P
       end
@@ -325,7 +325,7 @@ class Shoes
 
     def flush
       Shoes.call_back_procs self
-      @shell.redraw unless @shell.isDisposed
+      @cs.redraw unless @cs.isDisposed
     end
   end
 end

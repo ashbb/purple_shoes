@@ -2,7 +2,7 @@ class Shoes
   class Basic
     def style args
       set_args args
-      @app.shell.isDisposed ? exit : @app.shell.redraw(@left, @top, @width, @height, false)
+      @app.cs.isDisposed ? exit : @app.cs.redraw(@left, @top, @width, @height, false)
     end
     
     def set_args args
@@ -23,7 +23,7 @@ class Shoes
       if @real
         @real.setWidth @width
         @height = @real.getBounds(0, @markup.length - 1).height
-        @app.shell.isDisposed ? exit : @app.shell.redraw(@left, @top, @width, @height, false)
+        @app.cs.isDisposed ? exit : @app.cs.redraw(@left, @top, @width, @height, false)
       else
         m = self.class.to_s.downcase[7..-1]
         @app.send m, @markup, @args.merge({width: @width, create_real: true, nocontrol: true})

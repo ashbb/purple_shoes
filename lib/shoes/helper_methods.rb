@@ -59,7 +59,7 @@ class Shoes
         class << ln; self end.
         instance_eval do
           define_method :handleEvent do |e|
-	    if s.is_a? Link
+            if s.is_a? Link
               mouse_x, mouse_y = e.x, e.y
               blk[s] if ((s.pl..(s.pl+s.pw)).include?(mouse_x) and (s.sy..s.ey).include?(mouse_y) and !((s.pl..s.sx).include?(mouse_x) and (s.sy..(s.sy+s.lh)).include?(mouse_y)) and !((s.ex..(s.pl+s.pw)).include?(mouse_x) and ((s.ey-s.lh)..s.ey).include?(mouse_y)))
             else
@@ -67,8 +67,8 @@ class Shoes
             end
           end
         end
-        @shell.addListener Swt::SWT::MouseDown, ln if flag == :click
-        @shell.addListener Swt::SWT::MouseUp, ln if flag == :release
+        @cs.addListener Swt::SWT::MouseDown, ln if flag == :click
+        @cs.addListener Swt::SWT::MouseUp, ln if flag == :release
       end
     end
 
@@ -175,8 +175,19 @@ class Shoes
   
   def self.call_back_procs app
     init_contents app.cslot.contents
-    app.cslot.width, app.cslot.height = app.width, app.height
+    w, h = app.width, app.height
+    app.cslot.width, app.cslot.height = w, h
     scrollable_height = contents_alignment app.cslot
+    app.cs.setSize w, [scrollable_height, h].max
+    vb = app.shell.getVerticalBar
+    vb.setVisible(scrollable_height > h)
+    if scrollable_height > h
+      vb.setMaximum scrollable_height - h + 12
+    else
+      location = app.cs.getLocation
+      location.y = 0
+      app.cs.setLocation location
+    end
     repaint_all app.cslot
   end
   

@@ -35,7 +35,7 @@ class Shoes
     attr_accessor :ln, :lh, :sx, :sy, :ex, :ey, :pl, :pt, :pw, :ph, :clickabled, :parent
 
     def clear
-      @parent.app.shell.removeListener Swt::SWT::MouseDown, @ln
+      @parent.app.cs.removeListener Swt::SWT::MouseDown, @ln
       @parent.links.delete self
     end
   end

@@ -14,22 +14,25 @@ class Shoes
     args[:top] ||= 0
 
     @display ||= Swt::Display.new
-    shell = Swt::Shell.new @display
-    shell.setSize args[:width] + 8, args[:height] + 38
+    shell = Swt::Shell.new @display, Swt::SWT::SHELL_TRIM | Swt::SWT::V_SCROLL
+    shell.setSize args[:width] + 8, args[:height] + 36
     shell.setText args[:title]
     icon = Swt::Image.new @display, File.join(DIR, '../static/purple_shoes-icon.png')
     shell.setImage icon
-    color = @display.getSystemColor Swt::SWT::COLOR_WHITE
-    shell.setBackground color
     
-    args[:shell] = shell
+    cs = Swt::Composite.new shell, Swt::SWT::NONE
+    cs.setSize args[:width], args[:height]
+    color = @display.getSystemColor Swt::SWT::COLOR_WHITE
+    cs.setBackground color
+    
+    args[:shell], args[:cs] = shell, cs
     app = App.new args
     @main_app ||= app
     app.top_slot = Flow.new app.slot_attributes(app: app, left: 0, top: 0)
     
     class << app; self end.class_eval do
       define_method(:width){shell.getSize.x - 8}
-      define_method(:height){shell.getSize.y - 38}
+      define_method(:height){shell.getSize.y - 36}
     end
     
     blk ? app.instance_eval(&blk) : app.instance_eval{$urls[/^#{'/'}$/].call app}
@@ -45,7 +48,20 @@ class Shoes
       define_method(:controlMoved){}
     end
     shell.addControlListener cl
-    
+
+    vb = shell.getVerticalBar
+    vb.setVisible false
+    ln = Swt::Listener.new
+    class << ln; self end.
+    instance_eval do
+      define_method :handleEvent do |e|
+        location = cs.getLocation
+        location.y = -vb.getSelection
+        cs.setLocation location
+      end
+    end
+    vb.addListener Swt::SWT::Selection, ln
+
     mml = Swt::MouseMoveListener.new
     class << mml; self end.
     instance_eval do
@@ -54,7 +70,7 @@ class Shoes
         Shoes.mouse_motion_control app
       end
     end
-    shell.addMouseMoveListener mml
+    cs.addMouseMoveListener mml
     
     ml = Swt::MouseListener.new
     class << ml; self end.
@@ -62,7 +78,7 @@ class Shoes
       define_method(:mouseDown){|e| app.mouse_button = e.button; app.mouse_pos = [e.x, e.y]}
       define_method(:mouseUp){|e| app.mouse_button = 0; app.mouse_pos = [e.x, e.y]}
     end
-    shell.addMouseListener ml
+    cs.addMouseListener ml
   
     if @main_app == app
       while !shell.isDisposed do
