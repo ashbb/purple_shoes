@@ -59,10 +59,10 @@ class Shoes
         class << ln; self end.
         instance_eval do
           define_method :handleEvent do |e|
-            if s.is_a? Link
+            if s.is_a?(Link) and !s.parent.hided
               mouse_x, mouse_y = e.x, e.y
               blk[s] if ((s.pl..(s.pl+s.pw)).include?(mouse_x) and (s.sy..s.ey).include?(mouse_y) and !((s.pl..s.sx).include?(mouse_x) and (s.sy..(s.sy+s.lh)).include?(mouse_y)) and !((s.ex..(s.pl+s.pw)).include?(mouse_x) and ((s.ey-s.lh)..s.ey).include?(mouse_y)))
-            else
+            elsif !s.is_a?(Link) and !s.hided
               blk[s] if s.left <= e.x and e.x <= s.left + s.width and s.top <= e.y and e.y <= s.top + s.height
             end
           end

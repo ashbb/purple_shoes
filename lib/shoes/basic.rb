@@ -34,7 +34,7 @@ class Shoes
       @args = args
     end
 
-    attr_reader :args, :initials
+    attr_reader :args, :initials, :hided
     attr_accessor :parent, :pl, :ln
 
     def move x, y
@@ -71,6 +71,23 @@ class Shoes
       @app.cs.removeListener Swt::SWT::MouseDown, ln if ln
       @app.cs.removeListener Swt::SWT::MouseUp, ln if ln
       @parent.contents -= [self]
+      hide
+    end
+    
+    def show
+      @hided = true
+      toggle
+    end
+    
+    def hide
+      @hided = false
+      toggle
+    end
+    
+    def toggle
+      @hided = !@hided
+      @app.cs.redraw @left, @top, @width, @height, false
+      self
     end
   end
 
@@ -152,6 +169,11 @@ class Shoes
     def clear
       @real.dispose
       @parent.contents -= [self]
+    end
+    def toggle
+      @hided = !@hided
+      @real.setVisible !@hided unless @real.isDisposed
+      self
     end
   end
   class Button < Native; end

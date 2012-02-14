@@ -73,7 +73,7 @@ class Shoes
               tl.setText s.markup
               s.app.set_styles s, args
               tl.setWidth s.width if s.width > 0
-              tl.draw e.gc, s.left, s.top
+              tl.draw e.gc, s.left, s.top unless s.hided
             end
           end
           @cs.addPaintListener pl
@@ -102,7 +102,7 @@ class Shoes
         instance_eval do
           define_method :paintControl do |e|
             gc = e.gc
-            gc.drawImage img, s.left, s.top
+            gc.drawImage img, s.left, s.top unless s.hided
           end
         end
         @cs.addPaintListener pl
@@ -217,18 +217,20 @@ class Shoes
         class << pl; self end.
         instance_eval do
           define_method :paintControl do |e|
-            gc = e.gc
-            gc.setAntialias Swt::SWT::ON
-            sw, pat1, pat2 = s.strokewidth, s.stroke, s.fill
-            if pat1
-              gc.setForeground Swt::Color.new(Shoes.display, *pat1[0,3])
-              gc.setAlpha(pat1[3] ? pat1[3]*255 : 255)
-              sw.times{|i| gc.drawOval s.left+i, s.top+i, s.width-i*2-1, s.height-i*2-1}
-            end
-            if pat2
-              gc.setBackground Swt::Color.new(Shoes.display, *pat2[0,3])
-              gc.setAlpha(pat2[3] ? pat2[3]*255 : 255)
-              gc.fillOval s.left+sw, s.top+sw, s.width-sw*2, s.height-sw*2
+            unless s.hided
+              gc = e.gc
+              gc.setAntialias Swt::SWT::ON
+              sw, pat1, pat2 = s.strokewidth, s.stroke, s.fill
+              if pat1
+                gc.setForeground Swt::Color.new(Shoes.display, *pat1[0,3])
+                gc.setAlpha(pat1[3] ? pat1[3]*255 : 255)
+                sw.times{|i| gc.drawOval s.left+i, s.top+i, s.width-i*2-1, s.height-i*2-1}
+              end
+              if pat2
+                gc.setBackground Swt::Color.new(Shoes.display, *pat2[0,3])
+                gc.setAlpha(pat2[3] ? pat2[3]*255 : 255)
+                gc.fillOval s.left+sw, s.top+sw, s.width-sw*2, s.height-sw*2
+              end
             end
           end
         end
@@ -260,18 +262,20 @@ class Shoes
         class << pl; self end.
         instance_eval do
           define_method :paintControl do |e|
-            gc = e.gc
-            gc.setAntialias Swt::SWT::ON
-            sw, pat1, pat2 = s.strokewidth, s.stroke, s.fill
-            if pat1
-              gc.setForeground Swt::Color.new(Shoes.display, *pat1[0,3])
-              gc.setAlpha(pat1[3] ? pat1[3]*255 : 255)
-              sw.times{|i| gc.drawRoundRectangle s.left+i, s.top+i, s.width-i*2-1, s.height-i*2-1, s.curve, s.curve}
-            end
-            if pat2
-              gc.setBackground Swt::Color.new(Shoes.display, *pat2[0,3])
-              gc.setAlpha(pat2[3] ? pat2[3]*255 : 255)
-              gc.fillRoundRectangle s.left+sw, s.top+sw, s.width-sw*2, s.height-sw*2, s.curve, s.curve
+            unless s.hided
+              gc = e.gc
+              gc.setAntialias Swt::SWT::ON
+              sw, pat1, pat2 = s.strokewidth, s.stroke, s.fill
+              if pat1
+                gc.setForeground Swt::Color.new(Shoes.display, *pat1[0,3])
+                gc.setAlpha(pat1[3] ? pat1[3]*255 : 255)
+                sw.times{|i| gc.drawRoundRectangle s.left+i, s.top+i, s.width-i*2-1, s.height-i*2-1, s.curve, s.curve}
+              end
+              if pat2
+                gc.setBackground Swt::Color.new(Shoes.display, *pat2[0,3])
+                gc.setAlpha(pat2[3] ? pat2[3]*255 : 255)
+                gc.fillRoundRectangle s.left+sw, s.top+sw, s.width-sw*2, s.height-sw*2, s.curve, s.curve
+              end
             end
           end
         end
@@ -310,11 +314,13 @@ class Shoes
           class << pl; self end.
           instance_eval do
             define_method :paintControl do |e|
-              gc = e.gc
-              gc.setAntialias Swt::SWT::ON
-              gc.setBackground Swt::Color.new(Shoes.display, *pat[0,3])
-              gc.setAlpha(pat[3] ? pat[3]*255 : 255)
-              gc.fillRoundRectangle s.left, s.top, s.width, s.height, s.curve*2, s.curve*2
+              unless s.hided
+                gc = e.gc
+                gc.setAntialias Swt::SWT::ON
+                gc.setBackground Swt::Color.new(Shoes.display, *pat[0,3])
+                gc.setAlpha(pat[3] ? pat[3]*255 : 255)
+                gc.fillRoundRectangle s.left, s.top, s.width, s.height, s.curve*2, s.curve*2
+              end
             end
           end
           @cs.addPaintListener pl

@@ -77,6 +77,26 @@ class Shoes
       end
       @app.flush
     end
+    
+    def show
+      @hided = true
+      toggle
+    end
+    
+    def hide
+      @hided = false
+      toggle
+    end
+    
+    def toggle
+      @hided = !@hided
+      if @hided
+        @contents.each &:hide
+      else
+        @contents.each &:show
+      end
+      self
+    end
   end
 
   class Stack < Slot; end
