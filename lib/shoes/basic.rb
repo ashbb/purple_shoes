@@ -112,6 +112,7 @@ class Shoes
     end
   end
   class Background < Pattern; end
+  class Border < Pattern; end
 
   class ShapeBase < Basic; end
   class Rect < ShapeBase; end

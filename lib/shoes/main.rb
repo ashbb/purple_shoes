@@ -15,7 +15,7 @@ class Shoes
 
     @display ||= Swt::Display.new
     shell = Swt::Shell.new @display, Swt::SWT::SHELL_TRIM | Swt::SWT::V_SCROLL
-    shell.setSize args[:width] + 8, args[:height] + 36
+    shell.setSize args[:width] + 16, args[:height] + 38
     shell.setText args[:title]
     icon = Swt::Image.new @display, File.join(DIR, '../static/purple_shoes-icon.png')
     shell.setImage icon
@@ -31,8 +31,8 @@ class Shoes
     app.top_slot = Flow.new app.slot_attributes(app: app, left: 0, top: 0)
     
     class << app; self end.class_eval do
-      define_method(:width){shell.getSize.x - 8}
-      define_method(:height){shell.getSize.y - 36}
+      define_method(:width){shell.getSize.x - 16}
+      define_method(:height){shell.getSize.y - 38}
     end
     
     blk ? app.instance_eval(&blk) : app.instance_eval{$urls[/^#{'/'}$/].call app}

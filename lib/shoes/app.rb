@@ -272,7 +272,7 @@ class Shoes
               if pat1
                 gc.setForeground Swt::Color.new(Shoes.display, *pat1[0,3])
                 gc.setAlpha(pat1[3] ? pat1[3]*255 : 255)
-		if sw > 0
+                if sw > 0
                   gc.setLineWidth sw
                   gc.drawRoundRectangle s.left+sw/2, s.top+sw/2, s.width-sw, s.height-sw, s.curve, s.curve
                 end
@@ -332,6 +332,39 @@ class Shoes
           @cs.addPaintListener pl
         end
         oval 0, 0, 0 # A monkey patch for sample 10. I don't know why this line is necessary... xx-P
+      end
+    end
+
+    def border pat, args={}
+      args[:pattern] = pat
+      args = basic_attributes args
+      args[:curve] ||= 0
+      args[:strokewidth] = ( args[:strokewidth] or strokewidth or 1 )
+      args[:real] = args[:create_real] ? :pattern : false
+      args[:app] = self
+      Border.new(args).tap do |s|
+        unless s.real
+          pat = s.pattern
+          sw = s.strokewidth
+          pl = Swt::PaintListener.new
+          s.pl = pl
+          class << pl; self end.
+          instance_eval do
+            define_method :paintControl do |e|
+              unless s.hided
+                gc = e.gc
+                gc.setAntialias Swt::SWT::ON
+                gc.setForeground Swt::Color.new(Shoes.display, *pat[0,3])
+                gc.setAlpha(pat[3] ? pat[3]*255 : 255)
+                if sw > 0
+                  gc.setLineWidth sw
+                  gc.drawRoundRectangle s.left+sw/2, s.top+sw/2, s.width-sw, s.height-sw, s.curve, s.curve
+                end
+              end
+            end
+          end
+          @cs.addPaintListener pl
+        end
       end
     end
 
