@@ -88,6 +88,11 @@ class Shoes
       tl = s.real
       tl.setJustify args[:justify]
       tl.setSpacing(args[:leading] || 4)
+      tl.setAlignment case args[:align]
+        when 'center'; Swt::SWT::CENTER
+        when 'right'; Swt::SWT::RIGHT
+        else Swt::SWT::LEFT
+        end
       font = Swt::Font.new Shoes.display, args[:font], args[:size], Swt::SWT::NORMAL
       fgc = Swt::Color.new Shoes.display, *args[:stroke]
       bgc = args[:fill] ? Swt::Color.new(Shoes.display, *args[:fill]) : nil
