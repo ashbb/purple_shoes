@@ -224,7 +224,10 @@ class Shoes
               if pat1
                 gc.setForeground Swt::Color.new(Shoes.display, *pat1[0,3])
                 gc.setAlpha(pat1[3] ? pat1[3]*255 : 255)
-                sw.times{|i| gc.drawOval s.left+i, s.top+i, s.width-i*2-1, s.height-i*2-1}
+                if sw > 0
+                  gc.setLineWidth sw
+                  gc.drawOval s.left+sw/2, s.top+sw/2, s.width-sw, s.height-sw
+                end
               end
               if pat2
                 gc.setBackground Swt::Color.new(Shoes.display, *pat2[0,3])
@@ -269,12 +272,15 @@ class Shoes
               if pat1
                 gc.setForeground Swt::Color.new(Shoes.display, *pat1[0,3])
                 gc.setAlpha(pat1[3] ? pat1[3]*255 : 255)
-                sw.times{|i| gc.drawRoundRectangle s.left+i, s.top+i, s.width-i*2-1, s.height-i*2-1, s.curve, s.curve}
+		if sw > 0
+                  gc.setLineWidth sw
+                  gc.drawRoundRectangle s.left+sw/2, s.top+sw/2, s.width-sw, s.height-sw, s.curve, s.curve
+                end
               end
               if pat2
                 gc.setBackground Swt::Color.new(Shoes.display, *pat2[0,3])
                 gc.setAlpha(pat2[3] ? pat2[3]*255 : 255)
-                gc.fillRoundRectangle s.left+sw, s.top+sw, s.width-sw*2, s.height-sw*2, s.curve, s.curve
+                gc.fillRoundRectangle s.left+sw, s.top+sw, s.width-sw*2, s.height-sw*2, s.curve-sw, s.curve-sw
               end
             end
           end
