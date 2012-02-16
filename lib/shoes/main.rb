@@ -77,6 +77,7 @@ class Shoes
     instance_eval do
       define_method(:mouseDown){|e| app.mouse_button = e.button; app.mouse_pos = [e.x, e.y]}
       define_method(:mouseUp){|e| app.mouse_button = 0; app.mouse_pos = [e.x, e.y]}
+      define_method(:mouseDoubleClick){}
     end
     cs.addMouseListener ml
   
