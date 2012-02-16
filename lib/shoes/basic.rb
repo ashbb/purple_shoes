@@ -117,6 +117,7 @@ class Shoes
   class ShapeBase < Basic; end
   class Rect < ShapeBase; end
   class Oval < ShapeBase; end
+  class Line < ShapeBase; end
   
   class TextBlock < Basic
     def initialize args

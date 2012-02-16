@@ -290,6 +290,67 @@ class Shoes
       end
     end
 
+    def line *attrs, &blk
+      args = attrs.last.class == Hash ? attrs.pop : {}
+      case attrs.length
+        when 0, 1, 2
+        when 3; args[:sx], args[:sy], args[:ex] = attrs; args[:ey] = args[:ex]
+        else args[:sx], args[:sy], args[:ex], args[:ey] = attrs
+      end
+      sx, sy, ex, ey = args[:sx], args[:sy], args[:ex], args[:ey]
+      sw = args[:strokewidth] = ( args[:strokewidth] or strokewidth or 1 )
+      cw = hsw = sw*0.5
+      args[:width], args[:height] = (sx - ex).abs, (sy - ey).abs
+      args[:width] += cw
+      args[:height] += cw
+      args[:nocontrol] = args[:noorder] = true
+      args = basic_attributes args
+      
+      if ((sx - ex) < 0 and (sy - ey) < 0) or ((sx - ex) > 0 and (sy - ey) > 0)
+        args[:left] = (sx - ex) < 0 ? sx - hsw : ex - hsw
+        args[:top] = (sy - ey) < 0 ? sy - hsw : ey - hsw
+      elsif ((sx - ex) < 0 and (sy - ey) > 0) or ((sx - ex) > 0 and (sy - ey) < 0)
+        args[:left] = (sx - ex) < 0 ? sx - hsw : ex - hsw
+        args[:top] = (sy - ey) < 0 ? sy - hsw : ey - hsw
+      elsif !(sx - ex).zero? and (sy - ey).zero?
+        args[:left] = (sx - ex) < 0 ? sx : ex
+        args[:top] = (sy - ey) < 0 ? sy - hsw : ey - hsw
+      elsif (sx - ex).zero? and !(sy - ey).zero?
+        args[:left] = (sx - ex) < 0 ? sx - hsw : ex - hsw
+        args[:top] = (sy - ey) < 0 ? sy : ey
+      else
+        args[:left] = sw
+        args[:top] = sy
+      end
+
+      args[:stroke] ||= stroke
+      args[:real], args[:app] = :shape, self
+      Line.new(args).tap do |s|
+        pl = Swt::PaintListener.new
+        s.pl = pl
+        class << pl; self end.
+        instance_eval do
+          define_method :paintControl do |e|
+            unless s.hided
+              gc = e.gc
+              gc.setAntialias Swt::SWT::ON
+              sw, pat = s.strokewidth, s.stroke
+              if pat
+                gc.setForeground Swt::Color.new(Shoes.display, *pat[0,3])
+                gc.setAlpha(pat[3] ? pat[3]*255 : 255)
+                if sw > 0
+                  gc.setLineWidth sw
+                  gc.drawLine s.sx, s.sy, s.ex, s.ey
+                end
+              end
+            end
+          end
+        end
+        @cs.addPaintListener pl
+        clickable s, &blk
+      end
+    end
+
     def rgb r, g, b, l=1.0
       (r <= 1 and g <= 1 and b <= 1) ? [r*255, g*255, b*255, l] : [r, g, b, l]
     end
