@@ -155,6 +155,37 @@ class Shoes
         (e[1].first <= st[1].first and st[1].last <= e[1].last) ? e : nil
       end - [nil]
     end
+
+    def pattern_pos left, top, w, h, a
+      w, h = w*0.5, h*0.5
+      a = Math::PI*(a/180.0)
+      a = a % (Math::PI*2.0)
+      cal = proc do
+        l = Math.sqrt(w**2 + h**2)
+        b = Math.atan(h/w)
+        c = Math::PI*0.5 - a - b
+        r = l * Math.cos(c.abs)
+        [r * Math.cos(b+c), r * Math.sin(b+c)]
+      end
+      if 0 <= a and a < Math::PI*0.5
+        x, y = cal.call
+        [left+w+x, top+h-y, left+w-x, top+h+y]
+      elsif Math::PI*0.5 <= a and a < Math::PI
+        a -= Math::PI*0.5
+        w, h = h, w
+        x, y = cal.call
+        [left+h+y, top+w+x, left+h-y, top+w-x]
+      elsif Math::PI <= a and a < Math::PI*1.5
+        a -= Math::PI
+        x, y = cal.call
+        [left+w-x, top+h+y, left+w+x, top+h-y]
+      elsif Math::PI*1.5 <= a and a < Math::PI*2.0
+        a -= Math::PI*1.5
+        w, h = h, w
+        x, y = cal.call
+        [left+h-y, top+w-x, left+h+y, top+w+x]
+      end
+    end
   end
   
   def self.contents_alignment slot
@@ -209,5 +240,17 @@ class Shoes
 
   def self.mouse_motion_control app
     app.mmcs.each{|blk| blk[*app.mouse_pos]}
+  end
+
+  def self.set_pattern s, gc, pat, m = :Background
+    pat = s.app.tr_color(pat) if pat.is_a? String
+    if pat.is_a? Array
+      eval "gc.set#{m} Swt::Color.new(Shoes.display, *pat[0,3])"
+      gc.setAlpha(pat[3] ? pat[3]*255 : 255)
+    elsif pat.is_a? Range
+      eval "gc.set#{m}Pattern s.app.gradient(pat, s.left, s.top, s.width, s.height, s.angle)"
+    elsif pat.is_a? String
+      eval "gc.set#{m}Pattern Swt::Pattern.new(Shoes.display, Swt::Image.new(Shoes.display, pat))"
+    end
   end
 end

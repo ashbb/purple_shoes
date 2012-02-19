@@ -221,18 +221,16 @@ class Shoes
               gc = e.gc
               gc.setAntialias Swt::SWT::ON
               sw, pat1, pat2 = s.strokewidth, s.stroke, s.fill
+              if pat2
+                Shoes.set_pattern s, gc, pat2
+                gc.fillOval s.left+sw, s.top+sw, s.width-sw*2, s.height-sw*2
+              end
               if pat1
-                gc.setForeground Swt::Color.new(Shoes.display, *pat1[0,3])
-                gc.setAlpha(pat1[3] ? pat1[3]*255 : 255)
+                Shoes.set_pattern s, gc, pat1, :Foreground
                 if sw > 0
                   gc.setLineWidth sw
                   gc.drawOval s.left+sw/2, s.top+sw/2, s.width-sw, s.height-sw
                 end
-              end
-              if pat2
-                gc.setBackground Swt::Color.new(Shoes.display, *pat2[0,3])
-                gc.setAlpha(pat2[3] ? pat2[3]*255 : 255)
-                gc.fillOval s.left+sw, s.top+sw, s.width-sw*2, s.height-sw*2
               end
             end
           end
@@ -269,18 +267,16 @@ class Shoes
               gc = e.gc
               gc.setAntialias Swt::SWT::ON
               sw, pat1, pat2 = s.strokewidth, s.stroke, s.fill
+              if pat2
+                Shoes.set_pattern s, gc, pat2
+                gc.fillRoundRectangle s.left+sw/2, s.top+sw/2, s.width-sw, s.height-sw, s.curve*2, s.curve*2
+              end
               if pat1
-                gc.setForeground Swt::Color.new(Shoes.display, *pat1[0,3])
-                gc.setAlpha(pat1[3] ? pat1[3]*255 : 255)
+                Shoes.set_pattern s, gc, pat1, :Foreground
                 if sw > 0
                   gc.setLineWidth sw
-                  gc.drawRoundRectangle s.left+sw/2, s.top+sw/2, s.width-sw, s.height-sw, s.curve, s.curve
+                  gc.drawRoundRectangle s.left+sw/2, s.top+sw/2, s.width-sw, s.height-sw, s.curve*2, s.curve*2
                 end
-              end
-              if pat2
-                gc.setBackground Swt::Color.new(Shoes.display, *pat2[0,3])
-                gc.setAlpha(pat2[3] ? pat2[3]*255 : 255)
-                gc.fillRoundRectangle s.left+sw, s.top+sw, s.width-sw*2, s.height-sw*2, s.curve-sw, s.curve-sw
               end
             end
           end
@@ -336,8 +332,7 @@ class Shoes
               gc.setAntialias Swt::SWT::ON
               sw, pat = s.strokewidth, s.stroke
               if pat
-                gc.setForeground Swt::Color.new(Shoes.display, *pat[0,3])
-                gc.setAlpha(pat[3] ? pat[3]*255 : 255)
+                Shoes.set_pattern s, gc, pat, :Foreground
                 if sw > 0
                   gc.setLineWidth sw
                   gc.drawLine s.sx, s.sy, s.ex, s.ey
@@ -366,6 +361,41 @@ class Shoes
     def nofill
       @fill = false
     end
+
+    def gradient *attrs
+      case attrs.length
+        when 1, 2
+          pat1, pat2 = attrs
+          pat2 = pat1 unless pat2
+          return tr_color(pat1)..tr_color(pat2)
+        when 5, 6
+          pat, l, t, w, h, angle = attrs
+          angle = 0 unless angle
+        else
+        return black..black
+      end
+
+      pat = tr_color pat
+      color = case pat
+        when Range; [tr_color(pat.first), tr_color(pat.last)]
+        when Array; [pat, pat]
+        when String
+          return Swt::Pattern.new(Shoes.display, Swt::Image.new(Shoes.display, pat))
+        else
+          [black, black]
+      end
+      Swt::Pattern.new Shoes.display, *pattern_pos(l, t, w, h, -angle), Swt::Color.new(Shoes.display, *color[0]), Swt::Color.new(Shoes.display, *color[1])
+    end
+
+    def tr_color pat
+      if pat.is_a?(String) and pat[0] == '#'
+        color = pat[1..-1]
+        color = color.gsub(/(.)/){$1 + '0'} if color.length == 3
+        rgb *color.gsub(/(..)/).map{$1.hex}
+      else
+        pat
+      end
+    end
     
     def background pat, args={}
       args[:pattern] = pat
@@ -384,8 +414,7 @@ class Shoes
               unless s.hided
                 gc = e.gc
                 gc.setAntialias Swt::SWT::ON
-                gc.setBackground Swt::Color.new(Shoes.display, *pat[0,3])
-                gc.setAlpha(pat[3] ? pat[3]*255 : 255)
+                Shoes.set_pattern s, gc, pat
                 gc.fillRoundRectangle s.left, s.top, s.width, s.height, s.curve*2, s.curve*2
               end
             end
@@ -415,11 +444,10 @@ class Shoes
               unless s.hided
                 gc = e.gc
                 gc.setAntialias Swt::SWT::ON
-                gc.setForeground Swt::Color.new(Shoes.display, *pat[0,3])
-                gc.setAlpha(pat[3] ? pat[3]*255 : 255)
+                Shoes.set_pattern s, gc, pat, :Foreground
                 if sw > 0
                   gc.setLineWidth sw
-                  gc.drawRoundRectangle s.left+sw/2, s.top+sw/2, s.width-sw, s.height-sw, s.curve, s.curve
+                  gc.drawRoundRectangle s.left+sw/2, s.top+sw/2, s.width-sw, s.height-sw, s.curve*2, s.curve*2
                 end
               end
             end
