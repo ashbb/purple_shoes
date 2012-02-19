@@ -44,8 +44,8 @@ class Shoes
     cl = Swt::ControlListener.new
     class << cl; self end.
     instance_eval do
-      define_method(:controlResized){Shoes.call_back_procs app}
-      define_method(:controlMoved){}
+      define_method(:controlResized){|e| Shoes.call_back_procs app}
+      define_method(:controlMoved){|e|}
     end
     shell.addControlListener cl
 
@@ -77,7 +77,7 @@ class Shoes
     instance_eval do
       define_method(:mouseDown){|e| app.mouse_button = e.button; app.mouse_pos = [e.x, e.y]}
       define_method(:mouseUp){|e| app.mouse_button = 0; app.mouse_pos = [e.x, e.y]}
-      define_method(:mouseDoubleClick){}
+      define_method(:mouseDoubleClick){|e|}
     end
     cs.addMouseListener ml
   

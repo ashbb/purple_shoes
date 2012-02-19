@@ -122,7 +122,7 @@ class Shoes
       end
       args[:real], args[:text], args[:app] = b, name, self
       Button.new(args).tap do |s|
-        b.addSelectionListener do
+        b.addSelectionListener do |e|
           yield s
         end if block_given?
       end
@@ -141,7 +141,7 @@ class Shoes
       el.setSize args[:width], args[:height]
       args[:real], args[:app] = el, self
       klass.new(args).tap do |s|
-        el.addModifyListener{blk[s]} if blk
+        el.addModifyListener{|e| blk[s]} if blk
       end      
     end
     
@@ -164,7 +164,7 @@ class Shoes
       cb.setText args[:choose].to_s
       args[:real], args[:app] = cb, self
       ListBox.new(args).tap do |s|
-        cb.addSelectionListener do
+        cb.addSelectionListener do |e|
           yield s
         end if block_given?
       end
