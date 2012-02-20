@@ -89,6 +89,33 @@ class Shoes
       @app.cs.redraw @left, @top, @width, @height, false
       self
     end
+    
+    def fix_size
+      flag = false
+      set_margin
+      case self
+      when EditBox, Button
+        if 0 < @initials[:width] and @initials[:width] <= 1.0
+          @width = @parent.width * @initials[:width] - @margin_left - @margin_right
+          flag = true
+        end
+        if 0 < @initials[:height] and @initials[:height] <= 1.0
+          @height = @parent.height * @initials[:height] - @margin_top - @margin_bottom
+          flag = true
+        end
+      when EditLine, ListBox
+        if 0 < @initials[:width] and @initials[:width] <= 1.0
+          @width = @parent.width * @initials[:width] - @margin_left - @margin_right
+          @height = 20
+          flag = true
+        end
+      else
+      end
+      if flag
+        @real.setSize @width, @height
+        move @left, @top
+      end
+    end
   end
 
   class Image < Basic; end
@@ -133,7 +160,7 @@ class Shoes
     end
     def positioning x, y, max
       self.text = @args[:markup]
-      super
+      super.tap{|s| s.height += (@margin_top + @margin_bottom) if s == self}
     end
     def move x, y
       self.text = @args[:markup]

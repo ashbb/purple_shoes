@@ -60,9 +60,11 @@ class Shoes
       else
         max.height = @height = @initials[:height]
       end
-      #contents.each &:fix_size
+      contents.each &:fix_size
       return max, flag
     end
+    
+    def fix_size; end
     
     def clear &blk
       @contents.each &:clear

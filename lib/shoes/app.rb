@@ -146,17 +146,17 @@ class Shoes
     end
     
     def edit_line *attrs, &blk
-      edit_text [EditLine, 200, 28, Swt::SWT::SINGLE, blk, attrs]
+      edit_text [EditLine, 200, 20, Swt::SWT::SINGLE, blk, attrs]
     end
     
     def edit_box *attrs, &blk
-      edit_text [EditBox, 200, 108, Swt::SWT::MULTI | Swt::SWT::WRAP, blk, attrs]
+      edit_text [EditBox, 200, 100, Swt::SWT::MULTI | Swt::SWT::WRAP, blk, attrs]
     end
     
     def list_box args={}
       args = basic_attributes args
       args[:width] = 200 if args[:width].zero?
-      args[:height] = 28 if args[:height].zero?
+      args[:height] = 20 if args[:height].zero?
       args[:items] ||= []
       cb = Swt::Combo.new @cs, Swt::SWT::DROP_DOWN
       cb.setSize args[:width], args[:height]
