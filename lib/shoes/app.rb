@@ -190,6 +190,16 @@ class Shoes
       @mmcs << blk
     end
     
+    def keypress &blk
+      kl = Swt::KeyListener.new
+      class << kl; self end.
+      instance_eval do
+        define_method(:keyPressed){|e| blk[KEY_NAMES[e.keyCode] || e.character.chr]}
+        define_method(:keyReleased){|e|}
+      end
+      @shell.addKeyListener kl
+    end
+    
     def mouse
       [@mouse_button, @mouse_pos[0], @mouse_pos[1]]
     end

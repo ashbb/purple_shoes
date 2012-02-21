@@ -11,6 +11,12 @@ module Shoes
   DIR = Pathname.new(__FILE__).realpath.dirname.to_s
   BASIC_ATTRIBUTES_DEFAULT = {left: 0, top: 0, width: 0, height: 0, angle: 0, curve: 0}
   SLOT_ATTRIBUTES_DEFAULT = {left: nil, top: nil, width: 1.0, height: 0}
+  
+  KEY_NAMES = {}
+  %w[DEL ESC ALT SHIFT CTRL ARROW_UP ARROW_DOWN ARROW_LEFT ARROW_RIGHT 
+    PAGE_UP PAGE_DOWN HOME END INSERT 
+    F1 F2 F3 F4 F5 F6 F7 F8 F9 F10 F11 F12 F13 F14 F15].each{|k| KEY_NAMES[eval("Swt::SWT::#{k}")] = k}
+  KEY_NAMES[Swt::SWT::CR] = "\n"
   COLORS = {}
 end
 
