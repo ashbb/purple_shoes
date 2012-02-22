@@ -41,6 +41,7 @@ require_relative 'shoes/app'
 require_relative 'shoes/anim'
 require_relative 'shoes/slot'
 require_relative 'shoes/text'
+require_relative 'shoes/widget'
 require_relative 'shoes/url'
 require_relative 'shoes/style'
 
