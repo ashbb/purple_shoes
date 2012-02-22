@@ -91,8 +91,8 @@ class Shoes
     
     def image name, args={}, &blk
       args = basic_attributes args
-      args[:full_width] = args[:full_height] = 0
       img = Swt::Image.new Shoes.display, name
+      args[:full_width], args[:full_height] = img.getImageData.width, img.getImageData.height
       args[:real], args[:app] = img, self
       
       Image.new(args).tap do |s|
@@ -102,7 +102,7 @@ class Shoes
         instance_eval do
           define_method :paintControl do |e|
             gc = e.gc
-            gc.drawImage img, s.left, s.top unless s.hided
+            gc.drawImage img, 0, 0, s.full_width, s.full_height, s.left, s.top, s.width, s.height unless s.hided
           end
         end
         @cs.addPaintListener pl

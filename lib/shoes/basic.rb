@@ -18,7 +18,8 @@ class Shoes
 
       if @real
         if @real.is_a? Swt::Image
-          @width, @height = @real.getImageData.width, @real.getImageData.height
+          @width = @full_width if @width.zero?
+          @height = @full_height if @height.zero?
         elsif @real.is_a? Symbol
           # do nothing
         else
