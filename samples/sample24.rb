@@ -8,8 +8,7 @@ Shoes.app width: 400, height: 400 do
   rect 200, 200, 100, 100
   rect 0, 200, 100, 100
   rect 200, 0, 100, 100
-  #stroke File.join(DIR, '../static/gshoes-icon.png')
-  stroke green
+  stroke File.join(DIR, '../static/purple_shoes-icon.png')
   strokewidth 10
   line 355, 180, 5, 111, strokewidth: 20
   stroke red

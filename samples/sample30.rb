@@ -12,7 +12,7 @@ class Answer < Shoes::Widget
   end
 end
 
-Shoes.app width: 200, height: 100 do
+Shoes.app width: 200, height: 80 do
   stack width: 0.5 do
     background palegreen
     para '1. apple'
