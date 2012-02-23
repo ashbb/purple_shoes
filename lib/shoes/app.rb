@@ -102,7 +102,15 @@ class Shoes
         instance_eval do
           define_method :paintControl do |e|
             gc = e.gc
-            gc.drawImage img, 0, 0, s.full_width, s.full_height, s.left, s.top, s.width, s.height unless s.hided
+            unless s.hided
+              if s.initials[:width].zero? and s.initials[:height].zero?
+                gc.drawImage img, s.left, s.top
+              else
+                s.width = s.full_width if s.width.zero?
+                s.height = s.full_height if s.height.zero?
+                gc.drawImage img, 0, 0, s.full_width, s.full_height, s.left, s.top, s.width, s.height
+              end
+            end
           end
         end
         @cs.addPaintListener pl
