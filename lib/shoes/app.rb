@@ -475,6 +475,23 @@ class Shoes
       end
     end
 
+    def scroll_top
+      cs.getLocation.y
+    end
+    
+    def scroll_top=(n)
+      cs.setLocation 0, -n
+      shell.getVerticalBar.setSelection n
+    end
+    
+    def scroll_height
+      scroll_max + height
+    end
+    
+    def scroll_max
+      shell.getVerticalBar.getMaximum - 10
+    end
+
     def flush
       Shoes.call_back_procs self
       @cs.redraw unless @cs.isDisposed
