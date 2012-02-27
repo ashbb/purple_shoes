@@ -253,4 +253,20 @@ class Shoes
       eval "gc.set#{m}Pattern Swt::Pattern.new(Shoes.display, Swt::Image.new(Shoes.display, pat))"
     end
   end
+  
+  def self.set_rotate gc, angle, left, top
+    if block_given?
+      tr = Swt::Transform.new Shoes.display
+      reset_rotate tr, gc, angle, left, top
+      yield
+      reset_rotate tr, gc, -angle, left, top
+    end
+  end
+    
+  def self.reset_rotate tr, gc, angle, left, top
+    tr.translate left, top
+    tr.rotate angle
+    tr.translate -left, -top
+    gc.setTransform tr
+  end
 end

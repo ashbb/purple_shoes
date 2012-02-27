@@ -50,6 +50,7 @@ class Shoes
       args[:size] ||= font_size
       args[:font] ||= (@font_family or 'sans')
       args[:stroke] ||= black
+      args[:rotate] ||= rotate
       
       unless args[:left].zero? and args[:top].zero?
         args[:nocontrol], args[:width] = true, width
@@ -73,7 +74,11 @@ class Shoes
               tl.setText s.markup
               s.app.set_styles s, args
               tl.setWidth s.width if s.width > 0
-              tl.draw e.gc, s.left, s.top unless s.hided
+              unless s.hided
+                Shoes.set_rotate e.gc, *s.rotate do
+                  tl.draw e.gc, s.left, s.top
+                end
+              end
             end
           end
           @cs.addPaintListener pl
@@ -91,6 +96,7 @@ class Shoes
     
     def image name, args={}, &blk
       args = basic_attributes args
+      args[:rotate] ||= rotate
       img = Swt::Image.new Shoes.display, name
       args[:full_width], args[:full_height] = img.getImageData.width, img.getImageData.height
       args[:real], args[:app] = img, self
@@ -103,12 +109,14 @@ class Shoes
           define_method :paintControl do |e|
             gc = e.gc
             unless s.hided
-              if s.initials[:width].zero? and s.initials[:height].zero?
-                gc.drawImage img, s.left, s.top
-              else
-                s.width = s.full_width if s.width.zero?
-                s.height = s.full_height if s.height.zero?
-                gc.drawImage img, 0, 0, s.full_width, s.full_height, s.left, s.top, s.width, s.height
+              Shoes.set_rotate e.gc, *s.rotate do
+                if s.initials[:width].zero? and s.initials[:height].zero?
+                  gc.drawImage img, s.left, s.top
+                else
+                  s.width = s.full_width if s.width.zero?
+                  s.height = s.full_height if s.height.zero?
+                  gc.drawImage img, 0, 0, s.full_width, s.full_height, s.left, s.top, s.width, s.height
+                end
               end
             end
           end
@@ -228,6 +236,7 @@ class Shoes
 
       args[:stroke] ||= stroke
       args[:fill] ||= fill
+      args[:rotate] ||= rotate
       args[:real], args[:app] = :shape, self
       Oval.new(args).tap do |s|
         pl = Swt::PaintListener.new
@@ -239,15 +248,17 @@ class Shoes
               gc = e.gc
               gc.setAntialias Swt::SWT::ON
               sw, pat1, pat2 = s.strokewidth, s.stroke, s.fill
-              if pat2
-                Shoes.set_pattern s, gc, pat2
-                gc.fillOval s.left+sw, s.top+sw, s.width-sw*2, s.height-sw*2
-              end
-              if pat1
-                Shoes.set_pattern s, gc, pat1, :Foreground
-                if sw > 0
-                  gc.setLineWidth sw
-                  gc.drawOval s.left+sw/2, s.top+sw/2, s.width-sw, s.height-sw
+              Shoes.set_rotate gc, *s.rotate do
+                if pat2
+                  Shoes.set_pattern s, gc, pat2
+                  gc.fillOval s.left+sw, s.top+sw, s.width-sw*2, s.height-sw*2
+                end
+                if pat1
+                  Shoes.set_pattern s, gc, pat1, :Foreground
+                  if sw > 0
+                    gc.setLineWidth sw
+                    gc.drawOval s.left+sw/2, s.top+sw/2, s.width-sw, s.height-sw
+                  end
                 end
               end
             end
@@ -274,6 +285,7 @@ class Shoes
 
       args[:stroke] ||= stroke
       args[:fill] ||= fill
+      args[:rotate] ||= rotate
       args[:real], args[:app] = :shape, self
       Rect.new(args).tap do |s|
         pl = Swt::PaintListener.new
@@ -285,15 +297,17 @@ class Shoes
               gc = e.gc
               gc.setAntialias Swt::SWT::ON
               sw, pat1, pat2 = s.strokewidth, s.stroke, s.fill
-              if pat2
-                Shoes.set_pattern s, gc, pat2
-                gc.fillRoundRectangle s.left+sw/2, s.top+sw/2, s.width-sw, s.height-sw, s.curve*2, s.curve*2
-              end
-              if pat1
-                Shoes.set_pattern s, gc, pat1, :Foreground
-                if sw > 0
-                  gc.setLineWidth sw
-                  gc.drawRoundRectangle s.left+sw/2, s.top+sw/2, s.width-sw, s.height-sw, s.curve*2, s.curve*2
+              Shoes.set_rotate gc, *s.rotate do
+                if pat2
+                  Shoes.set_pattern s, gc, pat2
+                  gc.fillRoundRectangle s.left+sw/2, s.top+sw/2, s.width-sw, s.height-sw, s.curve*2, s.curve*2
+                end
+                if pat1
+                  Shoes.set_pattern s, gc, pat1, :Foreground
+                  if sw > 0
+                    gc.setLineWidth sw
+                    gc.drawRoundRectangle s.left+sw/2, s.top+sw/2, s.width-sw, s.height-sw, s.curve*2, s.curve*2
+                  end
                 end
               end
             end
@@ -338,6 +352,7 @@ class Shoes
       end
 
       args[:stroke] ||= stroke
+      args[:rotate] ||= rotate
       args[:real], args[:app] = :shape, self
       Line.new(args).tap do |s|
         pl = Swt::PaintListener.new
@@ -349,11 +364,13 @@ class Shoes
               gc = e.gc
               gc.setAntialias Swt::SWT::ON
               sw, pat = s.strokewidth, s.stroke
-              if pat
-                Shoes.set_pattern s, gc, pat, :Foreground
-                if sw > 0
-                  gc.setLineWidth sw
-                  gc.drawLine s.sx, s.sy, s.ex, s.ey
+              Shoes.set_rotate gc, *s.rotate do
+                if pat
+                  Shoes.set_pattern s, gc, pat, :Foreground
+                  if sw > 0
+                    gc.setLineWidth sw
+                    gc.drawLine s.sx, s.sy, s.ex, s.ey
+                  end
                 end
               end
             end
@@ -370,6 +387,10 @@ class Shoes
   
     %w[fill stroke strokewidth].each do |name|
       eval "def #{name} #{name}=nil; #{name} ? @#{name}=#{name} : @#{name} end"
+    end
+    
+    def rotate angle=nil, left=0, top=0
+      angle ? @rotate = [angle, left, top] : @rotate ||= [0, 0, 0]
     end
 
     def nostroke
