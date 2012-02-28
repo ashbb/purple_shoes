@@ -381,6 +381,62 @@ class Shoes
       end
     end
 
+    def star *attrs, &blk
+      args = attrs.last.class == Hash ? attrs.pop : {}
+      case attrs.length
+        when 2; args[:left], args[:top] = attrs
+        when 5; args[:left], args[:top], args[:points], args[:outer], args[:inner] = attrs
+        else
+      end
+      args[:points] ||= 10; args[:outer] ||= 100.0; args[:inner] ||= 50.0
+      args[:width] = args[:height] = args[:outer]*2.0
+      args[:strokewidth] = ( args[:strokewidth] or strokewidth or 1 )
+      outer = args[:outer]
+      points, inner = args[:points], args[:inner]
+      
+      polygon = []
+      polygon << args[:left] << (args[:top] + outer)
+      (1..points*2).each do |i|
+        angle =  i * Math::PI / points
+        r = (i % 2 == 0) ? outer : inner
+        polygon << (args[:left] + r * Math.sin(angle)) << (args[:top] + r * Math.cos(angle))
+      end
+      
+      args[:stroke] ||= stroke
+      args[:fill] ||= fill
+      args[:rotate] ||= rotate
+      args[:real], args[:app] = :shape, self
+      Star.new(args).tap do |s|
+        pl = Swt::PaintListener.new
+        s.pl = pl
+        class << pl; self end.
+        instance_eval do
+          define_method :paintControl do |e|
+            unless s.hided
+              gc = e.gc
+              gc.setAntialias Swt::SWT::ON
+              sw, pat1, pat2 = s.strokewidth, s.stroke, s.fill
+              Shoes.set_rotate gc, *s.rotate do
+                if pat2
+                  Shoes.set_pattern s, gc, pat2
+                  gc.fillPolygon polygon
+                end
+                if pat1
+                  Shoes.set_pattern s, gc, pat1, :Foreground
+                  if sw > 0
+                    gc.setLineWidth sw
+                    gc.drawPolygon polygon
+                  end
+                end
+              end
+            end
+          end
+        end
+        @cs.addPaintListener pl
+        clickable s, &blk
+      end
+    end
+
     def rgb r, g, b, l=1.0
       (r <= 1 and g <= 1 and b <= 1) ? [r*255, g*255, b*255, l] : [r, g, b, l]
     end
