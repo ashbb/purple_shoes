@@ -15,6 +15,7 @@ class Shoes
   class TextBlock
     def style args
       set_args args
+      exit if @app.cs.isDisposed
 
       @width = (@left + parent.width <= @app.width) ? parent.width : @app.width - @left
       @width = initials[:width] unless initials[:width].zero?
