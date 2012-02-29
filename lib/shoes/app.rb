@@ -38,6 +38,20 @@ class Shoes
     def clear &blk
       @top_slot.clear &blk
     end
+
+    def click &blk
+      if blk
+        app = self
+        ln = Swt::Listener.new
+        class << ln; self end.
+        instance_eval do
+          define_method :handleEvent do |e|
+            blk[*app.mouse]
+          end
+        end
+        @cs.addListener Swt::SWT::MouseDown, ln
+      end
+    end
     
     def textblock klass, font_size, *msg
       args = msg.last.class == Hash ? msg.pop : {}
