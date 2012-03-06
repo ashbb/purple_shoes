@@ -233,6 +233,47 @@ class Shoes
     def mouse
       [@mouse_button, @mouse_pos[0], @mouse_pos[1]]
     end
+
+    def shape args={}, &blk
+      args = basic_attributes args
+      args[:strokewidth] = ( args[:strokewidth] or strokewidth or 1 )
+      args[:nocontrol] = args[:noorder] = true
+      args[:stroke] ||= stroke
+      args[:fill] ||= fill
+      args[:rotate] ||= rotate
+      args[:real], args[:app], args[:block] = :shape, self, blk
+      Shape.new(args).tap do |s|
+        pl = Swt::PaintListener.new
+        s.pl = pl
+        s.real = Swt::Path.new Shoes.display
+        class << pl; self end.
+        instance_eval do
+          define_method :paintControl do |e|
+            unless s.hided
+              gc = e.gc
+              gc.setAntialias Swt::SWT::ON
+              sw, pat1, pat2 = s.strokewidth, s.stroke, s.fill
+              Shoes.set_rotate gc, *s.rotate do
+                if pat2
+                  Shoes.set_pattern s, gc, pat2
+                  s.instance_eval &s.block
+                  gc.fillPath s.real
+                end
+                if pat1
+                  Shoes.set_pattern s, gc, pat1, :Foreground
+                  if sw > 0
+                    gc.setLineWidth sw
+                    s.instance_eval &s.block
+                    gc.drawPath s.real
+                  end
+                end
+              end
+            end
+          end
+        end
+        @cs.addPaintListener pl
+      end
+    end
     
     def oval *attrs, &blk
       args = attrs.last.class == Hash ? attrs.pop : {}

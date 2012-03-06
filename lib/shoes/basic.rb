@@ -147,6 +147,17 @@ class Shoes
   class Oval < ShapeBase; end
   class Line < ShapeBase; end
   class Star < ShapeBase; end
+  class Shape < ShapeBase
+    def move_to x, y
+      real.moveTo x + left, y + top
+    end
+    def line_to x, y
+      real.lineTo x + left, y + top
+    end
+    def quad_to cx, cy, x, y
+      real.quadTo cx + left, cy + top, x + left, y + top
+    end
+  end
   
   class TextBlock < Basic
     def initialize args
