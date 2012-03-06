@@ -407,6 +407,7 @@ class Shoes
       args[:strokewidth] = ( args[:strokewidth] or strokewidth or 1 )
       outer = args[:outer]
       points, inner = args[:points], args[:inner]
+      args[:nocontrol] = args[:noorder] = true
       
       polygon = []
       polygon << args[:left] << (args[:top] + outer)
