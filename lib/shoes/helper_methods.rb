@@ -248,7 +248,11 @@ class Shoes
       eval "gc.set#{m} Swt::Color.new(Shoes.display, *pat[0,3])"
       gc.setAlpha(pat[3] ? pat[3]*255 : 255)
     elsif pat.is_a? Range
-      eval "gc.set#{m}Pattern s.app.gradient(pat, s.left, s.top, s.width, s.height, s.angle)"
+      if s.is_a? Star
+        eval "gc.set#{m}Pattern s.app.gradient(pat, s.left-s.width/2.0, s.top-s.height/2.0, s.width, s.height, s.angle)"
+      else
+        eval "gc.set#{m}Pattern s.app.gradient(pat, s.left, s.top, s.width, s.height, s.angle)"
+      end
     elsif pat.is_a? String
       eval "gc.set#{m}Pattern Swt::Pattern.new(Shoes.display, Swt::Image.new(Shoes.display, pat))"
     end
