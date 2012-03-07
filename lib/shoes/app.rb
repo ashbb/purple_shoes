@@ -608,6 +608,20 @@ class Shoes
       end
     end
 
+    def progress args={}
+      pb = Swt::ProgressBar.new @cs, Swt::SWT::SMOOTH
+      if args[:left] or args[:top]
+        args[:noorder] = args[:nocontrol] = true
+      end
+      args[:width] ||= 150
+      args[:height] ||= 16
+      args = basic_attributes args
+      pb.setSize args[:width], args[:height]
+      pb.setLocation args[:left], args[:top]
+      args[:real], args[:app] = pb, self
+      Progress.new args
+    end
+
     def scroll_top
       cs.getLocation.y
     end

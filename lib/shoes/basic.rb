@@ -222,4 +222,12 @@ class Shoes
   class EditLine < Native; end
   class EditBox < Native; end
   class ListBox < Native; end
+  class Progress < Native
+    def fraction
+      @real.isDisposed ? 0 : real.getSelection / 100.0
+    end
+    def fraction= n
+      real.setSelection n * 100 unless @real.isDisposed
+    end
+  end
 end
