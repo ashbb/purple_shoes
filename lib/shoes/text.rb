@@ -16,6 +16,10 @@ class Shoes
     def link *str, &blk
       Link.new :link, str, &blk
     end
+
+    def font name
+      @font_family = name
+    end
   end
 
   class Text
