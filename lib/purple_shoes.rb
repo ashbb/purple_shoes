@@ -44,5 +44,6 @@ require_relative 'shoes/text'
 require_relative 'shoes/widget'
 require_relative 'shoes/url'
 require_relative 'shoes/style'
+require_relative 'shoes/download'
 
 require_relative 'plugins/video'

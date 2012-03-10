@@ -622,6 +622,10 @@ class Shoes
       Progress.new args
     end
 
+    def download name, args={}, &blk
+      Download.new name, args, &blk
+    end
+
     def scroll_top
       cs.getLocation.y
     end
