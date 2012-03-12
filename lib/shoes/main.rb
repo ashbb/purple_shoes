@@ -17,13 +17,13 @@ class Shoes
     shell = Swt::Shell.new @display, Swt::SWT::SHELL_TRIM | Swt::SWT::V_SCROLL
     shell.setSize args[:width] + 16, args[:height] + 38
     shell.setText args[:title]
+    color = @display.getSystemColor Swt::SWT::COLOR_WHITE
+    shell.setBackground color
     icon = Swt::Image.new @display, File.join(DIR, '../static/purple_shoes-icon.png')
     shell.setImage icon
     
-    cs = Swt::Composite.new shell, Swt::SWT::NONE
+    cs = Swt::Composite.new shell, Swt::SWT::TRANSPARENT
     cs.setSize args[:width], args[:height]
-    color = @display.getSystemColor Swt::SWT::COLOR_WHITE
-    cs.setBackground color
     
     args[:shell], args[:cs] = shell, cs
     app = App.new args

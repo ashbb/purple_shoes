@@ -25,7 +25,7 @@ Shoes.app :title => 'Snake Game v0.1' do
     @snake[0].style stroke: red
 
     dir = :left
-    @run  = animate 2, false do
+    @run  = animate 5, false do
       check_food
       go dir
       @score.text = "Score: #{@snake.length * 10}"
