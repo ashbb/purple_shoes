@@ -218,7 +218,19 @@ class Shoes
       self
     end
   end
+
   class Button < Native; end
+  class ToggleButton < Button
+    def checked?
+      real.getSelection
+    end
+    def checked=(tof)
+      real.setSelection tof
+      block.call if tof
+    end
+  end
+  class Radio < ToggleButton; end
+
   class EditLine < Native; end
   class EditBox < Native; end
   class ListBox < Native; end

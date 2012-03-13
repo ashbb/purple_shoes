@@ -157,6 +157,24 @@ class Shoes
         end if block_given?
       end
     end
+
+    def radio args={}, &blk
+      args = basic_attributes args
+      args[:block] = blk
+      b = Swt::Button.new @cs, Swt::SWT::RADIO
+      b.setLocation args[:left], args[:top]
+      if args[:width] > 0 and args[:height] > 0
+        b.setSize args[:width], args[:height]
+      else
+        b.pack
+      end
+      args[:real], args[:app] = b, self
+      Radio.new(args).tap do |s|
+        b.addSelectionListener do |e|
+          blk[s] if b.getSelection
+        end if blk
+      end
+    end
     
     def edit_text attrs
       klass, w, h, style, blk, attrs = attrs
