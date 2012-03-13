@@ -14,4 +14,19 @@ class Object
     mb.setMessage msg.to_s
     mb.open
   end
+
+  def ask_open_file
+    dialog_chooser 'Open File...', Swt::SWT::OPEN
+  end
+  
+  def ask_save_file
+    dialog_chooser 'Save File...', Swt::SWT::OPEN
+  end
+  
+  def dialog_chooser title, style
+    shell = Swt::Shell.new Shoes.display
+    fd = Swt::FileDialog.new shell, style
+    fd.setText title
+    fd.open
+  end
 end
