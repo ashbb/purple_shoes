@@ -464,18 +464,7 @@ class Shoes
       args[:points] ||= 10; args[:outer] ||= 100.0; args[:inner] ||= 50.0
       args[:width] = args[:height] = args[:outer]*2.0
       args[:strokewidth] = ( args[:strokewidth] or strokewidth or 1 )
-      outer = args[:outer]
-      points, inner = args[:points], args[:inner]
       args[:nocontrol] = args[:noorder] = true
-      
-      polygon = []
-      polygon << args[:left] << (args[:top] + outer)
-      (1..points*2).each do |i|
-        angle =  i * Math::PI / points
-        r = (i % 2 == 0) ? outer : inner
-        polygon << (args[:left] + r * Math.sin(angle)) << (args[:top] + r * Math.cos(angle))
-      end
-      
       args[:stroke] ||= stroke
       args[:fill] ||= fill
       args[:rotate] ||= rotate
@@ -490,6 +479,14 @@ class Shoes
               gc = e.gc
               gc.setAntialias Swt::SWT::ON
               sw, pat1, pat2 = s.strokewidth, s.stroke, s.fill
+              outer, inner, points, left, top = s.outer, s.inner, s.points, s.left, s.top
+              polygon = []
+              polygon << left << (top + outer)
+              (1..points*2).each do |i|
+                angle =  i * Math::PI / points
+                r = (i % 2 == 0) ? outer : inner
+                polygon << (left + r * Math.sin(angle)) << (top + r * Math.cos(angle))
+              end
               Shoes.set_rotate gc, *s.rotate do
                 if pat2
                   Shoes.set_pattern s, gc, pat2

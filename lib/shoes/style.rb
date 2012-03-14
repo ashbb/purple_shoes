@@ -31,4 +31,11 @@ class Shoes
       end
     end
   end
+
+  class Slot
+    def style args = nil
+      args ? [:width, :height].each{|s| @initials[s] = args[s] if args[s]} :
+        {width: @width, height: @height}
+    end
+  end
 end
