@@ -550,7 +550,7 @@ class Shoes
         else
           [black, black]
       end
-      Swt::Pattern.new Shoes.display, *pattern_pos(l, t, w, h, -angle), Swt::Color.new(Shoes.display, *color[0]), Swt::Color.new(Shoes.display, *color[1])
+      Swt::Pattern.new Shoes.display, *pattern_pos(l, t, w, h, -angle), Swt::Color.new(Shoes.display, *color[0][0, 3]), Swt::Color.new(Shoes.display, *color[1][0, 3])
     end
 
     def tr_color pat
