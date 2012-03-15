@@ -13,7 +13,7 @@ class Shoes
       @top_slot, @cslot = nil, self
     end
     
-    attr_accessor :cslot, :top_slot, :contents, :mmcs, :order, :mouse_pos
+    attr_accessor :cslot, :top_slot, :contents, :mmcs, :mscs, :order, :mouse_pos
     attr_writer :mouse_button
     attr_reader :location
 

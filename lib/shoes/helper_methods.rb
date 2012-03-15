@@ -23,7 +23,7 @@ class Shoes
   
   module Mod2
     def init_app_vars
-      @contents, @mmcs, @order = [], [], []
+      @contents, @mmcs, @mscs, @order = [], [], [], []
       @location = '/'
       @mouse_button, @mouse_pos = 0, [0, 0]
       @fill, @stroke = black, black
@@ -56,6 +56,7 @@ class Shoes
       if blk
         ln = Swt::Listener.new
         s.ln = ln
+        @mscs << s
         class << ln; self end.
         instance_eval do
           define_method :handleEvent do |e|
@@ -241,6 +242,21 @@ class Shoes
 
   def self.mouse_motion_control app
     app.mmcs.each{|blk| blk[*app.mouse_pos]}
+  end
+
+  def self.mouse_shape_control app
+    flag = false
+    mouse_x, mouse_y = app.mouse_pos
+    app.mscs.each do |s|
+      if s.is_a?(Link) and !s.parent.hided
+        flag = true if ((s.pl..(s.pl+s.pw)).include?(mouse_x) and (s.sy..s.ey).include?(mouse_y) and !((s.pl..s.sx).include?(mouse_x) and (s.sy..(s.sy+s.lh)).include?(mouse_y)) and !((s.ex..(s.pl+s.pw)).include?(mouse_x) and ((s.ey-s.lh)..s.ey).include?(mouse_y)))
+      elsif !s.is_a?(Link) and !s.hided
+        dx, dy = s.is_a?(Star) ? [s.width / 2.0, s.height / 2.0] : [0, 0]
+        flag = true if s.left - dx <= mouse_x and mouse_x <= s.left - dx + s.width and s.top - dy <= mouse_y and mouse_y <= s.top - dy + s.height
+      end
+    end
+    cursor = flag ? Swt::SWT::CURSOR_HAND : Swt::SWT::CURSOR_ARROW
+    app.shell.setCursor  Shoes.display.getSystemCursor(cursor)
   end
 
   def self.set_pattern s, gc, pat, m = :Background

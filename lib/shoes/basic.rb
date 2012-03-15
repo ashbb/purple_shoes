@@ -72,6 +72,7 @@ class Shoes
       @app.cs.removeListener Swt::SWT::MouseDown, ln if ln
       @app.cs.removeListener Swt::SWT::MouseUp, ln if ln
       @parent.contents -= [self]
+      @app.mscs -= [self]
       hide
     end
     

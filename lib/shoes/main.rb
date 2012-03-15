@@ -68,6 +68,7 @@ class Shoes
       define_method :mouseMove do |e|
         app.mouse_pos = [e.x, e.y]
         Shoes.mouse_motion_control app
+        Shoes.mouse_shape_control app
       end
     end
     cs.addMouseMoveListener mml
