@@ -28,6 +28,6 @@ Shoes.app do
     s1.style width: 0.3
     s2.style width: 0.7
     @msg.text = 'Looks good to me!'
-    timer(0.01){flush}
+    aflush
   end
 end

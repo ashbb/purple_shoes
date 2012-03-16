@@ -13,7 +13,7 @@ class Shoes
       @top_slot, @cslot = nil, self
     end
     
-    attr_accessor :cslot, :top_slot, :contents, :mmcs, :mscs, :order, :mouse_pos
+    attr_accessor :cslot, :top_slot, :contents, :mmcs, :mscs, :order, :mouse_pos, :hided
     attr_writer :mouse_button
     attr_reader :location
 
@@ -37,6 +37,7 @@ class Shoes
     
     def clear &blk
       @top_slot.clear &blk
+      aflush
     end
 
     def click &blk
@@ -661,6 +662,15 @@ class Shoes
     def flush
       Shoes.call_back_procs self
       @cs.redraw unless @cs.isDisposed
+    end
+
+    def aflush
+      @hided = true
+      Swt::Display.getDefault.asyncExec do
+        Shoes.call_back_procs self
+        @hided = false
+        @cs.redraw unless @cs.isDisposed
+      end
     end
   end
 end

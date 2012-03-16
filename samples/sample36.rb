@@ -16,7 +16,7 @@ class Book < Shoes
     toc = []
     INCIDENTS.each_with_index do |(title, story), i|
       toc.push "(#{i + 1}) ",
-        link(title){visit "/incidents/#{i}"; timer(0.01){flush}},
+        link(title){visit "/incidents/#{i}"},
         " / "
     end
     toc[0...-1] << "\n"*5

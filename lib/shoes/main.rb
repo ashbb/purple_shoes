@@ -35,11 +35,12 @@ class Shoes
       define_method(:height){shell.getSize.y - 38}
     end
     
+    app.hided = true
     blk ? app.instance_eval(&blk) : app.instance_eval{$urls[/^#{'/'}$/].call app}
     
-    call_back_procs app
     shell.open
-    app.flush
+    call_back_procs app
+    app.aflush
 
     cl = Swt::ControlListener.new
     class << cl; self end.

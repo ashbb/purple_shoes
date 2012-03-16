@@ -35,8 +35,12 @@ class Shoes
       @args = args
     end
 
-    attr_reader :args, :initials, :hided
+    attr_reader :args, :initials
     attr_accessor :parent, :pl, :ln
+
+    def hided
+      @app.hided or @hided
+    end
 
     def move x, y
       @app.cslot.contents -= [self]
