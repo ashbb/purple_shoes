@@ -89,7 +89,7 @@ class Manual < Shoes
           para '  ', fg(strong(m), white)
         end
       end
-      para
+      para NL
       show_page mk_paras(d.gsub('&', '\u0026')), false, term
     end
   end
@@ -103,7 +103,7 @@ class Manual < Shoes
           _code = lines[n...-1].join(NL+'  ')
           flow do
             background rgb(190, 190, 190), curve: 5
-            inscription link(fg('Run this', magenta)){eval mk_executable(_code), TOPLEVEL_BINDING}, margin_left: 480, width: 50
+            inscription link(fg('Run this', magenta)){eval mk_executable(_code), TOPLEVEL_BINDING}, '  ', align: 'right'
             if _code.include? 'te-su-to'
               para fg(code('  ' + _code), maroon), NL, margin_left: -10
             else
@@ -111,7 +111,7 @@ class Manual < Shoes
               para fg(code('  ' + _code), blueviolet), NL, margin: [-10, 10, 0, 20]
 	    end
           end
-          para
+          para NL
         end
         next
       end
@@ -123,6 +123,7 @@ class Manual < Shoes
         end
       else
         show_paragraph text, intro, i, term
+        para NL
       end
     end
   end
@@ -142,8 +143,8 @@ class Manual < Shoes
     else
       para *mk_links(txts, term), NL, (intro and i.zero?) ? {size: 16} : ''
       txt.gsub IMAGE_RE do
+        para NL
         image File.join(DIR, "../static/#{$3}"), eval("{#{$2 or "margin_left: 50"}}")
-        para
       end
     end
   end
@@ -177,7 +178,7 @@ class Manual < Shoes
         para fg("rgb(#{r}, #{g}, #{b})", c), align: 'center'
       end
     end
-    para
+    para NL
   end
   
   def sample_page
@@ -186,7 +187,7 @@ class Manual < Shoes
         inscription file[0...-3]
         img = image File.join(DIR, "../snapshots/#{file[0..-3]}png"), width: 50, height: 50
         img.click{Dir.chdir(File.join DIR, '../samples'){instance_eval(IO.read(file),file,0)}}
-        para
+        para NL
       end
     end
   end
@@ -444,7 +445,7 @@ class Manual < Shoes
       end
       stack(height: 2){}
     end
-    para NL*3
+    para NL
   end
 
   def marker txt, term
