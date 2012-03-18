@@ -6,7 +6,7 @@ Porting [Green Shoes](https://github.com/ashbb/green_shoes) with **JRuby** and *
 Install JRuby and SWT for Windows
 ----------------------------------
 
-- download [JRuby 1.6.6 Windows Executable](http://jruby.org/download)
+- download [JRuby 1.6.7 Windows Executable](http://jruby.org/download)
 - install JRuby into c:\jruby
 - cd c:\jruby
 - C:\jruby>jruby --1.9 c:\jruby\bin\gem install swt
