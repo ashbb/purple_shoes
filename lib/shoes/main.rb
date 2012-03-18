@@ -52,16 +52,18 @@ class Shoes
 
     vb = shell.getVerticalBar
     vb.setVisible false
-    ln = Swt::Listener.new
+    ln = Swt::SelectionListener.new
     class << ln; self end.
     instance_eval do
-      define_method :handleEvent do |e|
-        location = cs.getLocation
-        location.y = -vb.getSelection
-        cs.setLocation location
+      define_method :widgetSelected do |e|
+        unless e.detail == Swt::SWT::DRAG
+          location = cs.getLocation
+          location.y = -vb.getSelection
+          cs.setLocation location
+        end
       end
     end
-    vb.addListener Swt::SWT::Selection, ln
+    vb.addSelectionListener ln
 
     mml = Swt::MouseMoveListener.new
     class << mml; self end.

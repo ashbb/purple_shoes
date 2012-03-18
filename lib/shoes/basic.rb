@@ -33,10 +33,11 @@ class Shoes
 
       [:app, :real].each{|k| args.delete k}
       @args = args
+      @dps = []
     end
 
     attr_reader :args, :initials
-    attr_accessor :parent, :pl, :ln
+    attr_accessor :parent, :pl, :ln, :dps
 
     def hided
       @app.hided or @hided
@@ -75,6 +76,9 @@ class Shoes
       @app.cs.removePaintListener pl if pl
       @app.cs.removeListener Swt::SWT::MouseDown, ln if ln
       @app.cs.removeListener Swt::SWT::MouseUp, ln if ln
+      @real.dispose unless @real.is_a? Symbol
+      @dps.each{|dp| dp.dispose if dp}
+      @dps.clear
       @parent.contents -= [self]
       @app.mscs -= [self]
       hide

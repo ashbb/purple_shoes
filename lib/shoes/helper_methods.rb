@@ -100,6 +100,7 @@ class Shoes
       bgc = args[:fill] ? Swt::Color.new(Shoes.display, *args[:fill]) : nil
       style = Swt::TextStyle.new font, fgc, bgc
       tl.setStyle style, 0, args[:markup].length - 1
+      s.dps << font << fgc << bgc
       
       args[:styles].each do |st|
         font, ft, fg, bg, cmds, small = args[:font], Swt::SWT::NORMAL, fgc, bgc, [], 1
@@ -149,6 +150,7 @@ class Shoes
           eval "style.#{cmd}"
         end
         tl.setStyle style, st[1].first, st[1].last
+        s.dps << ft
       end if args[:styles]
     end
     
