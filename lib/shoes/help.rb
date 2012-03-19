@@ -96,7 +96,7 @@ class Manual < Shoes
 
   def show_page paras, intro = false, term = nil
     paras.each_with_index do |text, i|
-      if text.index CODE_RE
+      if text =~ CODE_RE
         text.gsub CODE_RE do |lines|
           lines = lines.split NL
           n = lines[1] =~ /\#\!ruby/ ? 2 : 1
@@ -105,11 +105,11 @@ class Manual < Shoes
             background rgb(190, 190, 190), curve: 5
             inscription link(fg('Run this', magenta)){eval mk_executable(_code), TOPLEVEL_BINDING}, '  ', align: 'right'
             if _code.include? 'te-su-to'
-              para fg(code('  ' + _code), maroon), NL, margin_left: -10
+              para fg(code('  ' + _code), maroon), NL, margin: [-10, 10, 0, 20]
             else
               #para code(highlight('  ' + _code, nil)), NL, margin: [-10, 10, 0, 20]
               para fg(code('  ' + _code), blueviolet), NL, margin: [-10, 10, 0, 20]
-	    end
+            end
           end
           para NL
         end
@@ -396,7 +396,7 @@ class Manual < Shoes
         el = edit_line width: 300
         button 'search' do
           term = el.text.strip
-	  unless term.empty?
+          unless term.empty?
             descs, methods = search term
             @f.clear{show_search_result term, descs, methods} 
           end
@@ -439,7 +439,7 @@ class Manual < Shoes
           inscription "Sub-Section under #{DOCS[chapter][0]}", stroke: lightgrey, width: 180
         else
           background black.push(0.8), curve: 5
-	  subtitle link(fg(docs_title, white)){@f.clear{title docs_title; show_page paras, true, term}}, width: 320
+          subtitle link(fg(docs_title, white)){@f.clear{title docs_title; show_page paras, true, term}}, width: 320
           inscription 'Section Header', stroke: lightgrey, width: 100
         end
       end
