@@ -31,8 +31,8 @@ class Shoes
     app.top_slot = Flow.new app.slot_attributes(app: app, left: 0, top: 0)
     
     class << app; self end.class_eval do
-      define_method(:width){shell.getSize.x - 16}
-      define_method(:height){shell.getSize.y - 38}
+      define_method(:width){shell.isDisposed ? 0 : shell.getSize.x - 16}
+      define_method(:height){shell.isDisposed ? 0 : shell.getSize.y - 38}
     end
     
     app.hided = true

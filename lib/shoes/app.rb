@@ -50,7 +50,7 @@ class Shoes
             blk[*app.mouse]
           end
         end
-        @cs.addListener Swt::SWT::MouseDown, ln
+        @cs.addListener Swt::SWT::MouseDown, ln unless @cs.isDisposed
       end
     end
     
@@ -98,7 +98,7 @@ class Shoes
               end
             end
           end
-          @cs.addPaintListener pl
+          @cs.addPaintListener pl unless @cs.isDisposed
         end
       end
     end
@@ -139,7 +139,7 @@ class Shoes
             end
           end
         end
-        @cs.addPaintListener pl
+        @cs.addPaintListener pl unless @cs.isDisposed
         clickable s, &blk
       end
     end
@@ -294,7 +294,7 @@ class Shoes
             end
           end
         end
-        @cs.addPaintListener pl
+        @cs.addPaintListener pl unless @cs.isDisposed
       end
     end
     
@@ -343,7 +343,7 @@ class Shoes
             end
           end
         end
-        @cs.addPaintListener pl
+        @cs.addPaintListener pl unless @cs.isDisposed
         clickable s, &blk
       end
     end
@@ -393,7 +393,7 @@ class Shoes
             end
           end
         end
-        @cs.addPaintListener pl
+        @cs.addPaintListener pl unless @cs.isDisposed
         clickable s, &blk
       end
     end
@@ -457,7 +457,7 @@ class Shoes
             end
           end
         end
-        @cs.addPaintListener pl
+        @cs.addPaintListener pl unless @cs.isDisposed
         clickable s, &blk
       end
     end
@@ -512,7 +512,7 @@ class Shoes
             end
           end
         end
-        @cs.addPaintListener pl
+        @cs.addPaintListener pl unless @cs.isDisposed
         clickable s, &blk
       end
     end
@@ -595,7 +595,7 @@ class Shoes
               end
             end
           end
-          @cs.addPaintListener pl
+          @cs.addPaintListener pl unless @cs.isDisposed
         end
         oval 0, 0, 0, strokewidth: 0 # A monkey patch for sample 10. I don't know why this line is necessary... xx-P
       end
@@ -629,7 +629,7 @@ class Shoes
               end
             end
           end
-          @cs.addPaintListener pl
+          @cs.addPaintListener pl unless @cs.isDisposed
         end
       end
     end
@@ -670,8 +670,10 @@ class Shoes
     end
 
     def flush
-      Shoes.call_back_procs self
-      @cs.redraw unless @cs.isDisposed
+      unless @cs.isDisposed
+        Shoes.call_back_procs self
+        @cs.redraw
+      end
     end
 
     def aflush

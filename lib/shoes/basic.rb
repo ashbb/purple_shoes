@@ -96,7 +96,7 @@ class Shoes
     
     def toggle
       @hided = !@hided
-      @app.cs.redraw @left, @top, @width, @height, false
+      @app.cs.redraw @left, @top, @width, @height, false unless @app.cs.isDisposed
       self
     end
     

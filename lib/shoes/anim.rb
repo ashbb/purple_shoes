@@ -7,7 +7,12 @@ class Shoes
     def run
       if continue? 
         @blk[@i = pause? ? @i : @i+1]
-        @cs.redraw if !@cs.isDisposed and @repaint
+        if @cs.isDisposed
+          stop
+          return
+        elsif @repaint
+          @cs.redraw
+        end
         Shoes.display.timerExec @n, self
       end
     end

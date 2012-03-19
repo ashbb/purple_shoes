@@ -2,7 +2,7 @@ class Shoes
   class Basic
     def style args
       set_args args
-      @app.cs.isDisposed ? exit : @app.cs.redraw(@left, @top, @width, @height, false)
+      @app.cs.redraw @left, @top, @width, @height, false unless @app.cs.isDisposed
     end
     
     def set_args args
@@ -15,7 +15,7 @@ class Shoes
   class TextBlock
     def style args
       set_args args
-      exit if @app.cs.isDisposed
+      return if @app.cs.isDisposed
 
       @width = (@left + parent.width <= @app.width) ? parent.width : @app.width - @left
       @width = initials[:width] unless initials[:width].zero?
@@ -24,7 +24,7 @@ class Shoes
       if @real
         @real.setWidth @width
         @height = @real.getBounds(0, @markup.length - 1).height
-        @app.cs.isDisposed ? exit : @app.cs.redraw(@left, @top, @width, @height, false)
+        @app.cs.redraw @left, @top, @width, @height, false unless @app.cs.isDisposed
       else
         m = self.class.to_s.downcase[7..-1]
         @app.send m, @markup, @args.merge({width: @width, create_real: true, nocontrol: true})
