@@ -4,7 +4,7 @@ require 'nkf'
 class Manual < Shoes
   url '/', :index
   url '/manual/(\d+)', :index
-  url '/mk_search_page', :mk_search_page
+  #url '/mk_search_page', :mk_search_page
 
   include Hpricot
   #include HH::Markup
@@ -16,7 +16,7 @@ class Manual < Shoes
     self.scroll_top = 0
     TOC.clear; TOC_LIST.clear
     table_of_contents.each{|toc| TOC << toc}
-    manual *get_title_and_desc(pnum.to_i)
+    pnum == '999' ? mk_search_page : manual( *get_title_and_desc(pnum.to_i) )
   end
   
   def get_title_and_desc pnum
@@ -70,7 +70,7 @@ class Manual < Shoes
     flow width: 0.2, margin_left: 10 do
       flow(margin_right: 20) do
         background black.push(0.7), curve: 5
-        inscription "Not findng it?\n", 'Try ', link(fg 'Search', white){visit '/mk_search_page'}, '!', align: 'center', stroke: lightgrey
+        inscription "Not findng it?\n", 'Try ', link(fg 'Search', white){visit '/manual/999'}, '!', align: 'center', stroke: lightgrey
       end
       stack(height: 10){}
       para *TOC
@@ -134,14 +134,14 @@ class Manual < Shoes
       gsub(/\[\[BR\]\]/i, "\n")
     txts = txt.split(/(\[\[\S+?\]\])/m).map{|s| s.split(/(\[\[\S+? .+?\]\])/m)}.flatten
     case txts[0]
-    when /\A==== (.+) ====/; caption marker($1, term), size: 24
-    when /\A=== (.+) ===/; tagline marker($1, term), size: 12, weight: 'bold'
-    when /\A== (.+) ==/; subtitle marker($1, term)
-    when /\A= (.+) =/; title marker($1, term)
+    when /\A==== (.+) ====/; caption *marker($1, term), size: 24
+    when /\A=== (.+) ===/; tagline *marker($1, term), size: 12, weight: 'bold'
+    when /\A== (.+) ==/; subtitle *marker($1, term)
+    when /\A= (.+) =/; title *marker($1, term)
     when /\A\{COLORS\}/; flow{color_page}
     when /\A\{SAMPLES\}/; flow{sample_page}
     else
-      para *mk_links(txts, term), NL, (intro and i.zero?) ? {size: 16} : ''
+      para *mk_links(txts, term).flatten, NL, (intro and i.zero?) ? {size: 16} : ''
       txt.gsub IMAGE_RE do
         para NL
         image File.join(DIR, "../static/#{$3}"), eval("{#{$2 or "margin_left: 50"}}")
@@ -151,8 +151,8 @@ class Manual < Shoes
 
   def mk_links txts, term = nil
     txts.map{|txt| txt.gsub(IMAGE_RE, '')}.
-      map{|txt| txt =~ /\[\[(\S+?)\]\]/m ? (t = $1.split('.'); link(ins marker(t.last, term)){visit "/manual/#{find_pnum t.first}"}) : txt}.
-      map{|txt| txt =~ /\[\[(\S+?) (.+?)\]\]/m ? (url = $1; link(ins marker($2, term)){visit url =~ /^http/ ? url : "/manual/#{find_pnum url}"}) : 
+      map{|txt| txt =~ /\[\[(\S+?)\]\]/m ? (t = $1.split('.'); link(ins *marker(t.last, term)){visit "/manual/#{find_pnum t.first}"}) : txt}.
+      map{|txt| txt =~ /\[\[(\S+?) (.+?)\]\]/m ? (url = $1; link(ins *marker($2, term)){visit url =~ /^http/ ? url : "/manual/#{find_pnum url}"}) : 
       (txt.is_a?(String) ? marker(txt, term) : txt)}
   end
 
@@ -398,7 +398,8 @@ class Manual < Shoes
           term = el.text.strip
           unless term.empty?
             descs, methods = search term
-            @f.clear{show_search_result term, descs, methods} 
+            @f.clear{show_search_result term, descs, methods}
+            aflush
           end
         end
         stack(height: 20){}
@@ -427,7 +428,7 @@ class Manual < Shoes
       flow margin: [10, 10, 0, 5] do
         background rgb(200, 200, 200), curve: 5
         para "#{DOCS[chapter][0]}: #{docs_title.sub('The', '').split(' ').first}: ", 
-          link(docs_method[0]){@f.clear{title docs_title; show_methods [docs_method], term}}, NL
+          link(docs_method[0]){@f.clear{title docs_title; show_methods [docs_method], term}; aflush}, NL
       end
       stack(height: 2){}
     end
@@ -435,11 +436,11 @@ class Manual < Shoes
       flow margin_left: 10 do
         if section
           background gray, curve: 5
-          tagline link(fg(docs_title, white)){@f.clear{title docs_title; show_page paras, true, term}}, width: 320
+          tagline link(fg(docs_title, white)){@f.clear{title docs_title; show_page paras, true, term}; aflush}, width: 320
           inscription "Sub-Section under #{DOCS[chapter][0]}", stroke: lightgrey, width: 180
         else
           background black.push(0.8), curve: 5
-          subtitle link(fg(docs_title, white)){@f.clear{title docs_title; show_page paras, true, term}}, width: 320
+          subtitle link(fg(docs_title, white)){@f.clear{title docs_title; show_page paras, true, term}; aflush}, width: 320
           inscription 'Section Header', stroke: lightgrey, width: 100
         end
       end
@@ -449,7 +450,12 @@ class Manual < Shoes
   end
 
   def marker txt, term
-    term && txt ? txt.gsub(term, bg(term, yellow)) : txt
+    if term && txt
+      tmp = txt.split(term).map{|s| [s, bg(term, yellow)]}.flatten
+      txt =~ /#{term}$/ ? tmp : tmp[0...-1]
+    else
+      [txt]
+    end
   end
 
   IMAGE_RE = /\!(\{([^}\n]+)\})?([^!\n]+\.\w+)\!/
