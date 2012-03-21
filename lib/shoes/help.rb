@@ -238,7 +238,8 @@ class Manual < Shoes
   end
 
   def html_manual
-    dir = ask_save_folder
+    #dir = ask_save_folder
+    dir = "c:/tmp/purple_shoes" # temporary change until ask_save_folder method is implemented
     return unless dir
     FileUtils.mkdir_p File.join(dir, 'static')
     FileUtils.mkdir_p File.join(dir, 'snapshots')
@@ -290,7 +291,7 @@ class Manual < Shoes
                     when /\A\{COLORS\}/
                       COLORS.each do |color, v|
                         f = v.dark? ? "white" : "black"
-                        div.color(style: "background: #{color}; color: #{f}"){h3 color; p("rgb(%d, %d, %d)" % v)}
+                        div.color(style: "background: #{color}; color: #{f}"){h3 color.to_s; p("rgb(%d, %d, %d)" % v)}
                       end
                     when /\A\{SAMPLES\}/
                       man.mk_sample_names.each do |name|
@@ -317,7 +318,7 @@ class Manual < Shoes
                 n ? (sig, val = m[0...n-1], m[n-1..-1]) : (sig, val = m, nil)
                 aname = sig[/^[^(=]+=?/].gsub(/\s/, '').downcase
                 a name: aname
-                div.method do
+                div.divmethod do
                   a sig, href: "##{aname}"
                   text val if val
                 end
