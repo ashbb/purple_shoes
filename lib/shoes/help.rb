@@ -238,8 +238,7 @@ class Manual < Shoes
   end
 
   def html_manual
-    #dir = ask_save_folder
-    dir = "c:/tmp/purple_shoes" # temporary change until ask_save_folder method is implemented
+    dir = ask_save_folder
     return unless dir
     FileUtils.mkdir_p File.join(dir, 'static')
     FileUtils.mkdir_p File.join(dir, 'snapshots')

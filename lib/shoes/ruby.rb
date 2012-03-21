@@ -16,16 +16,24 @@ class Object
   end
 
   def ask_open_file
-    dialog_chooser 'Open File...', Swt::SWT::OPEN
+    dialog_chooser 'Open File...'
   end
   
   def ask_save_file
-    dialog_chooser 'Save File...', Swt::SWT::OPEN
+    dialog_chooser 'Save File...'
+  end
+
+  def ask_open_folder
+    dialog_chooser 'Open Folder...', :folder
+  end
+
+  def ask_save_folder
+    dialog_chooser 'Save Folder...', :folder
   end
   
-  def dialog_chooser title, style
+  def dialog_chooser title, folder=false, style=Swt::SWT::OPEN
     shell = Swt::Shell.new Shoes.display
-    fd = Swt::FileDialog.new shell, style
+    fd = folder ? Swt::DirectoryDialog.new(shell, style) : Swt::FileDialog.new(shell, style)
     fd.setText title
     fd.open
   end
