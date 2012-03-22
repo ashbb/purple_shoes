@@ -275,7 +275,7 @@ class Manual < Shoes
               h1 title
 
               paras = man.mk_paras desc
-              div.intro{p man.manual_p(paras.shift)}
+              div.intro{text man.manual_p(paras.shift)}
 
               html_paragraph = proc do 
                 paras.each do |str|
@@ -297,7 +297,7 @@ class Manual < Shoes
                         name = name[0...-3]
                         div.sample do
                           h3 name
-                          p '<a href="snapshots/%s.png"><img src="snapshots/%s.png" alt="%s" border=0 width=50 height=50></a>' % [name, name, name]
+                          text '<a href="snapshots/%s.png"><img src="snapshots/%s.png" alt="%s" border=0 width=50 height=50></a>' % [name, name, name]
                         end
                       end
                     when /\A \* (.+)/m
