@@ -1,0 +1,23 @@
+#!/usr/bin/env ruby
+require File.dirname(__FILE__) + '/../lib/purple_shoes'
+
+arg = ARGV[0]
+path = File.expand_path(arg.gsub(/\\/, "/")) if arg
+ARGV[0] = path
+
+case arg
+when '-m', '-men'
+  Shoes.show_manual
+when '-mjp'
+  Shoes.show_manual 'Japanese'
+when '-h', nil
+  puts "Usage: pshoes (options or app.rb)
+  -m, -men     Open the built-in English manual.
+  -mjp         Open the built-in Japanese manual.
+  -v           Display the version info.
+  -h           Show this message."
+when '-v'
+  puts IO.read File.join(DIR, '../VERSION')
+else
+  load path
+end
