@@ -11,7 +11,7 @@ end
 Jeweler::Tasks.new do |gem|
   gem.name = "purple_shoes"
   gem.summary = %Q{Purple Shoes}
-  gem.description = %Q{Purple Shoes is one of colorful Shoes, written in JRuby ans SWT.}
+  gem.description = %Q{Purple Shoes is one of colorful Shoes, written in JRuby and SWT.}
   gem.email = "ashbbb@gmail.com"
   gem.executables = ["pshoes"]
   gem.homepage = "http://github.com/ashbb/purple_shoes"
