@@ -1,4 +1,4 @@
-require '../lib/purple_shoes'
+require 'purple_shoes'
 
 Shoes.app width: 300, height: 300 do
   fname = File.join(DIR, '../static/purple_shoes-icon.png')

@@ -1,4 +1,4 @@
-require '../lib/purple_shoes'
+require 'purple_shoes'
 
 Shoes.app width: 400, height: 400 do
   #cap [:rect, :curve, :project][rand 3]

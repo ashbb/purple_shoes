@@ -1,4 +1,4 @@
-require '../lib/purple_shoes'
+require 'purple_shoes'
 
 Shoes.app height: 30 do
   button "Boing WAV (740ms)" do

@@ -1,5 +1,5 @@
 # original code is Red Shoes class-book.rb by _why
-require '../lib/purple_shoes'
+require 'purple_shoes'
 require 'yaml'
 
 class Book < Shoes

@@ -4,7 +4,7 @@
 # Original code for Red Shoes is: https://github.com/shoes/shoes/blob/master/samples/good-clock.rb
 # The following is a snippet modified for Purple Shoes, using rotate instead of clear.
 #
-require '../lib/purple_shoes'
+require 'purple_shoes'
 
 Shoes.app height: 260, width: 250 do
   def draw_background

@@ -1,6 +1,6 @@
 # Almost same code as sample22.rb : http://shoes-tutorial-note.heroku.com/html/00508_The_Widget_class.html
 
-require '../lib/purple_shoes'
+require 'purple_shoes'
 #require 'green_shoes'
 class Answer < Shoes::Widget
   attr_reader :mark

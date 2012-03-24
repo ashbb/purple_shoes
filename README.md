@@ -3,28 +3,37 @@ Purple Shoes
 
 Porting [Green Shoes](https://github.com/ashbb/green_shoes) with **JRuby** and **SWT**. 
 
-Install JRuby and SWT for Windows
-----------------------------------
+Install JRuby and Purple Shoes for Windows
+-----------------------------------------
 
-- download [JRuby 1.6.7 Windows Executable](http://jruby.org/download)
-- install JRuby into c:\jruby
-- cd c:\jruby
-- C:\jruby>jruby --1.9 c:\jruby\bin\gem install swt
+- download and install [JRuby 1.6.7 Windows Executable](http://jruby.org/download)
+- jruby --1.9 -S gem install purple_shoes
 
-Install JRuby and SWT for OS X
-------------------------------
+The [swt](http://rubygems.org/gems/swt) gem will be installed automatically.
+
+Install JRuby and Purple Shoes for Linux and OS X
+-----------------------------------------------
 
 - install [rvm](http://beginrescueend.com/)
 - rvm install jruby
-- gem install swt
+- gem install purple_shoes
 
-Run a sample snippet
---------------------
+Look at the command line help
+-----------------------------
 
-- cd c:\tmp
-- git clone git://github.com/ashbb/purple_shoes.git
-- cd purple_shoes\samples
-- jruby --1.9 sample2.rb
+```
+jruby --1.9 -S pshoes -h
+```
+
+<pre>
+Usage: pshoes (options or app.rb)
+  -m, -men     Open the built-in English manual.
+  -mjp         Open the built-in Japanese manual.
+  -v           Display the version info.
+  -h           Show this message.
+</pre>
+
+**Note**: If you set an environment variable like this: `set JRUBY_OPTS=--1.9`, you can do just only `pshoes -h`.
 
 
 Note to OSX Users
@@ -37,7 +46,11 @@ jruby -J-XstartOnFirstThread --1.9 sample2.rb
 ```
 
 
-Snapshot
----------
+Open the built-in manual
+-----------------------
 
-![snapshot](https://github.com/ashbb/purple_shoes/raw/master/snapshots/sample2.png)
+```
+jruby --1.9 -S pshoes -m
+```
+
+![snapshot](https://github.com/ashbb/purple_shoes/raw/master/manual.png)

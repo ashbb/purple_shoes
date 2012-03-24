@@ -1,4 +1,4 @@
-require '../lib/purple_shoes'
+require 'purple_shoes'
 
 TEXT =<<EOS
     Lorem ipsum dolor sit amet, consectetur adipisicing elit, \

@@ -1,4 +1,4 @@
-require '../lib/purple_shoes'
+require 'purple_shoes'
 
 Shoes.app do
   flow width: 0.3, height: 0.5 do

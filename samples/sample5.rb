@@ -1,4 +1,4 @@
-require '../lib/purple_shoes'
+require 'purple_shoes'
 
 Shoes.app width: 320, height: 32 do
   5.times do |i|

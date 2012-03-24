@@ -1,5 +1,5 @@
 # For Christmas
-require '../lib/purple_shoes'
+require 'purple_shoes'
 
 Shoes.app width: 330, height: 300 do
   nostroke

@@ -1,4 +1,4 @@
-require '../lib/purple_shoes'
+require 'purple_shoes'
 
 Shoes.app width: 300, height: 100 do
   background forestgreen, curve: 30

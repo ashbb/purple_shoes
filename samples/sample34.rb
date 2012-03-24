@@ -1,6 +1,6 @@
 # Refer to NKS (Nobody Knows Shoes) page 21.
 
-require '../lib/purple_shoes'
+require 'purple_shoes'
 
 Shoes.app width: 280, height: 350 do
   flow width: 1.0, margin: 10 do

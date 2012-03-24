@@ -1,6 +1,6 @@
 # Same snippet as http://shoes-tutorial-note.heroku.com/html/00402_No.1_para.html
 
-require '../lib/purple_shoes'
+require 'purple_shoes'
 
 Shoes.app :width => 240, :height => 95 do
   para 'Testing, test, test. ',

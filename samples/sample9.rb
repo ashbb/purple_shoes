@@ -1,4 +1,4 @@
-require '../lib/purple_shoes'
+require 'purple_shoes'
 
 Shoes.app do
   flow(width: 300){3.times{|i| button "hello#{i}"}}

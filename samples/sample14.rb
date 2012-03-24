@@ -10,7 +10,7 @@
 # directions. As the circles move they change size and color. 
 #
 
-require '../lib/purple_shoes'
+require 'purple_shoes'
 
 degree = 0
 color = 0

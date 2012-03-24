@@ -1,4 +1,4 @@
-require '../lib/purple_shoes'
+require 'purple_shoes'
 
 # The same as sample60.rb on Shoes Tutorial Note
 Shoes.app :width => 300, :height => 300 do

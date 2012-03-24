@@ -1,6 +1,6 @@
 # almost the same code as sample58 on (Red) Shoes Tutorial Note: 
 # http://shoes-tutorial-note.heroku.com/html/00704_Assignment_4_Pong_in_Shoes.html
-require '../lib/purple_shoes'
+require 'purple_shoes'
 
 Shoes.app width: 400, height: 400 do
   vx, vy = 3, 4

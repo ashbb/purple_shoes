@@ -1,4 +1,4 @@
-require '../lib/purple_shoes'
+require 'purple_shoes'
 
 xspeed, yspeed = 10, 6
 xdir, ydir = 1, 1

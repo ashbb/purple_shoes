@@ -1,6 +1,6 @@
 # original code is http://shoes-tutorial-note.heroku.com/html/00409_No.9_Shoes.url.html
 
-require '../lib/purple_shoes'
+require 'purple_shoes'
 
 class PhotoFrame < Shoes
   url '/', :index

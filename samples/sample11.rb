@@ -1,6 +1,6 @@
 # Same snippet as http://shoes.heroku.com/manual/Events.html#motion{|left,top|...}
 
-require '../lib/purple_shoes'
+require 'purple_shoes'
 
 Shoes.app width: 200, height: 200 do
   background black
