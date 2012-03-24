@@ -49,6 +49,8 @@ jruby -J-XstartOnFirstThread --1.9 sample2.rb
 Open the built-in manual
 -----------------------
 
+**Note**: Need to install Hpricot: `jruby --1.9 -S gem install hpricot`
+
 ```
 jruby --1.9 -S pshoes -m
 ```

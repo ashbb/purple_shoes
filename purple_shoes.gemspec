@@ -5,12 +5,12 @@
 
 Gem::Specification.new do |s|
   s.name = "purple_shoes"
-  s.version = "0.0.101"
+  s.version = "0.0.103"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["ashbb"]
   s.date = "2012-03-24"
-  s.description = "Purple Shoes is one of colorful Shoes, written in JRuby ans SWT."
+  s.description = "Purple Shoes is one of colorful Shoes, written in JRuby and SWT."
   s.email = "ashbbb@gmail.com"
   s.executables = ["pshoes"]
   s.extra_rdoc_files = [
