@@ -51,6 +51,7 @@ class Shoes
     shell.addControlListener cl
 
     vb = shell.getVerticalBar
+    vb.setIncrement 10
     vb.setVisible false
     ln = Swt::SelectionListener.new
     class << ln; self end.
