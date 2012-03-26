@@ -19,7 +19,15 @@ class Shoes
 
     def visit url
       if url =~ /^(http|https):\/\//
-        system "start #{url}"
+        require 'rbconfig'
+        Thread.new do
+          case RbConfig::CONFIG['host_os']
+          when /mswin/; system "start #{url}"
+          when /linux/; system("/etc/alternatives/x-www-browser #{url} &")
+          else
+            puts "Sorry, your platform [#{RUBY_PLATFORM}] is not supported..."
+          end
+        end
       else
         $urls.each{|k, v| clear{init_app_vars; @location = url; v.call self, $1} if k =~ url}
       end
