@@ -38,7 +38,7 @@ just check out some screenshots, to give you an idea of what you can do.
 
 ==== Mac OS X ====
 
-Purple Shoes is confirmed on Apple Mac OSX10.5 PPC via X11. 
+Purple Shoes is confirmed on Apple Mac OS X. 
 !{margin_left: 100}../snapshots/sample3-osx.png!
 
 This is the `sample3.rb` on Mac OS X.  
@@ -48,19 +48,16 @@ All circles are drawn randomly. You can draw and animate shapes in Purple Shoes.
 ==== Windows ====
 
 Purple Shoes is confirmed to run on '''Microsoft Windows XP''' and '''Windows 7'''.
-!{margin_left: 0}../snapshots/sample33.png!
+!{margin_left: 100}../snapshots/sample21.png!
 
-Above is pictured the `sample33.rb` running on Windows 7.  Purple Shoes 
-has three extended libraries for chipmunk physics, bloopsaphone and 3D texture 
-mapping. First two are binary libraries, so far work on Windows only.
+Above is pictured the `sample21.rb` running on Windows 7. 
 
 ==== Linux ====
 
-Here's a screenshot of the `sample44.rb` running on '''Ubuntu
-on VirtualBox for Windows'''. !{margin_left: 130}../snapshots/sample44-linux.png!
+Here's a screenshot of the `sample44.rb` running on '''Ubuntu'''. !{margin_left: 130}../snapshots/sample44-linux.png!
 
 This example is also draws ovals and lines to build the clock, which is animated to
-show or hide itself several times each second.
+rotate clock hands several times each second.
 
 Notice the text on the top of the app, showing the current time. Purple Shoes has the
 skills to layout words using any color, bold, italics, underlines, and supports
