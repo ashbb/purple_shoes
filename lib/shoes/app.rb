@@ -95,7 +95,7 @@ class Shoes
           instance_eval do
             define_method :paintControl do |e|
               gc = e.gc
-              s.dps << gc
+              Shoes.dps_reset s.dps, gc
               tl.setText s.markup
               s.app.set_styles s, args
               tl.setWidth s.width if s.width > 0
@@ -133,7 +133,7 @@ class Shoes
         instance_eval do
           define_method :paintControl do |e|
             gc = e.gc
-            s.dps << gc
+            Shoes.dps_reset s.dps, gc
             unless s.hided
               Shoes.set_rotate e.gc, *s.rotate do
                 if s.initials[:width].zero? and s.initials[:height].zero?
@@ -281,7 +281,7 @@ class Shoes
           define_method :paintControl do |e|
             unless s.hided
               gc = e.gc
-              s.dps << gc
+              Shoes.dps_reset s.dps, gc
               gc.setAntialias Swt::SWT::ON
               sw, pat1, pat2 = s.strokewidth, s.stroke, s.fill
               Shoes.set_rotate gc, *s.rotate do
@@ -332,7 +332,7 @@ class Shoes
           define_method :paintControl do |e|
             unless s.hided
               gc = e.gc
-              s.dps << gc
+              Shoes.dps_reset s.dps, gc
               gc.setAntialias Swt::SWT::ON
               sw, pat1, pat2 = s.strokewidth, s.stroke, s.fill
               Shoes.set_rotate gc, *s.rotate do
@@ -382,7 +382,7 @@ class Shoes
           define_method :paintControl do |e|
             unless s.hided
               gc = e.gc
-              s.dps << gc
+              Shoes.dps_reset s.dps, gc
               gc.setAntialias Swt::SWT::ON
               sw, pat1, pat2 = s.strokewidth, s.stroke, s.fill
               Shoes.set_rotate gc, *s.rotate do
@@ -450,7 +450,7 @@ class Shoes
           define_method :paintControl do |e|
             unless s.hided
               gc = e.gc
-              s.dps << gc
+              Shoes.dps_reset s.dps, gc
               gc.setAntialias Swt::SWT::ON
               sw, pat = s.strokewidth, s.stroke
               Shoes.set_rotate gc, *s.rotate do
@@ -493,7 +493,7 @@ class Shoes
           define_method :paintControl do |e|
             unless s.hided
               gc = e.gc
-              s.dps << gc
+              Shoes.dps_reset s.dps, gc
               gc.setAntialias Swt::SWT::ON
               sw, pat1, pat2 = s.strokewidth, s.stroke, s.fill
               outer, inner, points, left, top = s.outer, s.inner, s.points, s.left, s.top
@@ -596,7 +596,7 @@ class Shoes
             define_method :paintControl do |e|
               unless s.hided
                 gc = e.gc
-                s.dps << gc
+                Shoes.dps_reset s.dps, gc
                 gc.setAntialias Swt::SWT::ON
                 Shoes.set_pattern s, gc, pat
                 gc.fillRoundRectangle s.left, s.top, s.width, s.height, s.curve*2, s.curve*2
@@ -627,7 +627,7 @@ class Shoes
             define_method :paintControl do |e|
               unless s.hided
                 gc = e.gc
-                s.dps << gc
+                Shoes.dps_reset s.dps, gc
                 gc.setAntialias Swt::SWT::ON
                 Shoes.set_pattern s, gc, pat, :Foreground
                 if sw > 0

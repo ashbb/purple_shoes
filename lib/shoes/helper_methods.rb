@@ -292,4 +292,10 @@ class Shoes
     tr.translate -left, -top
     gc.setTransform tr
   end
+
+  def self.dps_reset dps, gc
+    dps.each{|dp| dp.dispose if dp}
+    dps.clear
+    dps << gc
+  end
 end
