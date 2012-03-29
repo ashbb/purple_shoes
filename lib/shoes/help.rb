@@ -120,6 +120,7 @@ class Manual < Shoes
         $1.split(/^ \* /).each do |txt|
           image File.join(DIR, '../static/purple_shoes-icon.png'), width: 20, height: 20
           flow(width: 510){show_paragraph txt, intro, i, term}
+          para NL
         end
       else
         show_paragraph text, intro, i, term
