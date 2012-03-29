@@ -68,22 +68,22 @@ loading fonts.
 Okay, on to installing Purple Shoes. I'm sure you're wondering: do I need to install
 Ruby? Do I need to unzip anything? What commands do I need to type?
 
-Yeah. You need to install Ruby and Gems. But, no need to worry about it.
+Yeah. You need to install JRuby and Gems. But, no need to worry about it.
 We'll talk through all the steps.
 
 ==== Step 1: Installing Purple Shoes ====
 
-At first, install Ruby. On '''Windows''', 
-visit the site of [[http://rubyinstaller.org/ RubyInstaller for Windows]] to 
-download the latest '''RubyInstaller 1.9.2 or 1.9.3'''.
+At first, install JRuby. On '''Windows''', 
+visit the site of [[http://jruby.org/download JRuby Downloads]] to 
+download the latest '''JRuby 1.6.7 Windows Executable'''.
 
 Then just do the following one line.
 
- * gem install green_shoes
+ * jruby --1.9 -S gem install purple_shoes
 
 That's all. Too easy?
 
-'''Note:''' green_shoes gem is on [[http://rubygems.org/gems/green_shoes RubyGems.org]].
+'''Note:''' purple_shoes gem is on [[http://rubygems.org/gems/purple_shoes RubyGems.org]].
 If you get some errors of rdoc, try to add `--no-ri --no-rdoc` option.
 
 ==== Step 2: Start a New Text File ====
@@ -99,7 +99,7 @@ Here are a few ways to create a blank text file:
 Now, in your blank window, type in the following:
 
 {{{
- require 'green_shoes'
+ require 'purple_shoes'
  Shoes.app do
    para "Welcome to Shoes"
  end
@@ -111,7 +111,7 @@ Save to your desktop as `welcome.rb`.
 
 To run your program, just open console window and run the following.
 
- * ruby welcome.rb !man-editor-osx.png!
+ * jruby --1.9 welcome.rb !man-editor-osx.png!
 
 So, not much of a program yet.  But it's something!  You've got the knack of it, at least!
 
@@ -126,10 +126,9 @@ Still, Shoes does have a few widgets like buttons and edit boxes. And many
 missing elements (like tabbed controls or toolbars) can be simulated with
 images.
 
-Shoes is written in part thanks to a very good art engine called Cairo, which
-is used for drawing with shapes and colors. Also thanks to an awesome text 
-lay out engine called Pango. In this way, Shoes is inspired by
-NodeBox and Processing, two very good languages for drawing animated graphics.
+Shoes is written in part thanks to a very good graphical widget toolkit called '''SWT'''. 
+In this way, Shoes is inspired by NodeBox and Processing, two very good languages 
+for drawing animated graphics.
 
 == The Rules of Purple Shoes ==
 
@@ -183,7 +182,7 @@ block changes `self`.
 
 The other block is the `stack` block.  That block does NOT change self.
 
-'''For what reason does the `app` block change self?'''  Let's start by
+'''For what reason does the''' `app` '''block change self?'''  Let's start by
 spelling out that last example completely.
 
 {{{
@@ -214,7 +213,7 @@ All of the `self`s in the above example are the App object.  Purple Shoes uses R
 
 These instance variables will all end up inside the App object.
 
-'''Whenever you create a new Shoes.app window, `self` is also changed.'''
+'''Whenever you create a new Shoes.app window,''' `self` '''is also changed.'''
 
 {{{
  Shoes.app title: "MAIN" do
@@ -308,7 +307,7 @@ As you can imagine, the `app` object changes `self` to the App object.
 
 So the rules here are:
 
-1. '''Methods named "app" or which create new windows alter `self` to the App
+1. '''Methods named "app" or which create new windows alter''' `self` '''to the App
 object.'''[[BR]](This is true for both Shoes.app and Slot.app, as well as
 [[Element.window]] and [[Element.dialog]].)[[BR]]
 2. '''Blocks attached to stacks, flows or any manipulation method (such as
@@ -349,6 +348,7 @@ One difference between normal slots and nested window slots is that the latter
 can have scrollbars.
 
 {{{
+ # Not yet available
  Shoes.app do
    stack width: 200, height: 200, scroll: true do
      background "#DFA"
@@ -364,8 +364,8 @@ These nested windows require more memory.  They tax the application a bit more.
 So if you're experiencing some slowness with hundreds of fixed-height slots,
 try a different approach.
 
-'''Note:''' Fixed height magic (the slot becomes a nested window) is implemented 
-in Purple Shoes as a trial so far. Need to add `flush` method.
+'''Note:''' Fixed height magic (the slot becomes a nested window) is not implemented 
+in Purple Shoes.
 
 {{{
  Shoes.app do
@@ -625,13 +625,14 @@ are trying to sniff out what release of Purple Shoes is running.
 
 '''FONTS''' is a complete list of fonts available to the app. 
 
-'''VERSION''' is a Purple Shoes version. 
+'''SHOES_VERSION''' is a Purple Shoes version. 
 
 {{{
  Shoes.app do
-   para VERSION
+   para SHOES_VERSION
    para fg(DIR, red)
-   image File.join(DIR, '../static/gshoes-icon.png')
+   image File.join(DIR, 
+     '../static/purple_shoes-icon.png')
    para fg(FONTS.join(', '), green)
    para COLORS.map{|k, v| [k, v]}
  end
