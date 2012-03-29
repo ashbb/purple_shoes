@@ -129,9 +129,7 @@ class Manual < Shoes
   end
   
   def show_paragraph txt, intro, i, term = nil
-    txt = txt.gsub("\n", ' ').gsub(/`(.+?)`/m){fg code($1), rgb(255, 30, 0)}.
-      gsub(/\^(.+?)\^/m, '\1').gsub(/'''(.+?)'''/m){strong($1)}.gsub(/''(.+?)''/m){em($1)}.
-      gsub(/\[\[BR\]\]/i, "\n")
+    txt = txt.gsub("\n", ' ').gsub(/\^(.+?)\^/m, '\1').gsub(/\[\[BR\]\]/i, "\n")
     txts = txt.split(/(\[\[\S+?\]\])/m).map{|s| s.split(/(\[\[\S+? .+?\]\])/m)}.flatten
     case txts[0]
     when /\A==== (.+) ====/; caption *marker($1, term), size: 24
@@ -141,7 +139,7 @@ class Manual < Shoes
     when /\A\{COLORS\}/; flow{color_page}
     when /\A\{SAMPLES\}/; flow{sample_page}
     else
-      para *mk_links(txts, term).flatten, NL, (intro and i.zero?) ? {size: 16} : ''
+      para *mk_deco(mk_links(txts, term).flatten), NL, (intro and i.zero?) ? {size: 16} : ''
       txt.gsub IMAGE_RE do
         para NL
         image File.join(DIR, "../static/#{$3}"), eval("{#{$2 or "margin_left: 50"}}")
@@ -456,6 +454,27 @@ class Manual < Shoes
     else
       [txt]
     end
+  end
+  
+  def mk_deco datas
+    datas = decoration(datas, /`(.+?)`/m){|s| fg code(s), rgb(255, 30, 0)}
+    datas = decoration(datas, /'''(.+?)'''/m){|s| strong s}
+    decoration(datas, /''(.+?)''/m){|s| em s}
+  end
+  
+  def decoration datas, re, &blk
+    datas.map do |data|
+      if data.is_a? String
+        txts = [data]
+        data.match re do |md|
+          n = data.index md[0]
+          txts = [data[0...n], blk[md[1]], decoration([data[n+md[0].length..-1]], re, &blk)]
+        end
+        txts
+      else
+        data
+      end
+    end.flatten  
   end
 
   IMAGE_RE = /\!(\{([^}\n]+)\})?([^!\n]+\.\w+)\!/
