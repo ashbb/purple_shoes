@@ -15,6 +15,13 @@ class Object
     mb.open
   end
 
+  def confirm msg
+    shell = Swt::Shell.new Shoes.display
+    mb = Swt::MessageBox.new shell, Swt::SWT::YES | Swt::SWT::NO | Swt::SWT::ICON_QUESTION
+    mb.setMessage msg.to_s
+    mb.open == Swt::SWT::YES ? true : false
+  end
+
   def ask_open_file
     dialog_chooser 'Open File...'
   end
