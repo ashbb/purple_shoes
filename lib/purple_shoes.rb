@@ -9,6 +9,7 @@ Types = module Shoes; self end
 
 module Shoes
   DIR = Pathname.new(__FILE__).realpath.dirname.to_s
+  FONTS = []
   SHOES_VERSION = IO.read(File.join(DIR, '../VERSION')).chomp
   BASIC_ATTRIBUTES_DEFAULT = {left: 0, top: 0, width: 0, height: 0, angle: 0, curve: 0}
   SLOT_ATTRIBUTES_DEFAULT = {left: nil, top: nil, width: 1.0, height: 0}

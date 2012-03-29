@@ -14,6 +14,7 @@ class Shoes
     args[:top] ||= 0
 
     @display ||= Swt::Display.new
+    (@display.getFontList(nil, true).each{|f| FONTS << f.getName}; FONTS.uniq!) if FONTS.empty?
     shell = Swt::Shell.new @display, Swt::SWT::SHELL_TRIM | Swt::SWT::V_SCROLL
     shell.setSize args[:width] + 16, args[:height] + 38
     shell.setText args[:title]
