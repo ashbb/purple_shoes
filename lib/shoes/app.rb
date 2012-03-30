@@ -677,6 +677,10 @@ class Shoes
       shell.getVerticalBar.getMaximum - 10
     end
 
+    def close
+      @shell.close
+    end
+
     def flush
       unless @cs.isDisposed
         Shoes.call_back_procs self
@@ -691,6 +695,11 @@ class Shoes
         @hided = false
         @cs.redraw unless @cs.isDisposed
       end
+    end
+
+    def gray *attrs
+      g, a = attrs
+      g ? rgb(g*255, g*255, g*255, a) : rgb(128, 128, 128)[0..2]
     end
   end
 end

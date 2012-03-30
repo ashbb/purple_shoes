@@ -752,9 +752,6 @@ you'll get back a `true`. If not, you'll get back `false`.
 
 Stops your program. Call this anytime you want to suddenly call it quits.
 
-'''PLEASE NOTE:''' If you need to use Ruby's own `exit` method (like in a
-forked Ruby process,) call `Kernel.exit`.
-
 === font(message: a string) » an array of font family names ===
 
 Loads a TrueType (or other type of font) from a file.  While TrueType is
@@ -836,7 +833,7 @@ When passing in a whole number, use values from 0 to 255.
    blueviolet = rgb(138, 43, 226, 0.5)
    darkgreen = rgb(0, 100, 0, 0.5)
    oval 100, 100, 100,
-     fill: [blueviolet, darkgreen].sample(1)
+     fill: [blueviolet, darkgreen].sample
  end
 }}}
 
@@ -847,7 +844,7 @@ Or, use a decimal number from 0.0 to 1.0.
    blueviolet = rgb(0.54, 0.17, 0.89)
    darkgreen = rgb(0, 0.4, 0)
    oval 100, 100, 100,
-     fill: [blueviolet, darkgreen].sample(1)
+     fill: [blueviolet, darkgreen].sample
  end
 }}}
 
