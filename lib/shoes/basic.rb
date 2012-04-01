@@ -155,7 +155,17 @@ class Shoes
   class Rect < ShapeBase; end
   class Oval < ShapeBase; end
   class Line < ShapeBase; end
-  class Star < ShapeBase; end
+  class Star < ShapeBase
+    def move3 x, y
+      unless @app.cs.isDisposed
+        w, h = @width + 1, @height + 1
+        hw, hh = w / 2, h / 2
+        @app.cs.redraw @left - hw, @top - hh, w, h, false
+        @app.cs.redraw x-hw, y - hh, w, h, false
+      end
+      @left, @top = x, y
+    end
+  end
   class Shape < ShapeBase
     def move_to x, y
       real.moveTo x + left, y + top
