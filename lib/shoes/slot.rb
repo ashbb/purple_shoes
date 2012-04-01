@@ -77,6 +77,19 @@ class Shoes
       end
       @app.flush
     end
+
+    def append &blk
+      prepend contents.length, &blk
+    end
+    
+    def prepend n = 0
+      self.contents, tmp = contents[0...n], contents[n..-1]
+      cslot, @app.cslot = @app.cslot, self
+      yield
+      self.contents += tmp
+      @app.cslot = cslot
+      Shoes.call_back_procs @app
+    end
     
     def show
       @hided = true

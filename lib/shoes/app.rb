@@ -697,6 +697,12 @@ class Shoes
       end
     end
 
+    [:append, :prepend].each do |m|
+      define_method m do |*args, &blk|
+        top_slot.send m, *args, &blk
+      end
+    end
+
     def gray *attrs
       g, a = attrs
       g ? rgb(g*255, g*255, g*255, a) : rgb(128, 128, 128)[0..2]
