@@ -190,6 +190,7 @@ class Shoes
     def text= s
       style markup: s
     end
+    alias :replace :text=
     def positioning x, y, max
       self.text = @args[:markup]
       super.tap{|s| s.height += (@margin_top + @margin_bottom) if s == self}

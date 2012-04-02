@@ -1,10 +1,13 @@
 class Shoes
   $urls = {}
+  APPS = []
   include Swt
   
   def self.display
     @display
   end
+  
+  def self.APPS; APPS end
   
   def self.app args={}, &blk
     args[:width] ||= 600
@@ -89,6 +92,7 @@ class Shoes
   
     if @main_app == app
       while !shell.isDisposed do
+        APPS.each{|a| APPS.delete a if a.shell.isDisposed}
         @display.sleep unless @display.readAndDispatch
       end
       @display.dispose

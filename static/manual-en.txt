@@ -966,8 +966,8 @@ Another simple use of `download` is to save some web data to a file, using the
  
      download "http://is.gd/GVAGF7",
        :save => "nasa50th.gif" do
-	@status.text = "Okay, is downloaded."
-	image "nasa50th.gif", top: 100
+        @status.text = "Okay, is downloaded."
+        image "nasa50th.gif", top: 100
      end
    end
  end

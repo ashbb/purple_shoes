@@ -11,6 +11,7 @@ class Shoes
       end
       init_app_vars
       @top_slot, @cslot = nil, self
+      Shoes.APPS << self
     end
     
     attr_accessor :cslot, :top_slot, :contents, :mmcs, :mscs, :order, :mouse_pos, :hided
@@ -679,6 +680,7 @@ class Shoes
 
     def close
       @shell.close
+      Shoes.APPS.delete self
     end
 
     def flush
