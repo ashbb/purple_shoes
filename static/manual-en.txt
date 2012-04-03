@@ -2962,7 +2962,7 @@ method again.  So, to set the button to 150 pixels wide: `@b.style(width: 150)`.
 
 A background is a color, a gradient or an image that is painted across an
 entire slot.  Both backgrounds and borders are a type of Shoes::Pattern.
-!{:margin_left => 100}man-ele-background.png!
+!{:margin_left => 70}man-ele-background.png!
 
 Even though it's called a ''background'', you may still place this element in
 front of other elements.  If a background comes after something else painted on
@@ -3017,7 +3017,7 @@ backgrounds and borders.  Reuse it as you like.
 
 A border is a color, gradient or image painted in a line around the edge of any
 slot.  Like the Background element in the last section, a Border is a kind of
-Shoes::Pattern. !{:margin_left => 100}man-ele-border.png!
+Shoes::Pattern. !{:margin_left => 70}man-ele-border.png!
 
 The first, crucial thing to know about border is that all borders paint a line
 around the '''inside''' of a slot, not the outside.  So, if you have a slot
@@ -3074,7 +3074,7 @@ backgrounds.
 
 Buttons are, you know, push buttons.  You click them and they do something.
 Buttons are known to say "OK" or "Are you sure?"  And, then, if you're sure,
-you click the button. !{:margin_left => 100}man-ele-button.png!
+you click the button. !{:margin_left => 70}man-ele-button.png!
 
 {{{
  #!ruby
@@ -3142,7 +3142,7 @@ hits Enter, the button will be clicked.
 
 Check boxes are clickable square boxes than can be either checked or unchecked.
 A single checkbox usually asks a "yes" or "no" question.  Sets of checkboxes
-are also seen in to-do lists. !{:margin_left => 100}man-ele-check.png!
+are also seen in to-do lists. !{:margin_left => 70}man-ele-check.png!
 
 Here's a sample checklist.
 
@@ -3222,7 +3222,7 @@ Enter, the check will be toggled between its checked and unchecked states.
 
 Edit boxes are wide, rectangular boxes for entering text.  On the web, they
 call these textareas.  These are multi-line edit boxes for entering longer
-descriptions.  Essays, even! !{:margin_left => 100}man-ele-editbox.png!
+descriptions.  Essays, even! !{:margin_left => 70}man-ele-editbox.png!
 
 Without any other styling, edit boxes are sized 200 pixels by 108 pixels.  You
 can also use `:width` and `:height` styles to set specific sizes.
@@ -3279,7 +3279,7 @@ Fills the edit box with the characters of `a string`.
 
 Edit lines are a slender, little box for entering text. While the EditBox is
 multi-line, an edit line is just one. Line, that is. Horizontal, in fact.
-!{:margin_left => 100}man-ele-editline.png!
+!{:margin_left => 70}man-ele-editline.png!
 
 The unstyled edit line is 200 pixels wide and 28 pixels wide. Roughly. The
 height may vary on some platforms.
@@ -3327,7 +3327,7 @@ Fills the edit line with the characters of `a string`.
 
 An image is a picture in PNG, JPEG or GIF format. Purple Shoes can resize images or
 flow them in with text. Images can be loaded from a file or directly off the
-web. !{:margin_left => 100}man-ele-image.png!
+web. !{:margin_left => 70}man-ele-image.png!
 
 To create an image, use the `image` method in a slot:
 
@@ -3405,7 +3405,7 @@ Rotates the Image element by a certain number of `degrees`.
 
 List boxes (also called "combo boxes" or "drop-down boxes" or "select boxes" in
 some places) are a list of options that drop down when you click on the box.
-!{:margin_left => 100}man-ele-listbox.png!
+!{:margin_left => 70}man-ele-listbox.png!
 
 A list box gets its options from an array.  An array (a list) of strings,
 passed into the `:items` style.
@@ -3479,7 +3479,7 @@ now. If nothing is selected, `nil` will be the reply.
 Progress bars show you how far along you are in an activity. Usually, a
 progress bar represents a percentage (from 0% to 100%.) Purple Shoes thinks of
 progress in terms of the decimal numbers 0.0 to 1.0. !{:margin_left =>
-100}man-ele-progress.png!
+70}man-ele-progress.png!
 
 A simple progress bar is 150 pixels wide, but you can use the `:width` style
 (as with all Purple Shoes elements) to lengthen it.
@@ -3513,7 +3513,7 @@ Sets the progress to a decimal number between 0.0 and 1.0.
 Radio buttons are a group of clickable circles. Click a circle and it'll be
 marked. Only one radio button can be marked at a time. (This is similar to the
 ListBox, where only one option can be selected at a time.) !{:margin_left =>
-100}man-ele-radio.png!
+70}man-ele-radio.png!
 
 So, how do you decide when to use radio buttons and when to use list boxes?
 Well, list boxes only show one highlighted item unless you click on the box and
@@ -3621,7 +3621,7 @@ Moves focus to the radio. The radio will be highlighted.
 == Shape ==
 
 A shape is a path outline usually created by drawing methods like `oval` and
-`rect`. !{:margin_left => 100}man-ele-shape.png!
+`rect`. !{:margin_left => 70}man-ele-shape.png!
 
 See the [[Common]] methods page.  Shapes respond to all of those methods.
 
@@ -3630,7 +3630,7 @@ See the [[Common]] methods page.  Shapes respond to all of those methods.
 The TextBlock object represents a group of text organized as a single element.
 A paragraph containing bolded text, for example. A caption containing links and
 bolded text. (So, a `caption` is a TextBlock type.  However, `link` and
-`strong` are Text types.) !{:margin_left => 100}man-ele-textblock.png!
+`strong` are Text types.) !{:margin_left => 70}man-ele-textblock.png!
 
 All of the various types of TextBlock are found on the [[Element Element
 Creation]] page.
@@ -3782,7 +3782,7 @@ already running, it is stopped.
 == Video ==
 
 Purple Shoes supports embedding of MP4, AVI, WMV, QuickTime and various other popular video formats. 
-This is all thanks to Ruby/GStreamer. Use the `video` method to setup a Shoes::Video object. !{:margin_left => 70}man-ele-video.png!
+This is all thanks to Ruby/GStreamer. Use the `video` method to setup a Shoes::Video object. !{:margin_left => 30}man-ele-video.png!
 
 {{{
  Shoes.app width: 400, height: 300 do
