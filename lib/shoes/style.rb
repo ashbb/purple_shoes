@@ -11,7 +11,15 @@ class Shoes
       @args.each{|k, v| instance_variable_set "@#{k}", v}
     end
   end  
-  
+
+  class Star < ShapeBase
+    def style args
+      set_args args
+      w, h = @width+@strokewidth+1, @height+@strokewidth+1
+      @app.cs.redraw @left-w/2 , @top-h/2, w, h, false unless @app.cs.isDisposed
+    end
+  end
+
   class TextBlock
     def style args
       set_args args

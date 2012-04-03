@@ -1081,13 +1081,11 @@ app, a center `:align` style and 50 font `:size` style.
 The style hash can also be changed by using the [[Common.style]] method,
 available on every element and slot.
 
-'''Note:''' Purple Shoes can change style hash on Shape element only so far.
-
 {{{
  Shoes.app title: "A Styling Sample" do
    choose = 
      lambda{[red, blue, green, yellow].sample}
-   s = star 100, 50, 30, 200, 180, strokewidth: 5
+   s = star 300, 250, 30, 200, 180, strokewidth: 5
    button 'change colors' do
      s.style stroke: choose.call, fill: choose.call
    end

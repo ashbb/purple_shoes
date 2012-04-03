@@ -158,7 +158,7 @@ class Shoes
   class Star < ShapeBase
     def move3 x, y
       unless @app.cs.isDisposed
-        w, h = @width + 1, @height + 1
+        w, h = @width + @strokewidth + 1, @height + @strokewidth + 1
         hw, hh = w / 2, h / 2
         @app.cs.redraw @left - hw, @top - hh, w, h, false
         @app.cs.redraw x-hw, y - hh, w, h, false
