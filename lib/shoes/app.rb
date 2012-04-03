@@ -153,10 +153,14 @@ class Shoes
       end
     end
 
-    def button name, args={}
+    def buttonbase klass, name, args, &blk
       args = basic_attributes args
-      b = Swt::Button.new @cs, Swt::SWT::NULL
-      b.setText name
+      args[:block] = blk
+      opt = if klass == Button then Swt::SWT::NULL
+        elsif klass == Radio then Swt::SWT::RADIO
+        elsif klass == Check then Swt::SWT::CHECK end
+      b = Swt::Button.new @cs, opt
+      b.setText name if klass == Button
       b.setLocation args[:left], args[:top]
       if args[:width] > 0 and args[:height] > 0
         b.setSize args[:width], args[:height]
@@ -164,31 +168,25 @@ class Shoes
         b.pack
       end
       args[:real], args[:text], args[:app] = b, name, self
-      Button.new(args).tap do |s|
+      klass.new(args).tap do |s|
         b.addSelectionListener do |e|
-          yield s
-        end if block_given?
-      end
-    end
-
-    def radio args={}, &blk
-      args = basic_attributes args
-      args[:block] = blk
-      b = Swt::Button.new @cs, Swt::SWT::RADIO
-      b.setLocation args[:left], args[:top]
-      if args[:width] > 0 and args[:height] > 0
-        b.setSize args[:width], args[:height]
-      else
-        b.pack
-      end
-      args[:real], args[:app] = b, self
-      Radio.new(args).tap do |s|
-        b.addSelectionListener do |e|
-          blk[s] if b.getSelection
+          klass == Button ? blk[s] : (blk[s] if b.getSelection)
         end if blk
       end
     end
+
+    def button name, args={}, &blk
+      buttonbase Button, name, args, &blk
+    end
+
+    def radio args={}, &blk
+      buttonbase Radio, nil, args, &blk
+    end
     
+    def check args={}, &blk
+      buttonbase Check, nil, args, &blk
+    end
+
     def edit_text attrs
       klass, w, h, style, blk, attrs = attrs
       args = attrs.last.class == Hash ? attrs.pop : {}

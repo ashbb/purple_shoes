@@ -250,6 +250,7 @@ class Shoes
     end
   end
   class Radio < ToggleButton; end
+  class Check < ToggleButton; end
 
   class EditLine < Native; end
   class EditBox < Native; end
