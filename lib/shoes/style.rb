@@ -1,4 +1,12 @@
 class Shoes
+  class App
+    def style klass, args={}
+      if klass.superclass == Shoes::TextBlock
+        eval("#{klass.to_s[7..-1].upcase}_DEFAULT").clear.merge! args
+      end
+    end
+  end
+
   class Basic
     def style args
       set_args args
