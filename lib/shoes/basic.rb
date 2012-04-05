@@ -73,15 +73,17 @@ class Shoes
     end
 
     def clear
-      @app.cs.removePaintListener pl if pl
-      @app.cs.removeListener Swt::SWT::MouseDown, ln if ln
-      @app.cs.removeListener Swt::SWT::MouseUp, ln if ln
-      @real.dispose unless @real.is_a? Symbol
-      @dps.each{|dp| dp.dispose if dp}
-      @dps.clear
-      @parent.contents -= [self]
-      @app.mscs -= [self]
-      hide
+      unless @app.cs.isDisposed
+        @app.cs.removePaintListener pl if pl
+        @app.cs.removeListener Swt::SWT::MouseDown, ln if ln
+        @app.cs.removeListener Swt::SWT::MouseUp, ln if ln
+        @real.dispose unless @real.is_a? Symbol
+        @dps.each{|dp| dp.dispose if dp}
+        @dps.clear
+        @parent.contents -= [self]
+        @app.mscs -= [self]
+        hide
+      end
     end
     
     def show
