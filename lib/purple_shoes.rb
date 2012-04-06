@@ -10,6 +10,7 @@ Types = module Shoes; self end
 module Shoes
   DIR = Pathname.new(__FILE__).realpath.dirname.to_s
   FONTS = []
+  LINK_DEFAULT = {underline: true}
   BANNER_DEFAULT, TITLE_DEFAULT, SUBTITLE_DEFAULT, TAGLINE_DEFAULT, CAPTION_DEFAULT, PARA_DEFAULT, INSCRIPTION_DEFAULT = 
     {}, {}, {}, {}, {}, {}, {}
   SHOES_VERSION = IO.read(File.join(DIR, '../VERSION')).chomp

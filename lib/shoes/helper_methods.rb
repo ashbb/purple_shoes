@@ -127,7 +127,7 @@ class Shoes
           when :code
             font = "Lucida Console"
           when :link
-            cmds << "underline = true"
+            (cmds << "underline = true") if LINK_DEFAULT[:underline]
             fg = Swt::Color.new Shoes.display, *blue
             spos = tl.getLocation e[1].first, false
             epos = tl.getLocation e[1].last, true
