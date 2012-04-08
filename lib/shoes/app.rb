@@ -280,6 +280,7 @@ class Shoes
         instance_eval do
           define_method :paintControl do |e|
             unless s.hided
+              s.real = Swt::Path.new(Shoes.display) if s.real.isDisposed
               gc = e.gc
               Shoes.dps_reset s.dps, gc
               gc.setAntialias Swt::SWT::ON

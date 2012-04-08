@@ -169,6 +169,12 @@ class Shoes
     end
   end
   class Shape < ShapeBase
+    def move3 x, y
+      unless @app.cs.isDisposed
+        real.dispose
+      end
+      @left, @top = x, y
+    end
     def move_to x, y
       real.moveTo x + left, y + top
     end
