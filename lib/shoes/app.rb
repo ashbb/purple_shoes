@@ -52,14 +52,14 @@ class Shoes
     def click &blk
       if blk
         app = self
-        ln = Swt::Listener.new
-        class << ln; self end.
-        instance_eval do
-          define_method :handleEvent do |e|
-            blk[*app.mouse]
+        Swt::Listener.new.tap do |ln|
+          class << ln; self end.
+          instance_eval do
+            define_method(:handleEvent){|e| blk[*app.mouse]}
+            define_method(:clear){app.cs.removeListener Swt::SWT::MouseDown, ln}
           end
+          @cs.addListener Swt::SWT::MouseDown, ln unless @cs.isDisposed
         end
-        @cs.addListener Swt::SWT::MouseDown, ln unless @cs.isDisposed
       end
     end
     
@@ -251,13 +251,15 @@ class Shoes
     end
     
     def keypress &blk
-      kl = Swt::KeyListener.new
-      class << kl; self end.
-      instance_eval do
-        define_method(:keyPressed){|e| blk[KEY_NAMES[e.keyCode] || e.character.chr]}
-        define_method(:keyReleased){|e|}
+      Swt::KeyListener.new.tap do |kl|
+        class << kl; self end.
+        instance_eval do
+          define_method(:keyPressed){|e| blk[KEY_NAMES[e.keyCode] || e.character.chr]}
+          define_method(:keyReleased){|e|}
+          define_method(:clear){Shoes.shell.removeKeyListener kl}
+        end
+        @shell.addKeyListener kl
       end
-      @shell.addKeyListener kl
     end
     
     def mouse
