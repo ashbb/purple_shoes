@@ -318,6 +318,10 @@ class Shoes
       args = basic_attributes args
       args[:width].zero? ? (args[:width] = args[:radius] * 2) : (args[:radius] = args[:width]/2.0)
       args[:height] = args[:width] if args[:height].zero?
+      if args[:center]
+        args[:left] -= args[:width] / 2
+        args[:top] -= args[:width] / 2
+      end
       args[:strokewidth] = ( args[:strokewidth] or strokewidth or 1 )
       args[:nocontrol] = args[:noorder] = true
 
