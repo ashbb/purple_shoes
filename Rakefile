@@ -17,6 +17,7 @@ Jeweler::Tasks.new do |gem|
   gem.homepage = "http://github.com/ashbb/purple_shoes"
   gem.authors = ["ashbb"]
   gem.add_dependency 'swt'
+  gem.add_dependency 'hpricot'
   gem.files = %w[bin lib static samples snapshots].map{|dir| FileList[dir + '/**/*']}.flatten << 'VERSION'
 end
 
