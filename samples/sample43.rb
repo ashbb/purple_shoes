@@ -1,4 +1,4 @@
-require 'purple_shoes'
+require '../lib/purple_shoes'
 
 Shoes.app do
   stack margin_left: 10 do
@@ -6,7 +6,11 @@ Shoes.app do
     status = para "One moment..."
     msg = para '0%'
     dl = download "http://antwrp.gsfc.nasa.gov/apod/image/1009/venusmoon_pascual_big.jpg",
-      save: "venusmoon_pascual_big.jpg"
+      save: "venusmoon_pascual_big.jpg" do
+      status.text = "Okay, is downloaded."
+      status.style stroke: orangered
+      image("venusmoon_pascual_big.jpg", width: 580, height: 380).move 10, 100
+    end
 
     pg = progress left: 10, top: 100, width: width - 20
     a = animate do
@@ -15,9 +19,6 @@ Shoes.app do
         msg.text = "%2d%" % (pg.fraction * 100)
       end
       if dl.finished?
-        status.text = "Okay, is downloaded."
-        status.style stroke: orangered
-        image("venusmoon_pascual_big.jpg", width: 580, height: 380).move 10, 100
         pg.hide
         a.stop
       end

@@ -1000,6 +1000,7 @@ query google's search engine.
 '''Note:''' Purple Shoes doesn't support the `:method`, `:headers` and `:body` styles.
 
 {{{
+ # Not yet available
  include Hpricot
  Shoes.app do
    status = para "One moment..."
@@ -1013,11 +1014,6 @@ query google's search engine.
    end
  end
 }}}
-
-As you can see from the above example, Purple Shoes includes the Hpricot
-library for parsing HTML.
-
-'''Note:''' Windows platform only so far.
 
 === location() » a string ===
 

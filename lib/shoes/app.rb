@@ -660,7 +660,7 @@ class Shoes
     end
 
     def download name, args={}, &blk
-      Download.new name, args, &blk
+      Download.new self, name, args, &blk
     end
 
     def scroll_top

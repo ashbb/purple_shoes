@@ -1,16 +1,18 @@
 class Shoes
   class Download
-    def initialize name, args, &blk
+    def initialize app, name, args, &blk
       require 'open-uri'
       Thread.new do
         open name,
           content_length_proc: lambda{|len| @content_length, @started = len, true},
           progress_proc: lambda{|size| @progress = size} do |sio|
           open(args[:save], 'wb'){|fw| fw.print sio.read} if args[:save]
-          #blk[sio] if blk
-          @finished = true
+          @finished, @sio = true, sio
         end
       end
+      a = app.animate do
+        (a.stop; blk[@sio]) if @finished
+      end if blk
     end
     
     attr_reader :progress, :content_length
