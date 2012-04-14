@@ -54,11 +54,16 @@ class Shoes
     end
 
     def move3 x, y
+      x, y = center_at(x, y) if @center
       unless @app.cs.isDisposed
         @app.cs.redraw @left, @top, @width, @height, false
         @app.cs.redraw x, y, @width, @height, false
       end
       @left, @top = x, y
+    end
+
+    def center_at x, y
+      [x - (@width / 2), y - (@height / 2)]
     end
 
     def positioning x, y, max
