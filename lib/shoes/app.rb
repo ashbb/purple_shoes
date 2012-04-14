@@ -680,6 +680,14 @@ class Shoes
       shell.getVerticalBar.getMaximum - 10
     end
 
+    def clipboard
+      Swt::Clipboard.new(Shoes.display).getContents Swt::TextTransfer.getInstance
+    end
+
+    def clipboard=(str)
+      Swt::Toolkit.getDefaultToolkit.getSystemClipboard.setContents Swt::StringSelection.new(str), Shoes
+    end
+
     def close
       @shell.close
       Shoes.APPS.delete self

@@ -31,6 +31,9 @@ module Swt
   include_package 'org.eclipse.swt.widgets'
   include_package 'org.eclipse.swt.graphics'
   include_package 'org.eclipse.swt.events'
+  include_package 'org.eclipse.swt.dnd'
+  import java.awt.datatransfer.StringSelection
+  import java.awt.Toolkit
 end
 
 class Object
