@@ -322,7 +322,7 @@ class Shoes
       args[:height] = args[:width] if args[:height].zero?
       if args[:center]
         args[:left] -= args[:width] / 2
-        args[:top] -= args[:width] / 2
+        args[:top] -= args[:height] / 2
       end
       args[:strokewidth] = ( args[:strokewidth] or strokewidth or 1 )
       args[:nocontrol] = args[:noorder] = true
@@ -372,6 +372,10 @@ class Shoes
         else args[:left], args[:top], args[:width], args[:height] = attrs
       end
       args[:height] = args[:width] unless args[:height]
+      if args[:center]
+        args[:left] -= args[:width] / 2
+        args[:top] -= args[:height] / 2
+      end
       args[:strokewidth] = ( args[:strokewidth] or strokewidth or 1 )
       args[:curve] ||= 0
       args[:nocontrol] = args[:noorder] = true

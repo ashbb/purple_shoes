@@ -1192,7 +1192,7 @@ Indicates whether the `:top` and `:left` coordinates refer to the center of the
 shape or not.  If set to `true`, this is similar to setting the
 [[Art.transform]] method to `:center`.
 
-'''Note:''' Purple Shoes doesn't support `:center` style.
+'''Note:''' Purple Shoes supports `:center` style only for oval and rect for now.
 
 === :change » a proc ===
 

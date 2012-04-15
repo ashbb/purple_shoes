@@ -54,7 +54,6 @@ class Shoes
     end
 
     def move3 x, y
-      x, y = center_at(x, y) if @center
       unless @app.cs.isDisposed
         @app.cs.redraw @left, @top, @width, @height, false
         @app.cs.redraw x, y, @width, @height, false
@@ -159,8 +158,18 @@ class Shoes
   class Border < Pattern; end
 
   class ShapeBase < Basic; end
-  class Rect < ShapeBase; end
-  class Oval < ShapeBase; end
+  class Rect < ShapeBase
+    def move3 x, y
+      x, y = center_at(x, y) if @center
+      super
+    end
+  end
+  class Oval < ShapeBase
+    def move3 x, y
+      x, y = center_at(x, y) if @center
+      super
+    end
+  end
   class Line < ShapeBase; end
   class Star < ShapeBase
     def move3 x, y
