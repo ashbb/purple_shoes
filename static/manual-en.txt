@@ -1344,9 +1344,6 @@ displayed on the screen.  Neither are its children.
  end
 }}}
 
-'''Note:''' Purple Shoes supports `:hidden` style for only slots, shapes, textblocks 
-and images so far.
-
 === :inner » a number ===
 
 For: ''star''.

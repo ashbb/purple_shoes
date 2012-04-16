@@ -161,6 +161,8 @@ class Shoes
         elsif klass == Radio then Swt::SWT::RADIO
         elsif klass == Check then Swt::SWT::CHECK end
       b = Swt::Button.new @cs, opt
+      b.setVisible false if args[:hidden]
+      args.delete :hidden
       b.setText name if klass == Button
       b.setLocation args[:left], args[:top]
       if args[:width] > 0 and args[:height] > 0
@@ -197,6 +199,8 @@ class Shoes
       args[:height] = h if args[:height].zero?
       
       el = Swt::Text.new @cs, Swt::SWT::BORDER | style
+      el.setVisible false if args[:hidden]
+      args.delete :hidden
       el.setText txt || args[:text].to_s
       el.setSize args[:width], args[:height]
       args[:real], args[:app] = el, self
@@ -219,6 +223,8 @@ class Shoes
       args[:height] = 20 if args[:height].zero?
       args[:items] ||= []
       cb = Swt::Combo.new @cs, Swt::SWT::DROP_DOWN
+      cb.setVisible false if args[:hidden]
+      args.delete :hidden
       cb.setSize args[:width], args[:height]
       cb.setItems args[:items].map(&:to_s)
       cb.setText args[:choose].to_s
@@ -661,6 +667,8 @@ class Shoes
       args[:width] ||= 150
       args[:height] ||= 16
       args = basic_attributes args
+      pb.setVisible false if args[:hidden]
+      args.delete :hidden
       pb.setSize args[:width], args[:height]
       pb.setLocation args[:left], args[:top]
       args[:real], args[:app] = pb, self

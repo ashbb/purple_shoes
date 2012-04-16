@@ -19,7 +19,17 @@ class Shoes
       (@parent.contents << self) unless @nocontrol
 
       if block_given?
+        if args[:hidden]
+          @hided = true
+          BASIC_ATTRIBUTES_DEFAULT.merge! hidden: true
+          SLOT_ATTRIBUTES_DEFAULT.merge! hidden: true
+          @hidden_flag = true unless @parent.instance_variable_get '@hidden'
+        end
         yield
+        if @hidden_flag
+          BASIC_ATTRIBUTES_DEFAULT.delete :hidden
+          SLOT_ATTRIBUTES_DEFAULT.delete :hidden
+        end
         @app.cslot = @parent
       else
         @left = @top = 0

@@ -3,6 +3,8 @@ class Shoes
     include Mod
     def initialize args
       @initials = args
+      @hided = true if args[:hidden]
+      args.delete :hidden
       args.each do |k, v|
         instance_variable_set "@#{k}", v
       end
