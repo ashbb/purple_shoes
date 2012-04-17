@@ -1778,7 +1778,7 @@ setting `:angle1` to 0 and `:angle2` to `2*Math::PI`.)
    cap :curve
  
    a = animate 12 do |i|
-     @e.remove if @e
+     @e.clear if @e
      r = i * (Math::PI * 0.01)
      @e = arc 100, 50, 180, 360, 0, r
      a.stop if r >= 2*Math::PI
@@ -1890,8 +1890,6 @@ Draw circular form using a style hash.  The following styles are supported:
 
 These styles may also be altered using the `style` method on the Shape object.
 
-'''Note:''' Purple Shoes doesn't support `center` style.
-
 === rect(top, left, width, height) » Shoes::Rect ===
 
 Draws a rectangle starting from coordinates (top, left) with dimensions of
@@ -1925,8 +1923,6 @@ Draw a rectangle using a style hash.  The following styles are supported:
 
 These styles may also be altered using the `style` method on the Shape object.
 
-'''Note:''' Purple Shoes doesn't support `center` style.
-
 === rotate(degrees: a number) » self ===
 
 Rotates the pen used for drawing by a certain number of `degrees`, so that any
@@ -1938,7 +1934,7 @@ In this example below, the rectangle drawn at (30, 30) will be rotated 45 degree
  #!ruby
  Shoes.app do
    fill "#333"
-   rotate 45
+   rotate 45, 30, 30
    rect 30, 30, 40, 40
  end
 }}}
@@ -1955,7 +1951,7 @@ and arcs and bends.
    fill yellow
    shape do
      move_to 50, 30
-     curve_to 100, 100, 10, 20, 100, 50
+     quad_to 100, 100, 80, 20
      line_to 20, 100
      line_to 30, 30
    end
@@ -1968,7 +1964,7 @@ the other methods in this [[Art]] section) inside a shape, but they will not be
 part of the line.  They will be more like a group of shapes are all drawn as
 one.
 
-'''Note:''' The above `line_to`, `move_to` and `curve_to` are Cairo::Context methods. 
+'''Note:''' The above `line_to`, `move_to` and `quad_to` are SWT methods. 
 Purple Shoes uses them directly inside the block. So, Purple Shoes doesn't support `arc_to`.
 Also Purple Shoes shape can not contain other shapes.
 
