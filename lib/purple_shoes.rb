@@ -22,6 +22,7 @@ module Shoes
     PAGE_UP PAGE_DOWN HOME END INSERT 
     F1 F2 F3 F4 F5 F6 F7 F8 F9 F10 F11 F12 F13 F14 F15].each{|k| KEY_NAMES[eval("Swt::SWT::#{k}")] = k}
   KEY_NAMES[Swt::SWT::CR] = "\n"
+  LINECAP = {curve: Swt::SWT::CAP_ROUND, rect: Swt::SWT::CAP_FLAT, project: Swt::SWT::CAP_SQUARE}
   COLORS = {}
 end
 

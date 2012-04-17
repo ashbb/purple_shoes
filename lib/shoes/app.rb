@@ -279,6 +279,7 @@ class Shoes
       args[:stroke] ||= stroke
       args[:fill] ||= fill
       args[:rotate] ||= rotate
+      args[:cap] = (LINECAP[args[:cap]] or cap)
       args[:real], args[:app], args[:block] = :shape, self, blk
       Shape.new(args).tap do |s|
         pl = Swt::PaintListener.new
@@ -292,6 +293,7 @@ class Shoes
               gc = e.gc
               Shoes.dps_reset s.dps, gc
               gc.setAntialias Swt::SWT::ON
+              gc.setLineCap s.cap
               sw, pat1, pat2 = s.strokewidth, s.stroke, s.fill
               Shoes.set_rotate gc, *s.rotate do
                 if pat2
@@ -336,7 +338,9 @@ class Shoes
       args[:stroke] ||= stroke
       args[:fill] ||= fill
       args[:rotate] ||= rotate
+      args[:cap] = (LINECAP[args[:cap]] or cap)
       args[:real], args[:app] = :shape, self
+      args[:angle1] = false unless args[:angle1]
       Oval.new(args).tap do |s|
         pl = Swt::PaintListener.new
         s.pl = pl
@@ -347,17 +351,20 @@ class Shoes
               gc = e.gc
               Shoes.dps_reset s.dps, gc
               gc.setAntialias Swt::SWT::ON
+              gc.setLineCap s.cap
               sw, pat1, pat2 = s.strokewidth, s.stroke, s.fill
               Shoes.set_rotate gc, *s.rotate do
                 if pat2
                   Shoes.set_pattern s, gc, pat2
-                  gc.fillOval s.left+sw, s.top+sw, s.width-sw*2, s.height-sw*2
+                  s.angle1 ? gc.fillArc(s.left+sw, s.top+sw, s.width-sw*2, s.height-sw*2, s.angle1, s.angle2) : 
+                    gc.fillOval(s.left+sw, s.top+sw, s.width-sw*2, s.height-sw*2)
                 end
                 if pat1
                   Shoes.set_pattern s, gc, pat1, :Foreground
                   if sw > 0
                     gc.setLineWidth sw
-                    gc.drawOval s.left+sw/2, s.top+sw/2, s.width-sw, s.height-sw
+                    s.angle1 ? gc.drawArc(s.left+sw/2, s.top+sw/2, s.width-sw, s.height-sw, s.angle1, s.angle2) : 
+                      gc.drawOval(s.left+sw/2, s.top+sw/2, s.width-sw, s.height-sw)
                   end
                 end
               end
@@ -367,6 +374,13 @@ class Shoes
         @cs.addPaintListener pl unless @cs.isDisposed
         clickable s, &blk
       end
+    end
+    
+    def arc l, t, w, h, a1, a2, args={}
+      a1 = a1 * 180 / Math::PI
+      a2 = -a2 * 180 / Math::PI
+      args.merge!({angle1: a1, angle2: a2})
+      oval  l, t, w, h, args
     end
 
     def rect *attrs, &blk
@@ -390,6 +404,7 @@ class Shoes
       args[:stroke] ||= stroke
       args[:fill] ||= fill
       args[:rotate] ||= rotate
+      args[:cap] = (LINECAP[args[:cap]] or cap)
       args[:real], args[:app] = :shape, self
       Rect.new(args).tap do |s|
         pl = Swt::PaintListener.new
@@ -401,6 +416,7 @@ class Shoes
               gc = e.gc
               Shoes.dps_reset s.dps, gc
               gc.setAntialias Swt::SWT::ON
+              gc.setLineCap s.cap
               sw, pat1, pat2 = s.strokewidth, s.stroke, s.fill
               Shoes.set_rotate gc, *s.rotate do
                 if pat2
@@ -458,6 +474,7 @@ class Shoes
 
       args[:stroke] ||= stroke
       args[:rotate] ||= rotate
+      args[:cap] = (LINECAP[args[:cap]] or cap)
       args[:real], args[:app] = :shape, self
       Line.new(args).tap do |s|
         pl = Swt::PaintListener.new
@@ -469,6 +486,7 @@ class Shoes
               gc = e.gc
               Shoes.dps_reset s.dps, gc
               gc.setAntialias Swt::SWT::ON
+              gc.setLineCap s.cap
               sw, pat = s.strokewidth, s.stroke
               Shoes.set_rotate gc, *s.rotate do
                 if pat
@@ -501,6 +519,7 @@ class Shoes
       args[:stroke] ||= stroke
       args[:fill] ||= fill
       args[:rotate] ||= rotate
+      args[:cap] = (LINECAP[args[:cap]] or cap)
       args[:real], args[:app] = :shape, self
       Star.new(args).tap do |s|
         pl = Swt::PaintListener.new
@@ -512,6 +531,7 @@ class Shoes
               gc = e.gc
               Shoes.dps_reset s.dps, gc
               gc.setAntialias Swt::SWT::ON
+              gc.setLineCap s.cap
               sw, pat1, pat2 = s.strokewidth, s.stroke, s.fill
               outer, inner, points, left, top = s.outer, s.inner, s.points, s.left, s.top
               polygon = []
@@ -734,6 +754,15 @@ class Shoes
     def gray *attrs
       g, a = attrs
       g ? rgb(g*255, g*255, g*255, a) : rgb(128, 128, 128)[0..2]
+    end
+    
+    def cap *line_cap
+      @line_cap = case line_cap.first
+        when :curve, :rect, :project
+          LINECAP[line_cap.first]
+        else
+          @line_cap ||= LINECAP[:rect]
+      end
     end
   end
 end
