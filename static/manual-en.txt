@@ -2386,18 +2386,18 @@ Whenever a key (or combination of keys) is pressed, the block gets called.  The
 block is sent a `key` which is a string representing the character (such as the
 letter or number) on the key. 
 
-So, for example, if `Shift-a` is pressed, the block will get the string `"Shift_L"` and `"A"`.
+So, for example, if `Shift-a` is pressed, the block will get the string `"SHIFT"` and `"A"`.
 
 And if the `F1` key is pressed, the `"F1"` string is received. 
 
-The left side modifier keys are `"Control_L"`, `"Shift_L"` and `"Alt_L"`.  They appear in that order.
+The modifier keys are `"CTRL"`, `"SHIFT"` and `"ALT"`.  They appear in that order.
 If `Shift-Control-Alt-PgUp` is pressed, the strings will be
-`"Shift_L"`, `"Control_L"`, `"Alt_L"` and `"Page_Up"`.
+`"SHIFT"`, `"CTRL"`, `"ALT"` and `"PAGE_UP"`.
 
 One thing about the shift key.  On
-US keyboards, `Shift-7` is an ampersand.  So you'll get the string `"Shift_L"` and `"ampersand"` rather
-than `"Shift_L"` and `"7"`.  And, if you press `Shift-Alt-7` on such a keyboard, you'll
-get the strings: `"Shift_L"`, `"Alt_L"` and `"ampersand"`.  
+US keyboards, `Shift-7` is an ampersand.  So you'll get the string `"SHIFT"` and `"&"` rather
+than `"SHIFT"` and `"7"`.  And, if you press `Shift-Alt-7` on such a keyboard, you'll
+get the strings: `"SHIFT"`, `"ALT"` and `"&"`.  
 
 {{{
  #!ruby

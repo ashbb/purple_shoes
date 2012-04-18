@@ -90,7 +90,7 @@ class Manual < Shoes
         end
       end
       para NL
-      show_page mk_paras(d.gsub('&', '\u0026')), false, term
+      show_page mk_paras(d), false, term
     end
   end
 
