@@ -10,6 +10,10 @@ class Shoes
       @margin_bottom ||= margin_bottom
     end
 
+    def hided
+      @app.hided or @hided
+    end
+
     def click &blk
       @app.clickable self, :click, &blk
     end
@@ -18,12 +22,23 @@ class Shoes
       @app.clickable self, :release, &blk
     end
 
-    attr_reader :margin_left, :margin_top, :margin_right, :margin_bottom
+    def hover &blk
+      @hover_proc = blk
+      (@app.mhcs << self) unless @app.mhcs.include? self
+    end
+
+    def leave &blk
+      @leave_proc = blk
+      (@app.mhcs << self) unless @app.mhcs.include? self
+    end
+
+    attr_reader :margin_left, :margin_top, :margin_right, :margin_bottom, :hover_proc, :leave_proc
+    attr_accessor :hovered
   end
   
   module Mod2
     def init_app_vars
-      @contents, @mmcs, @mscs, @order = [], [], [], []
+      @contents, @mmcs, @mscs, @mhcs, @order = [], [], [], [], []
       @location = '/'
       @mouse_button, @mouse_pos = 0, [0, 0]
       @fill, @stroke = black, black
@@ -244,6 +259,30 @@ class Shoes
 
   def self.mouse_motion_control app
     app.mmcs.each{|blk| blk[*app.mouse_pos]}
+  end
+  
+  def self.mouse_hover_control app
+    app.mhcs.each do |e|
+      if mouse_on?(e) and !e.hovered
+        e.hovered = true
+        e.hover_proc[e] if e.hover_proc
+      end
+    end
+  end
+
+  def self.mouse_leave_control app
+    app.mhcs.each do |e|
+      if !mouse_on?(e) and e.hovered
+        e.hovered = false
+        e.leave_proc[e] if e.leave_proc
+      end
+    end
+  end
+  
+  def self.mouse_on? e
+    mb, mx, my = e.app.mouse
+    dx, dy = e.is_a?(Star) ? [e.width / 2.0, e.height / 2.0] : [0, 0]
+    e.left - dx <= mx and mx <= e.left - dx + e.width and e.top - dy <= my and my <= e.top - dy + e.height
   end
 
   def self.mouse_shape_control app

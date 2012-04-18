@@ -36,7 +36,7 @@ class Shoes
       end
     end
 
-    attr_accessor :contents
+    attr_accessor :contents, :ln
     attr_reader :parent, :initials
     attr_writer :app
 
@@ -84,6 +84,11 @@ class Shoes
         tmp = self.is_a?(Stack) ? Stack.new(@app.slot_attributes(args), &blk) : Flow.new(@app.slot_attributes(args), &blk)
         self.contents = tmp.contents
         contents.each{|e| e.parent = self if e.is_a? Basic}
+      elsif !@app.cs.isDisposed
+        @app.cs.removeListener Swt::SWT::MouseDown, ln if ln
+        @app.cs.removeListener Swt::SWT::MouseUp, ln if ln
+        @app.mscs -= [self]
+        @app.mhcs -= [self]
       end
       @app.flush
     end

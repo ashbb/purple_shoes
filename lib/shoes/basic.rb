@@ -41,10 +41,6 @@ class Shoes
     attr_reader :args, :initials
     attr_accessor :parent, :pl, :ln, :dps
 
-    def hided
-      @app.hided or @hided
-    end
-
     def move x, y
       @app.cslot.contents -= [self]
       move3 x, y
@@ -88,6 +84,7 @@ class Shoes
         @dps.clear
         @parent.contents -= [self]
         @app.mscs -= [self]
+        @app.mhcs -= [self]
         hide
       end
     end

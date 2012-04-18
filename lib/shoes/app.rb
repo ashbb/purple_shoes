@@ -14,7 +14,7 @@ class Shoes
       Shoes.APPS << self
     end
     
-    attr_accessor :cslot, :top_slot, :contents, :mmcs, :mscs, :order, :mouse_pos, :hided
+    attr_accessor :cslot, :top_slot, :contents, :mmcs, :mhcs, :mscs, :order, :mouse_pos, :hided
     attr_writer :mouse_button
     attr_reader :location
 

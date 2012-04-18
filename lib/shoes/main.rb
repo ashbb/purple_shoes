@@ -77,6 +77,8 @@ class Shoes
         app.mouse_pos = [e.x, e.y]
         Shoes.mouse_motion_control app
         Shoes.mouse_shape_control app
+        Shoes.mouse_hover_control app
+        Shoes.mouse_leave_control app
       end
     end
     cs.addMouseMoveListener mml
