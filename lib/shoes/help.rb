@@ -171,7 +171,7 @@ class Manual < Shoes
     COLORS.each do |color, v|
       r, g, b = v
       c = v.dark? ? white : black
-      flow width: 0.33 do
+      flow width: 0.33, height: 55, margin_top: 5 do
         background send(color)
         para fg(strong(color), c), align: 'center'
         para fg("rgb(#{r}, #{g}, #{b})", c), align: 'center'
@@ -203,6 +203,7 @@ class Manual < Shoes
   end
   
   def find_pnum page
+    return 999 if page == 'Search'
     TOC_LIST.each_with_index do |e, i|
       title, section = e
       return i if title == page

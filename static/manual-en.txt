@@ -126,7 +126,7 @@ Still, Shoes does have a few widgets like buttons and edit boxes. And many
 missing elements (like tabbed controls or toolbars) can be simulated with
 images.
 
-Shoes is written in part thanks to a very good graphical widget toolkit called '''SWT'''. 
+Purple Shoes is written in part thanks to a very good graphical widget toolkit called '''SWT'''. 
 In this way, Shoes is inspired by NodeBox and Processing, two very good languages 
 for drawing animated graphics.
 
@@ -1091,16 +1091,16 @@ available on every element and slot.
 Most styles can also be set by calling them as methods.  (I'd use the manual
 search to find the method.)
 
-'''Note:''' Purple Shoes doesn't support them as methods.
+'''Note:''' Purple Shoes supports them as methods, but needs to add `flush`.
 
 {{{
- # Not yet available
  Shoes.app title: "A Styling Sample" do
    choose = 
      lambda{[red, blue, green, yellow].sample}
-   s = star 100, 50, 30, 200, 180, strokewidth: 5
+   s = star 300, 250, 30, 200, 180, strokewidth: 5
    button 'change colors' do
      s.stroke = choose.call; s.fill = choose.call
+     flush
    end
  end
 }}}
@@ -1476,7 +1476,7 @@ scrollbar will appear and disappear as needed.  It will also appear inside the
 width of the slot, meaning the slot's width will never change, regardless of
 whether there is a scrollbar or not.
 
-'''Note:''' Purple Shoes has restrictions. `:scroll` style is just a trial so far.
+'''Note:''' Purple Shoes doesn't support `:scroll` style.
 
  * common Slot instance methods, i.e. clear, hide, etc., don't work well
  * doesn't manage any mouse events 
@@ -1834,7 +1834,8 @@ To draw a star with an image pattern:
 {{{
  #!ruby
  Shoes.app do
-   fill File.join(DIR, "../static/gshoes-icon.png")
+   fill File.join(DIR,
+     "../static/purple_shoes-icon.png")
    star 200, 200, 5, 100, 50
  end
 }}}
