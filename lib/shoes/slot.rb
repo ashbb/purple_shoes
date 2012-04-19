@@ -103,7 +103,7 @@ class Shoes
       yield
       self.contents += tmp
       @app.cslot = cslot
-      Shoes.call_back_procs @app
+      @app.aflush
     end
     
     def show
