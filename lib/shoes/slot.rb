@@ -105,7 +105,17 @@ class Shoes
       @app.cslot = cslot
       @app.aflush
     end
+
+    def before e, &blk
+      prepend contents.index(e).to_i, &blk
+    end
     
+    def after e, &blk
+      n = contents.index e
+      n = n ? n+1 : contents.length
+      prepend n, &blk
+    end
+
     def show
       @hided = true
       toggle
