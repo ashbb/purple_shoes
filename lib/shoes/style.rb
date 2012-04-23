@@ -8,7 +8,8 @@ class Shoes
   end
 
   class Basic
-    def style args
+    def style args = nil
+      return @args unless args
       set_args args
       @app.cs.redraw @left, @top, @width, @height, false unless @app.cs.isDisposed
     end
@@ -21,7 +22,8 @@ class Shoes
   end  
 
   class Star < ShapeBase
-    def style args
+    def style args = nil
+      return @args unless args
       set_args args
       w, h = @width+@strokewidth+1, @height+@strokewidth+1
       @app.cs.redraw @left-w/2 , @top-h/2, w, h, false unless @app.cs.isDisposed
@@ -29,7 +31,8 @@ class Shoes
   end
 
   class TextBlock
-    def style args
+    def style args = nil
+      return @args unless args
       set_args args
       return if @app.cs.isDisposed
 
