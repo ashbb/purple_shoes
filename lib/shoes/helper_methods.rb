@@ -239,7 +239,9 @@ class Shoes
     vb = app.shell.getVerticalBar
     vb.setVisible(scrollable_height > h)
     if scrollable_height > h
-      vb.setMaximum scrollable_height - h + 12
+      vb.setThumb h * h / scrollable_height
+      vb.setMaximum scrollable_height - h + vb.getThumb
+      vb.setIncrement h / 2
     else
       location = app.cs.getLocation
       location.y = 0
