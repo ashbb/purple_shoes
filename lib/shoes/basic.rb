@@ -260,7 +260,13 @@ class Shoes
     end
   end
 
-  class Button < Native; end
+  class Button < Native
+    def click &blk
+      @real.addSelectionListener do |e|
+        self.class == Button ? blk[self] : (blk[self] if @real.getSelection)
+      end
+    end
+  end
   class ToggleButton < Button
     def checked?
       real.getSelection
