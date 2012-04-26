@@ -279,9 +279,21 @@ class Shoes
   class Radio < ToggleButton; end
   class Check < ToggleButton; end
 
-  class EditLine < Native; end
-  class EditBox < Native; end
-  class ListBox < Native; end
+  class EditLine < Native
+    def change &blk
+      @real.addModifyListener{|e| blk[self]}
+    end
+  end
+  class EditBox < Native
+    def change &blk
+      @real.addModifyListener{|e| blk[self]}
+    end
+  end
+  class ListBox < Native
+    def change &blk
+      @real.addSelectionListener{|e| blk[self]}
+    end
+  end
   class Progress < Native
     def fraction
       @real.isDisposed ? 0 : real.getSelection / 100.0
