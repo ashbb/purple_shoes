@@ -4,10 +4,9 @@ require 'nkf'
 class Manual < Shoes
   url '/', :index
   url '/manual/(\d+)', :index
-  #url '/mk_search_page', :mk_search_page
 
   include Hpricot
-  #include HH::Markup
+  include HH::Markup
 
   def index pnum = 0
     font LANG == 'ja' ? 'MS UI Gothic' : 'Arial'
@@ -107,8 +106,7 @@ class Manual < Shoes
             if _code.include? 'te-su-to'
               para fg(code('  ' + _code), maroon), NL, margin: [-10, 10, 0, 20]
             else
-              #para code(highlight('  ' + _code, nil)), NL, margin: [-10, 10, 0, 20]
-              para fg(code('  ' + _code), blueviolet), NL, margin: [-10, 10, 0, 20]
+              para *highlight('  ' + _code, nil).map{|e| code e}, NL, margin: [-10, 10, 0, 20]
             end
           end
           para NL

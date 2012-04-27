@@ -57,3 +57,5 @@ require_relative 'shoes/download'
 require_relative 'shoes/manual'
 
 require_relative 'plugins/video'
+
+autoload :HH, File.join(Shoes::DIR, 'ext/highlighter')
