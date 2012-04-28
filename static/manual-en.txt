@@ -3339,7 +3339,7 @@ You can use web URLs directly as well.
 {{{
  #!ruby
  Shoes.app do
-   image "http://is.gd/c0mBtb"
+   image "http://is.gd/GVAGF7"
  end
 }}}
 
@@ -3383,10 +3383,11 @@ Rotates the Image element by a certain number of `degrees`.
 
 {{{
  Shoes.app do
-   img = image File.join(DIR, '../samples/cy.png')
-   img.move 200, 200
+   g = image File.join(DIR, '../samples/cy.png')
+   g.move 200, 200
    animate do |i|
-     img.rotate i*10
+     g.rotate = 
+       [i*10, g.left+g.width/2, g.top+g.height/2]
    end
  end
 }}}

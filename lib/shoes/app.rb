@@ -133,11 +133,25 @@ class Shoes
     def image name, args={}, &blk
       args = basic_attributes args
       args[:rotate] ||= rotate
+      if name =~ /^(http|https):\/\//
+        tmpname = File.join(Dir.tmpdir, "__purple_shoes_#{Time.now.to_f}.png")
+        url, name = name, File.join(DIR, '../static/downloading.png')
+      end
       img = Swt::Image.new Shoes.display, name
       args[:full_width], args[:full_height] = img.getImageData.width, img.getImageData.height
       args[:real], args[:app] = img, self
       
       Image.new(args).tap do |s|
+        download url, save: tmpname do
+          tmp = Swt::Image.new Shoes.display, tmpname
+          s.real = tmp
+          s.full_width, s.full_height = tmp.getImageData.width, tmp.getImageData.height
+          if s.initials[:width].zero? and s.initials[:height].zero?
+            s.width, s.height = s.full_width, s.full_height
+          end
+          File.delete tmpname
+        end if url
+
         pl = Swt::PaintListener.new
         s.pl = pl
         class << pl; self end.
@@ -148,11 +162,11 @@ class Shoes
             unless s.hided
               Shoes.set_rotate e.gc, *s.rotate do
                 if s.initials[:width].zero? and s.initials[:height].zero?
-                  gc.drawImage img, s.left, s.top
+                  gc.drawImage s.real, s.left, s.top
                 else
                   s.width = s.full_width if s.width.zero?
                   s.height = s.full_height if s.height.zero?
-                  gc.drawImage img, 0, 0, s.full_width, s.full_height, s.left, s.top, s.width, s.height
+                  gc.drawImage s.real, 0, 0, s.full_width, s.full_height, s.left, s.top, s.width, s.height
                 end
               end
             end

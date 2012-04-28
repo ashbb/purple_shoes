@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = "purple_shoes"
-  s.version = "0.0.147"
+  s.version = "0.5.148"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["ashbb"]
-  s.date = "2012-04-27"
+  s.date = "2012-04-28"
   s.description = "Purple Shoes is one of colorful Shoes, written in JRuby and SWT."
   s.email = "ashbbb@gmail.com"
   s.executables = ["pshoes"]
@@ -206,6 +206,7 @@ Gem::Specification.new do |s|
     "snapshots/sample99.png",
     "static/code_highlighter.js",
     "static/code_highlighter_ruby.js",
+    "static/downloading.png",
     "static/man-editor-notepad.png",
     "static/man-editor-osx.png",
     "static/man-ele-background.png",
