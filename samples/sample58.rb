@@ -1,6 +1,8 @@
 require 'purple_shoes'
 
-Shoes.app height: 30 do
+Shoes.app do
+  title 'Sample Sounds', align: 'center', margin: 50
+
   button "Boing WAV (740ms)" do
     video("./sounds/61847__simon-rue__boink-v3.wav").play
   end
