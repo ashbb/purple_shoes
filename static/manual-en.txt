@@ -4,7 +4,7 @@
 Shoes is a tiny graphics toolkit. It's simple and straightforward. Shoes was
 born to be easy!  Really, it was made for absolute beginners. There's really
 nothing to it. Purple Shoes is one of colorful Shoes. It is written in JRuby 
-with SWT.
+and SWT.
 
 You see, the trivial Shoes program can be just one line:
 
@@ -2605,20 +2605,20 @@ hand corner of the slot.
 Removes the slot. It will no longer be displayed and will not be listed in its
 parent's contents. It's gone.
 
-'''Note:''' Purple Shoes doesn't support `remove` method. Use `clear` method.
+'''Note:''' Purple Shoes doesn't support `remove` method. Use `clear` method without block.
 
 === scroll() » true or false ===
 
 Is this slot allowed to show a scrollbar? True or false. The scrollbar will
 only appear if the height of the slot is also fixed.
 
-'''Note:''' Purple Shoes doesn't support `scroll` method.
+'''Note:''' Purple Shoes doesn't support `scroll` method. 
+`scroll_height`, `scroll_max`, `scroll_top`, `scroll_top=` are available, 
+but for the topslot only.
 
 === scroll_height() » a number ===
 
 The vertical size of the full slot, including any of it which is hidden by scrolling.
-
-'''Note:''' Purple Shoes doesn't support `scroll_height` method.
 
 === scroll_max() » a number ===
 
@@ -2631,21 +2631,15 @@ This is basically a shortcut for writing `slot.scroll_height - slot.height`.
 
 To scroll to the bottom of a slot, use `slot.scroll_top = slot.scroll_max`.
 
-'''Note:''' Purple Shoes doesn't support `scroll_max` method.
-
 === scroll_top() » a number ===
 
 The top coordinate which this slot is scrolled down to.  So, if the slot is
 scrolled down twenty pixels, this method will return `20`.
 
-'''Note:''' Purple Shoes doesn't support `scroll_top` method.
-
 === scroll_top = a number ===
 
 Scrolls the slot to a certain coordinate.  This must be between zero and
 `scroll_max`.
-
-'''Note:''' Purple Shoes doesn't support `scroll_top=` method.
 
 === show() » self ===
 
@@ -2740,7 +2734,7 @@ ListBox, the Progress meter, the Check box and the Radio.  By "native"
 controls, we mean that each of these seven elements is drawn by SWT apis 
 directly.  So, a Progress bar will never convert to the PNG image data.
 
-Greem Shoes also has seven basic other types of elements: Background, Border, Image,
+Purple Shoes also has seven basic other types of elements: Background, Border, Image,
 Shape, TextBlock, Animate and Video.  These all should look and act the same on
 every operating system.
 
@@ -2774,7 +2768,7 @@ covered as the [[Position.style]] method for slots.)
  
      # And so, both can be styled.
      @text.style size: 12, 
-       markup: fg(@text.text, red), margin: 10
+       markup: @text.text, margin: 10, stroke: red
      @press.style width: 400
      @back.style height: 10
    end
@@ -3233,10 +3227,9 @@ every time someone types into or deletes from the box.
  #!ruby
  Shoes.app do
    edit_box do |e|
-     @counter.text = 
-       strong("#{e.text.size}") + " characters"
+     @counter.text = "%3d characters" % e.text.size
    end
-   @counter = para strong("0"), " characters"
+   @counter = para strong("  0"), " characters"
  end
 }}}
 
@@ -3517,13 +3510,13 @@ marked.
    para "Among these films, which do you prefer?\n"
    radio
    para strong("The Taste of Tea"), 
-     " by Katsuhito Ishii\n", width: 570
+     " by Katsuhito Ishii\n", width: 580
    radio
    para strong("Kin-Dza-Dza"), 
-     " by Georgi Danelia\n", width: 570
+     " by Georgi Danelia\n", width: 580
    radio
    para strong("Children of Heaven"), 
-     " by Majid Majidi\n", width: 570
+     " by Majid Majidi\n", width: 580
  end
 }}}
 
@@ -3561,8 +3554,10 @@ you just have to give them all the same group name.
 
 Here, let's group all these radios in the `:films` group.
 
+'''Note:''' Purple Shoes doesn't support `group`.
+
 {{{
- #!ruby
+ # Not yet available
  Shoes.app do
    stack do
      para "Among these films, which do you prefer?"
@@ -3645,6 +3640,8 @@ Lists all of the strings and styled text objects inside this block.
 Return a text cursor position. That is an index of the text which is a string
 of all of the characters in this text box.
 
+'''Note:''' Purple Shoes doesn't support `cursor` method.
+
 === cursor = an index or nil ===
 
 Shows or hides the text cursor.
@@ -3653,6 +3650,7 @@ Using `cursor = -1` shows the text cursor at the end of the text.
 Using `cursor = nil` hides the text cursor.
 
 {{{
+ # Not yet available
  Shoes.app do
   msg = para 'hello ' * 20
   msg.cursor = -1
@@ -3672,6 +3670,8 @@ Using `cursor = nil` hides the text cursor.
  end
 }}}
 
+'''Note:''' Purple Shoes doesn't support `cursor=` method.
+
 === highlight() » an array ===
 
 Return an array which includes a text marker start position and highlighted length. 
@@ -3682,6 +3682,7 @@ Return an index of the text at which the mouse cursor points on.
 The `left` and `top` are the mouse coordinates. 
 
 {{{
+ # Not yet available
  Shoes.app do
    para 'index: ', width: 50
    index = para '', width: 20
@@ -3692,15 +3693,20 @@ The `left` and `top` are the mouse coordinates.
  end
 }}}
 
+'''Note:''' Purple Shoes doesn't support `hit` method.
+
 === marker() » an index ===
 
 Return a text marker start position. 
+
+'''Note:''' Purple Shoes doesn't support `marker` method.
 
 === marker = an index ===
 
 Highlight a part of text from marker start position to cursor position.
 
 {{{
+ # Not yet available
  Shoes.app do
    background gainsboro
    extend HH::Markup
@@ -3716,9 +3722,11 @@ Highlight a part of text from marker start position to cursor position.
  end
 }}}
 
-=== markup() » a text ===
+'''Note:''' Purple Shoes doesn't support `marker=` method.
 
-Return some marked-up text for Pango. 
+=== markup() » a string ===
+
+Return a string as same as text(). 
 
 === replace(a string) ===
 
@@ -3776,6 +3784,7 @@ Purple Shoes supports embedding of MP4, AVI, WMV, QuickTime and various other po
 This is all thanks to Ruby/GStreamer. Use the `video` method to setup a Shoes::Video object. !{:margin_left => 30}man-ele-video.png!
 
 {{{
+ # Not yet available
  Shoes.app width: 400, height: 300 do
    background gold..cyan, angle: 90
    space = ' ' * 3
@@ -3925,21 +3934,27 @@ the `parent.width`.
 
 For more information, go to [[http://ashbb.github.com/green_shoes/Red_Shoes_and_Green_Shoes.html Red Shoes and Green Shoes]]. 
 
-== gshoes ==
+== pshoes ==
 
-'''gshoes''' is a gem executable command which has some options. Just open console window and try to run `gshoes (options or app.rb or app.gsy)`. 
+'''pshoes''' is a gem executable command which has some options. Just open console window and try to run `pshoes (options or app.rb)`. 
 
 === -m, -men ===
 
 Open the built-in English manual.
 
+'''Note:''' Need to install Hpricot: `jruby --1.9 -S gem install hpricot`
+
 === -mjp ===
 
 Open the built-in Japanese manual.
 
+'''Note:''' Need to install Hpricot: `jruby --1.9 -S gem install hpricot`
+
 === -p ===
 
-Package a Purple Shoes app as a .gsy file. GSY, which stands for Purple Shoes YAML.
+Package a Purple Shoes app as a .jar file. 
+
+'''Note:''' Purple Shoes doesn't support `-p` option so far.
 
 === -v ===
 

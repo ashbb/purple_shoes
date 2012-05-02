@@ -236,21 +236,21 @@ class Shoes
   
   class Native < Basic
     def text
-      @real.getText
+      @real.getText unless @real.isDisposed
     end
     def text=(s)
-      @real.setText s.to_s
+      @real.setText s.to_s unless @real.isDisposed
     end
     def move x, y
-      @real.setLocation x, y
+      @real.setLocation x, y unless @real.isDisposed
       super
     end
     def move2 x, y
-      @real.setLocation x, y
+      @real.setLocation x, y unless @real.isDisposed
       super
     end
     def clear
-      @real.dispose
+      @real.dispose unless @real.isDisposed
       @parent.contents -= [self]
     end
     def toggle
