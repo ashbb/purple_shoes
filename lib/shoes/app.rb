@@ -138,7 +138,7 @@ class Shoes
         url, name = name, File.join(DIR, '../static/downloading.png')
       end
       img = Swt::Image.new Shoes.display, name
-      args[:full_width], args[:full_height] = img.getImageData.width, img.getImageData.height
+      args[:full_width], args[:full_height] = imagesize(name)
       args[:real], args[:app] = img, self
       
       Image.new(args).tap do |s|
@@ -175,6 +175,11 @@ class Shoes
         @cs.addPaintListener pl unless @cs.isDisposed
         clickable s, &blk
       end
+    end
+
+    def imagesize name
+      img = Swt::Image.new Shoes.display, name
+      return img.getImageData.width, img.getImageData.height
     end
 
     def buttonbase klass, name, args, &blk
@@ -582,6 +587,22 @@ class Shoes
         end
         @cs.addPaintListener pl unless @cs.isDisposed
         clickable s, &blk
+      end
+    end
+
+    def arrow *attrs
+      args = attrs.last.class == Hash ? attrs.pop : {}
+      w = attrs[2]
+      args.merge!({left: attrs[0], top: attrs[1], width: w, height: w})
+      shape args do
+        move_to 0, w*0.5*0.6
+        line_to w*0.58, w*0.5*0.6
+        line_to w*0.58, w*0.5*0.2
+        line_to w, w*0.5
+        line_to w*0.58, w*(1-0.5*0.2)
+        line_to w*0.58, w*(1-0.5*0.6)
+        line_to 0, w*(1-0.5*0.6)
+        line_to 0, w*0.5*0.6
       end
     end
 
