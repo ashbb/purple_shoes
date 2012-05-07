@@ -2246,11 +2246,14 @@ any other radio buttons in the same slot.)
 Creates a Span text fragment, unstyled by default.
 
 {{{
+ # Not yet available
  Shoes.app do
    tagline "\n", 'hello ' * 5, 
      span(em('Purple Shoes'), size: 8, rise: 15)
  end
 }}}
+
+'''Note:''' Purple Shoes doesn't support `span` method.
 
 === stack(styles) { ... } » Shoes::Stack ===
 
