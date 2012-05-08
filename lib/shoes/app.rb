@@ -23,7 +23,7 @@ class Shoes
       Shoes.APPS << self
     end
     
-    attr_accessor :cslot, :top_slot, :contents, :mmcs, :mhcs, :mscs, :order, :mouse_pos, :hided
+    attr_accessor :cslot, :top_slot, :contents, :mmcs, :mhcs, :mscs, :order, :mouse_pos, :hided, :focus_ele
     attr_writer :mouse_button
     attr_reader :owner, :location
 
@@ -242,7 +242,24 @@ class Shoes
     end
     
     def edit_box *attrs, &blk
-      edit_text [EditBox, 200, 100, Swt::SWT::MULTI | Swt::SWT::WRAP, blk, attrs]
+      app = self
+      edit_text([EditBox, 200, 100, Swt::SWT::MULTI | Swt::SWT::WRAP, blk, attrs]).tap do |s|
+        unless s.args[:accepts_tab]
+          kl = Swt::KeyListener.new
+          class << kl; self end.
+          instance_eval do
+            define_method :keyPressed do |e|
+              if e.character == Swt::SWT::TAB
+                e.doit = false
+                list = app.cs.getTabList.to_a
+                list[(list.index(s.real) + 1) % list.length].setFocus
+              end
+            end
+            define_method(:keyReleased){|e|}
+          end
+          s.real.addKeyListener kl
+        end
+      end
     end
     
     def list_box args={}

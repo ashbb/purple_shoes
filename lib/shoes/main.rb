@@ -28,6 +28,7 @@ class Shoes
     
     cs = Swt::Composite.new shell, Swt::SWT::TRANSPARENT
     cs.setSize args[:width], args[:height]
+    cs.setTabList []
     
     args[:shell], args[:cs] = shell, cs
     app = App.new args
@@ -44,6 +45,7 @@ class Shoes
     
     shell.open
     call_back_procs app
+    app.focus_ele.real.setFocus if app.focus_ele
     app.aflush
 
     cl = Swt::ControlListener.new

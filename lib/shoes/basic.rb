@@ -235,6 +235,10 @@ class Shoes
   class Inscription < TextBlock; end
   
   class Native < Basic
+    def initialize args
+      super
+      @app.cs.setTabList @app.cs.getTabList.to_a.push(@real)
+    end
     def text
       @real.getText unless @real.isDisposed
     end
@@ -257,6 +261,10 @@ class Shoes
       @hided = !@hided
       @real.setVisible !@hided unless @real.isDisposed
       self
+    end
+    def focus
+      @real.setFocus
+      @app.focus_ele = self
     end
   end
 
