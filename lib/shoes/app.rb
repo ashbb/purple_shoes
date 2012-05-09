@@ -114,6 +114,15 @@ class Shoes
                 Shoes.set_rotate gc, *s.rotate do
                   tl.draw gc, s.left, s.top
                 end
+                if s.cursor
+                  s.textcursor ||= s.app.line(0, 0, 0, s.size*1.5, strokewidth: 1, stroke: s.app.black, hidden: true)
+                  n = s.cursor == -1 ? s.text.length - 1 : s.cursor
+                  n = 0 if n < 0
+                  pos = s.real.getLocation n, true
+                  s.textcursor.move(s.left + pos.x, s.top + pos.y).show
+                else
+                  (s.textcursor.clear; s.textcursor = nil) if s.textcursor
+                end
               end
             end
           end

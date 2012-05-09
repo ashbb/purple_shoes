@@ -205,6 +205,7 @@ class Shoes
       super
     end
     attr_reader :links
+    attr_accessor :cursor, :textcursor
     def text
       @args[:markup]
     end

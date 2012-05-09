@@ -3643,8 +3643,6 @@ Lists all of the strings and styled text objects inside this block.
 Return a text cursor position. That is an index of the text which is a string
 of all of the characters in this text box.
 
-'''Note:''' Purple Shoes doesn't support `cursor` method.
-
 === cursor = an index or nil ===
 
 Shows or hides the text cursor.
@@ -3653,14 +3651,13 @@ Using `cursor = -1` shows the text cursor at the end of the text.
 Using `cursor = nil` hides the text cursor.
 
 {{{
- # Not yet available
  Shoes.app do
   msg = para 'hello ' * 20
   msg.cursor = -1
   keypress do |k|
     n = case k
-      when 'Left'; -1
-      when 'Right'; 1
+      when 'ARROW_LEFT'; -1
+      when 'ARROW_RIGHT'; 1
       else
         next
     end
@@ -3672,8 +3669,6 @@ Using `cursor = nil` hides the text cursor.
   end
  end
 }}}
-
-'''Note:''' Purple Shoes doesn't support `cursor=` method.
 
 === highlight() » an array ===
 
