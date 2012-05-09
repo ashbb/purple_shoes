@@ -538,7 +538,7 @@ class Shoes
                   Shoes.set_pattern s, gc, pat, :Foreground
                   if sw > 0
                     gc.setLineWidth sw
-                    gc.drawLine s.sx, s.sy, s.ex, s.ey
+                    gc.drawLine s.left+s.sx, s.top+s.sy, s.left+s.ex, s.top+s.ey
                   end
                 end
               end
