@@ -5,7 +5,7 @@
 
 Gem::Specification.new do |s|
   s.name = "purple_shoes"
-  s.version = "0.6.160"
+  s.version = "0.6.162"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["ashbb"]
@@ -152,6 +152,7 @@ Gem::Specification.new do |s|
     "samples/sample8.rb",
     "samples/sample9.rb",
     "samples/sample99.rb",
+    "samples/shell.png",
     "samples/sounds/102719__sarge4267__explosion.mp3",
     "samples/sounds/145622__andybrannan__train-fog-horn-long-wyomming.aiff",
     "samples/sounds/46492__phreaksaccount__shields1.ogg",

@@ -115,7 +115,8 @@ class Shoes
                   tl.draw gc, s.left, s.top
                 end
                 if s.cursor
-                  s.textcursor ||= s.app.line(0, 0, 0, s.size*1.5, strokewidth: 1, stroke: s.app.black, hidden: true)
+                  h = s.real.getLineBounds(0).height
+                  s.textcursor ||= s.app.line(0, 0, 0, h, strokewidth: 1, stroke: s.app.black, hidden: true)
                   n = s.cursor == -1 ? s.text.length - 1 : s.cursor
                   n = 0 if n < 0
                   pos = s.real.getLocation n, true

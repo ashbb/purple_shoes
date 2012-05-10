@@ -233,6 +233,16 @@ class Shoes
       @links.clear
       super
     end
+    def hit x, y
+      x -= @left; y -= @top
+      h = @real.getLineBounds(0).height
+      text.length.times do |n|
+        s = @real.getLocation n, false
+        e = @real.getLocation n, true
+        return n if (s.x..e.x).include?(x) and (s.y..(e.y+h)).include?(y)
+      end
+      return nil
+    end
   end
   class Banner < TextBlock; end
   class Title < TextBlock; end
