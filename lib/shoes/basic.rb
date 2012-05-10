@@ -169,7 +169,14 @@ class Shoes
       super
     end
   end
-  class Line < ShapeBase; end
+  class Line < ShapeBase
+    def move x, y
+      dx, dy = x - @left, y - @top
+      @sx += dx; @ex += dx
+      @sy += dy; @ey += dy
+      super
+    end
+  end
   class Star < ShapeBase
     def move3 x, y
       unless @app.cs.isDisposed
