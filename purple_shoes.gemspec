@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["ashbb"]
-  s.date = "2012-05-09"
+  s.date = "2012-05-10"
   s.description = "Purple Shoes is one of colorful Shoes, written in JRuby and SWT."
   s.email = "ashbbb@gmail.com"
   s.executables = ["pshoes"]
