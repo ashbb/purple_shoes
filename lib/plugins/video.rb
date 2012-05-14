@@ -1,5 +1,5 @@
 # Original code was written by pjfitzgibbons (Peter Fitzgibbons) in Brown Shoes
-# Edited a little bit for Purple Shoes by ashbb
+# Revised for Purple Shoes by ashbb
 
 require File.join(DIR, '../static/sound_jars/tritonus_share.jar')
 require File.join(DIR, '../static/sound_jars/mp3spi1.9.5.jar')
@@ -15,74 +15,69 @@ class Shoes
     import javax.sound.sampled
     import java.io.IOException
 
-    BufferSize = 4096
+    def initialize app, path
+      if path =~ /^(http|https):\/\//
+        file = File.basename path
+        app.download(path, save: file){init file}
+      else
+        init path
+      end
+    end
 
-    def initialize args
-      @initials = args
-      args.each do |k, v|
-        instance_variable_set "@#{k}", v
-      end
-      Video.class_eval do
-        attr_accessor *args.keys
-      end
+    def init file
+      audio = AudioSystem.getAudioInputStream JFile.new file
+      format = audio.getFormat
+      af = AudioFormat.new AudioFormat::Encoding::PCM_SIGNED, format.getSampleRate, 16, 
+        format.getChannels, format.getChannels * 2, format.getSampleRate, false
+      as = AudioSystem.getAudioInputStream af, audio
+      @line = AudioSystem.getLine DataLine::Info.new(Clip.java_class, af)
+      @line.open as
     end
 
     def play
-      Thread.new do
-        audio_input_stream = AudioSystem.getAudioInputStream JFile.new(@path)
-        audio_format = audio_input_stream.getFormat
-        rawplay *decode_input_stream(audio_format, audio_input_stream)
-        audio_input_stream.close
-      end
+      self.time = 0
+      start
     end
 
-    def decode_input_stream audio_format, audio_input_stream
-      case audio_format.encoding
-        when Java::JavazoomSpiVorbisSampledFile::VorbisEncoding, Java::JavazoomSpiMpegSampledFile::MpegEncoding
-          decoded_format = AudioFormat.new(AudioFormat::Encoding::PCM_SIGNED, audio_format.getSampleRate(), 16,
-            audio_format.getChannels(), audio_format.getChannels() * 2, audio_format.getSampleRate(), false)
-          decoded_audio_input_stream = AudioSystem.getAudioInputStream(decoded_format, audio_input_stream)
-          return decoded_format, decoded_audio_input_stream
-        else
-          return audio_format, audio_input_stream
-      end
+    def stop
+      @line.stop if @line
     end
+    alias :pause :stop
 
-    def rawplay(decoded_audio_format, decoded_audio_input_stream)
-      sampled_data = Java::byte[BufferSize].new
-      line = getLine(decoded_audio_format)
-      if line != nil
-        line.start()
-        bytes_read = 0, bytes_written = 0
-        while bytes_read != -1
-          bytes_read = decoded_audio_input_stream.read(sampled_data, 0, sampled_data.length)
-          if bytes_read != -1
-            bytes_written = line.write(sampled_data, 0, bytes_read)
-          end
-        end
-        line.drain()
-        line.stop()
-        line.close()
-        decoded_audio_input_stream.close()
-      end
+    def start
+      @line.start if @line
     end
-
-    def getLine(audioFormat)
-      res = nil
-      info = DataLine::Info.new(SourceDataLine.java_class, audioFormat)
-      res = AudioSystem.getLine(info)
-      res.open(audioFormat)
-      res
+    
+    def length
+      @line.getMicrosecondLength / 1000 if @line
+    end
+    
+    def time
+      @line.getMicrosecondPosition / 1000 if @line
+    end
+    
+    def time=(n)
+      @line.setMicrosecondPosition n * 1000 if @line
+    end
+    
+    def position
+      time / length.to_f if @line
+    end
+    
+    def position=(f)
+      self.time = length * f if @line
+    end
+    
+    def playing?
+      @line.isRunning if @line
     end
   end
 end
 
 class Shoes
   class App
-    def video file
-      args = {}
-      args[:real], args[:app], args[:path] = nil, self, file
-      Video.new args
+    def video path
+      Video.new self, path
     end
   end
 end

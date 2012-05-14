@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = "purple_shoes"
-  s.version = "0.6.162"
+  s.version = "0.6.164"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["ashbb"]
-  s.date = "2012-05-10"
+  s.date = "2012-05-14"
   s.description = "Purple Shoes is one of colorful Shoes, written in JRuby and SWT."
   s.email = "ashbbb@gmail.com"
   s.executables = ["pshoes"]
@@ -146,6 +146,7 @@ Gem::Specification.new do |s|
     "samples/sample50.rb",
     "samples/sample51.rb",
     "samples/sample52.rb",
+    "samples/sample58-1.rb",
     "samples/sample58.rb",
     "samples/sample6.rb",
     "samples/sample7.rb",
@@ -203,6 +204,7 @@ Gem::Specification.new do |s|
     "snapshots/sample50.png",
     "snapshots/sample51.png",
     "snapshots/sample52.png",
+    "snapshots/sample58-1.png",
     "snapshots/sample58.png",
     "snapshots/sample6.png",
     "snapshots/sample7.png",
