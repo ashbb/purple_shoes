@@ -10,7 +10,7 @@ class Shoes
           @finished, @sio = true, sio
         end
       end
-      a = app.animate do
+      a = app.animate 10, args[:repaint] do
         (a.stop; blk[@sio]) if @finished
       end if blk
     end
