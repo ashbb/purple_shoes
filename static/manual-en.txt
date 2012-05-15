@@ -3775,27 +3775,18 @@ already running, it is stopped.
 
 == Video ==
 
-Purple Shoes supports embedding of MP4, AVI, WMV, QuickTime and various other popular video formats. 
-This is all thanks to Ruby/GStreamer. Use the `video` method to setup a Shoes::Video object. !{:margin_left => 30}man-ele-video.png!
+Purple Shoes supports embedding of MPEG-1 video format. 
+This is all thanks to JMF (Java Media Framework). Use the `video` method to setup a 
+Shoes::Video object. !{:margin_left => 30}man-ele-video.png!
 
 {{{
- # Not yet available
- Shoes.app width: 400, height: 300 do
-   background gold..cyan, angle: 90
-   space = ' ' * 3
-   v = video 'http://is.gd/xZ6Jih'
-   links = para space, 
-     link('play'){v.play; links.move(0, 300)}, 
-     space, link('pause'){v.pause}, 
-     space, link('-1sec'){v.time -= 1000},
-     space, link('+1sec'){v.time += 1000}, 
-     top: 250
-   msg = para left: 250, top: 300
-   every do
-     msg.text = fg("#{(v.position*100).to_i}% " + 
-       "(#{v.time/1000}/#{v.length.to_i/1000}sec)", 
-       darkcyan)
-   end
+ Shoes.app width: 400, height: 350 do
+   background purple
+   tagline 'Adventure Time with Finn and Jake', 
+     stroke: white, align: 'center'
+   video 'http://is.gd/b1xRdO', 
+     save: 'AdventureTimewithFinnandJake.mpg', 
+     top: 30, width: 400, height: 300
  end
 }}}
 

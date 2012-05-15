@@ -100,6 +100,7 @@ class Shoes
         @display.sleep unless @display.readAndDispatch
       end
       @display.dispose
+      exit
     end
     app
   end

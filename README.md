@@ -56,3 +56,9 @@ jruby --1.9 -S pshoes -m
 ```
 
 ![snapshot](https://github.com/ashbb/purple_shoes/raw/master/manual.png)
+
+
+Embed MPEG-1 video format
+---------------------------------
+
+**Note**: Need to install [JMF](http://www.oracle.com/technetwork/java/javase/download-142937.html) (Java Media Framework API)
