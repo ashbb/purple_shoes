@@ -3636,8 +3636,6 @@ Creation]] page.
 
 Lists all of the strings and styled text objects inside this block.
 
-'''Note:''' Purple Shoes doesn't support `contents` method.
-
 === cursor() » an index ===
 
 Return a text cursor position. That is an index of the text which is a string

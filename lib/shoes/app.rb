@@ -76,6 +76,7 @@ class Shoes
       args = msg.last.class == Hash ? msg.pop : {}
       args = eval("#{klass.to_s[7..-1].upcase}_DEFAULT").merge args
       args = basic_attributes args
+      args[:contents] = msg
       args[:markup] = msg.map(&:to_s).join
 
       styles = get_styles msg
@@ -98,6 +99,7 @@ class Shoes
       
       klass.new(args).tap do |s|
         unless s.real and layout_control
+          s.contents.each{|e| e.parent = s if e.is_a?(Text)}
           tl = Swt::TextLayout.new Shoes.display
           s.real = tl
           pl = Swt::PaintListener.new
@@ -108,7 +110,7 @@ class Shoes
               gc = e.gc
               Shoes.dps_reset s.dps, gc
               tl.setText s.markup
-              s.app.set_styles s, args
+              s.app.set_styles s, s.args
               tl.setWidth s.width if s.width > 0
               unless s.hided
                 Shoes.set_rotate gc, *s.rotate do
