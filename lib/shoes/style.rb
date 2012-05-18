@@ -1,7 +1,7 @@
 class Shoes
   class App
     def style klass, args={}
-      if klass.superclass == Shoes::TextBlock or klass == Shoes::Link
+      if klass.superclass == Shoes::TextBlock or klass == Shoes::Link or klass == Shoes::Button
         eval("#{klass.to_s[7..-1].upcase}_DEFAULT").clear.merge! args
       end
     end

@@ -195,6 +195,7 @@ class Shoes
     end
 
     def buttonbase klass, name, args, &blk
+      args = eval("#{klass.to_s[7..-1].upcase}_DEFAULT").merge args
       args = basic_attributes args
       args[:block] = blk
       opt = if klass == Button then Swt::SWT::NULL
