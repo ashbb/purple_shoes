@@ -65,10 +65,14 @@ class Shoes
 
     def positioning x, y, max
       if parent.is_a?(Flow) and x + @width <= parent.left + parent.width
-        move3 x + parent.margin_left, max.top + parent.margin_top
+        x = @right ? parent.left + parent.width - @width - @right : x + parent.margin_left
+        y = max.top + parent.margin_top
+        move3 x, y
         max = self if max.height < @height
       else
-        move3 parent.left + parent.margin_left, max.top + max.height + parent.margin_top
+        x = @right ? parent.left + parent.width - @width - @right : parent.left + parent.margin_left
+        y = max.top + max.height + parent.margin_top
+        move3 x, y
         max = self
       end
       max

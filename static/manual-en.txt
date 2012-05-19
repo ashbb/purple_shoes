@@ -1456,8 +1456,6 @@ element so that its own right edge and the right edge of its slot touch.
 Whereas `:right => 20` will position the right edge of the element off to the
 left of its slot's right edge by twenty pixels.
 
-'''Note:''' Purple Shoes doesn't support `:right` style.
-
 === :rise » a number ===
 
 For: ''banner, caption, inscription, para, span, subtitle, tagline, title''.
