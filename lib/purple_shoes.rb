@@ -11,7 +11,7 @@ module Shoes
   DIR = Pathname.new(__FILE__).realpath.dirname.to_s
   FONTS = []
   LINK_DEFAULT = {underline: true}
-  %w[BANNER TITLE SUBTITLE TAGLINE CAPTION PARA INSCRIPTION BUTTON].each do |e|
+  %w[BANNER TITLE SUBTITLE TAGLINE CAPTION PARA INSCRIPTION BUTTON CHECK RADIO].each do |e|
     eval "#{e}_DEFAULT = {}" 
   end
   SHOES_VERSION = IO.read(File.join(DIR, '../VERSION')).chomp
